@@ -10,6 +10,19 @@
     <!--- Seo Part-->
     
     <link rel="canonical" href="http://example.com/project/"/>
+    <meta name="robots" content="index,follow">
+    <meta name="googlebot" content="index,follow">
+    <meta name="revisit-after" content="1 days">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="project">
+    <meta property="og:description" content="Hexo Theme Redefine">
+    <meta property="og:url" content="http://example.comproject/index.html">
+    <meta property="og:image" content="/images/favicon.ico">
+    <meta property="og:site_name" content="Nlub&#39;s blog">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="project">
+    <meta name="twitter:description" content="Hexo Theme Redefine">
+    <meta name="twitter:image" content="/images/favicon.ico">
     <!--- Icon Part-->
     <link rel="icon" type="image/png" href="/images/favicon.ico" sizes="192x192">
     <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.ico">
@@ -18,7 +31,7 @@
     
     <title>
         
-            project |
+            project -
         
         Nlub&#39;s blog
     </title>
@@ -26,28 +39,30 @@
 <link rel="stylesheet" href="/css/style.css">
 
     
-<link rel="stylesheet" href="/css/fonts.css">
+<link rel="stylesheet" href="/assets/fonts.css">
 
     
-    <link rel="preconnect" href="https://evan.beee.top" crossorigin>
+    
+    
+    
     <script id="hexo-configurations">
     let REDEFINE = window.REDEFINE || {};
     REDEFINE.hexo_config = {"hostname":"example.com","root":"/","language":"en"};
-    REDEFINE.theme_config = {"toc":{"enable":true,"number":false,"expand_all":true,"init_open":true},"style":{"primary_color":"#005080","avatar":"https://thirdqq.qlogo.cn/g?b=sdk&k=yfzY61ibhPCfmcLaweXBcvA&kti=Y-WzBQAAAAE&s=40&t=1672758807","favicon":"/images/favicon.ico","article_img_align":"center","right_side_width":"210px","content_max_width":"1000px","nav_color":{"left":"#9795f0","right":"#fbc8d4","transparency":35},"hover":{"shadow":true,"scale":false},"first_screen":{"enable":true,"background_image":{"light":"https://evan.beee.top/img/wallhaven-wqery6-light.webp","dark":"https://evan.beee.top/img/wallhaven-wqery6-dark.webp"},"title_color":{"light":"#fff","dark":"#d1d1b6"},"description":"用文字记录生活和技术"},"scroll":{"progress_bar":{"enable":true},"percent":{"enable":false}}},"local_search":{"enable":false,"preload":true},"code_block":{"copy":true,"style":"mac"},"pjax":{"enable":true},"lazyload":{"enable":true},"version":"1.1.0","friend_links":{"columns":2}};
+    REDEFINE.theme_config = {"toc":{"enable":true,"number":false,"expand_all":true,"init_open":true},"style":{"primary_color":"#005080","avatar":"https://thirdqq.qlogo.cn/g?b=sdk&k=yfzY61ibhPCfmcLaweXBcvA&kti=Y-WzBQAAAAE&s=40&t=1672758807","favicon":"/images/favicon.ico","article_img_align":"center","right_side_width":"210px","content_max_width":"1000px","nav_color":{"left":"#9795f0","right":"#fbc8d4","transparency":35},"hover":{"shadow":true,"scale":false},"first_screen":{"enable":true,"background_image":{"light":"https://evan.beee.top/img/wallhaven-wqery6-light.webp","dark":"https://evan.beee.top/img/wallhaven-wqery6-dark.webp"},"title_color":{"light":"#fff","dark":"#d1d1b6"},"description":"用文字记录生活和技术","custom_font":{"enable":false,"font_family":null,"font_url":null}},"scroll":{"progress_bar":{"enable":true},"percent":{"enable":false}}},"local_search":{"enable":false,"preload":true},"code_block":{"copy":true,"style":"mac","custom_font":{"enable":false,"font_family":null,"font_url":null}},"pjax":{"enable":true},"lazyload":{"enable":true},"version":"1.1.0","friend_links":{"columns":2},"home_article":{"date_format":"auto","category":{"enable":true,"limit":3},"tag":{"enable":true,"limit":3}}};
     REDEFINE.language_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"};
   </script>
     
     
-<link rel="stylesheet" href="/css/fontawesome.min.css">
+<link rel="stylesheet" href="/fontawesome/fontawesome.min.css">
 
     
-<link rel="stylesheet" href="/css/brands.min.css">
+<link rel="stylesheet" href="/fontawesome/brands.min.css">
 
     
-<link rel="stylesheet" href="/css/solid.min.css">
+<link rel="stylesheet" href="/fontawesome/solid.min.css">
 
     
-<link rel="stylesheet" href="/css/regular.min.css">
+<link rel="stylesheet" href="/fontawesome/regular.min.css">
 
     
     
@@ -325,18 +340,20 @@
         
         
         
-            <script async data-pjax defer>
-                function odometer_init(){
-                        let el = document.getElementsByClassName('odometer');
-                        for (i = 0; i < el.length; i++) {
-                            od = new Odometer({
-                                el: el[i],
-                                format: '( ddd).dd',
-                                duration: 200
-                            });
-                        }
-                }
-                odometer_init();
+            <script async data-pjax>
+                try {
+                    function odometer_init() {
+                    const elements = document.querySelectorAll('.odometer');
+                    elements.forEach(el => {
+                        new Odometer({
+                            el,
+                            format: '( ddd).dd',
+                            duration: 200
+                        });
+                    });
+                    }
+                    odometer_init();
+                } catch (error) {}
             </script>
         
         
@@ -437,7 +454,7 @@
 <script src="/js/layouts/odometer.min.js"></script>
 
     
-<link rel="stylesheet" href="/css/odometer-theme-minimal.css">
+<link rel="stylesheet" href="/assets/odometer-theme-minimal.css">
 
 
 
