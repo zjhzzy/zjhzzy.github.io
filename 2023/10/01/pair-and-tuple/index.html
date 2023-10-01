@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="pair和tuple是用来存储不同类型的值的容器主要目的是为了方便存储和处理不同类型的数据，它们更适合在特定的情况下用于数据的组织和传递 pairstd::pair 是类模板，提供在一个单元中存储两个相异类型的对象 pair的初始化123std::pair&lt;int, float&gt; pair &#x3D; std::make_pair(10, 2.1);auto pair &#x3D; std::make_">
+<meta property="og:type" content="article">
+<meta property="og:title" content="pair和tuple的使用">
+<meta property="og:url" content="http://zjhzzy.github.io/2023/10/01/pair-and-tuple/index.html">
+<meta property="og:site_name" content="Nlub&#39;s blog">
+<meta property="og:description" content="pair和tuple是用来存储不同类型的值的容器主要目的是为了方便存储和处理不同类型的数据，它们更适合在特定的情况下用于数据的组织和传递 pairstd::pair 是类模板，提供在一个单元中存储两个相异类型的对象 pair的初始化123std::pair&lt;int, float&gt; pair &#x3D; std::make_pair(10, 2.1);auto pair &#x3D; std::make_">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2023-10-01T03:58:22.000Z">
+<meta property="article:modified_time" content="2023-10-01T05:34:47.717Z">
+<meta property="article:author" content="JinHong Zeng">
+<meta property="article:tag" content="C++">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>pair和tuple的使用</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="顶部" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a href="/tags/">标签</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        
+        <li><a class="icon" aria-label="下一篇" href="/2023/09/30/variant%E3%80%81optional-and-any/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="返回顶部" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="分享文章" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://zjhzzy.github.io/2023/10/01/pair-and-tuple/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://zjhzzy.github.io/2023/10/01/pair-and-tuple/&text=pair和tuple的使用"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://zjhzzy.github.io/2023/10/01/pair-and-tuple/&title=pair和tuple的使用"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://zjhzzy.github.io/2023/10/01/pair-and-tuple/&is_video=false&description=pair和tuple的使用"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=pair和tuple的使用&body=Check out this article: http://zjhzzy.github.io/2023/10/01/pair-and-tuple/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://zjhzzy.github.io/2023/10/01/pair-and-tuple/&title=pair和tuple的使用"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://zjhzzy.github.io/2023/10/01/pair-and-tuple/&title=pair和tuple的使用"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://zjhzzy.github.io/2023/10/01/pair-and-tuple/&title=pair和tuple的使用"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://zjhzzy.github.io/2023/10/01/pair-and-tuple/&title=pair和tuple的使用"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://zjhzzy.github.io/2023/10/01/pair-and-tuple/&name=pair和tuple的使用&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://zjhzzy.github.io/2023/10/01/pair-and-tuple/&t=pair和tuple的使用"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    
+    
+      <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#pair"><span class="toc-number">1.</span> <span class="toc-text">pair</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#pair%E7%9A%84%E5%88%9D%E5%A7%8B%E5%8C%96"><span class="toc-number">1.1.</span> <span class="toc-text">pair的初始化</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#std-get"><span class="toc-number">1.2.</span> <span class="toc-text">std::get()</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#tuple"><span class="toc-number">2.</span> <span class="toc-text">tuple</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#tuple%E7%9A%84%E5%88%9D%E5%A7%8B%E5%8C%96"><span class="toc-number">2.1.</span> <span class="toc-text">tuple的初始化</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#std-get-1"><span class="toc-number">2.2.</span> <span class="toc-text">std::get()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#tuple-cat"><span class="toc-number">2.3.</span> <span class="toc-text">tuple_cat</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#tie"><span class="toc-number">2.4.</span> <span class="toc-text">tie</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#apply"><span class="toc-number">2.5.</span> <span class="toc-text">apply</span></a></li></ol></li></ol>
+      </div>
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        pair和tuple的使用
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">JinHong Zeng</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2023-10-01T03:58:22.000Z" class="dt-published" itemprop="datePublished">2023-10-01</time>
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fa-solid fa-tag"></i>
+        <a class="p-category" href="/tags/C/" rel="tag">C++</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <p>pair和tuple是用来存储不同类型的值的容器<br>主要目的是为了方便存储和处理不同类型的数据，它们更适合在特定的情况下用于数据的组织和传递</p>
+<h2 id="pair"><a href="#pair" class="headerlink" title="pair"></a>pair</h2><p>std::pair 是类模板，提供在一个单元中存储两个相异类型的对象</p>
+<h3 id="pair的初始化"><a href="#pair的初始化" class="headerlink" title="pair的初始化"></a>pair的初始化</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">std::pair&lt;<span class="type">int</span>, <span class="type">float</span>&gt; pair = std::<span class="built_in">make_pair</span>(<span class="number">10</span>, <span class="number">2.1</span>);</span><br><span class="line"><span class="keyword">auto</span> pair = std::<span class="built_in">make_pair</span>(<span class="number">10</span>,<span class="number">2.1</span>);</span><br><span class="line"><span class="function">std::pair&lt;<span class="type">int</span>,<span class="type">float</span>&gt; <span class="title">pair</span><span class="params">(<span class="number">10</span>,<span class="number">2.1</span>)</span></span>;</span><br></pre></td></tr></table></figure>
+
+<h3 id="std-get"><a href="#std-get" class="headerlink" title="std::get()"></a>std::get()</h3><p>访问 pair 中的元素</p>
+<p><strong>示例</strong></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;cstdio&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;utility&gt;</span></span></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">  std::pair&lt;<span class="type">int</span>, <span class="type">float</span>&gt; pair = std::<span class="built_in">make_pair</span>(<span class="number">10</span>, <span class="number">2.1</span>);</span><br><span class="line">  <span class="built_in">printf</span>(<span class="string">&quot;pair中的int:%d\n&quot;</span>, std::<span class="built_in">get</span>&lt;<span class="type">int</span>&gt;(pair));	<span class="comment">// 使用std::get访问存储在pair中的int类型元素</span></span><br><span class="line">  <span class="built_in">printf</span>(<span class="string">&quot;pair中的float:%.1f\n&quot;</span>, std::<span class="built_in">get</span>&lt;<span class="type">float</span>&gt;(pair));	<span class="comment">// 使用std::get访问存储在pair中的float类型元素</span></span><br><span class="line">  <span class="built_in">printf</span>(<span class="string">&quot;pair中的第一个元素:%d\n&quot;</span>, std::<span class="built_in">get</span>&lt;<span class="number">0</span>&gt;(pair));	<span class="comment">// 使用std::get访问pair中的第一个元素</span></span><br><span class="line">  <span class="built_in">printf</span>(<span class="string">&quot;pair中的第二个元素:%.1f\n&quot;</span>, std::<span class="built_in">get</span>&lt;<span class="number">1</span>&gt;(pair));	<span class="comment">// 使用std::get访问pair中的第二个元素</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>输出</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">pair中的int:10</span><br><span class="line">pair中的float:2.1</span><br><span class="line">pair中的第一个元素:10</span><br><span class="line">pair中的第二个元素:2.1</span><br></pre></td></tr></table></figure>
+
+<h2 id="tuple"><a href="#tuple" class="headerlink" title="tuple"></a>tuple</h2><p>类模板 std::tuple 是固定大小的异类值汇集。它是 std::pair 的泛用形式</p>
+<h3 id="tuple的初始化"><a href="#tuple的初始化" class="headerlink" title="tuple的初始化"></a>tuple的初始化</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">std::tuple&lt;<span class="type">int</span>, <span class="type">float</span>&gt; tuple = std::<span class="built_in">make_tuple</span>(<span class="number">10</span>, <span class="number">2.1</span>);</span><br><span class="line"><span class="keyword">auto</span> tuple = std::<span class="built_in">make_tuple</span>(<span class="number">10</span>,<span class="number">2.1</span>);</span><br><span class="line"><span class="function">std::tuple&lt;<span class="type">int</span>,<span class="type">float</span>&gt; <span class="title">tuple</span><span class="params">(<span class="number">10</span>,<span class="number">2.1</span>)</span></span>;</span><br></pre></td></tr></table></figure>
+
+<h3 id="std-get-1"><a href="#std-get-1" class="headerlink" title="std::get()"></a>std::get()</h3><p>元组式访问指定的元素</p>
+<p><strong>示例</strong></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;tuple&gt;</span></span></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">  <span class="comment">// 创建一个std::tuple，包含一个整数、一个浮点数和一个字符，使用std::make_tuple初始化</span></span><br><span class="line">  <span class="keyword">auto</span> tuple = std::<span class="built_in">make_tuple</span>(<span class="number">10</span>, <span class="number">2.1</span>, <span class="string">&#x27;A&#x27;</span>);</span><br><span class="line">  std::cout &lt;&lt; <span class="string">&quot;tuple中的第一个元素:&quot;</span> &lt;&lt; std::<span class="built_in">get</span>&lt;<span class="number">0</span>&gt;(tuple) &lt;&lt; <span class="string">&quot;\n&quot;</span>;</span><br><span class="line">  std::cout &lt;&lt; <span class="string">&quot;tuple中的第二个元素:&quot;</span> &lt;&lt; std::<span class="built_in">get</span>&lt;<span class="number">1</span>&gt;(tuple) &lt;&lt; <span class="string">&quot;\n&quot;</span>;</span><br><span class="line">  std::cout &lt;&lt; <span class="string">&quot;tuple中的第三个元素:&quot;</span> &lt;&lt; std::<span class="built_in">get</span>&lt;<span class="number">2</span>&gt;(tuple) &lt;&lt; <span class="string">&quot;\n&quot;</span>;</span><br><span class="line">  std::cout &lt;&lt; <span class="string">&quot;tuple中的int类型元素:&quot;</span> &lt;&lt; std::<span class="built_in">get</span>&lt;<span class="type">int</span>&gt;(tuple) &lt;&lt; <span class="string">&quot;\n&quot;</span>;</span><br><span class="line">  std::cout &lt;&lt; <span class="string">&quot;tuple中的double类型元素:&quot;</span> &lt;&lt; std::<span class="built_in">get</span>&lt;<span class="type">double</span>&gt;(tuple) &lt;&lt; <span class="string">&quot;\n&quot;</span>;</span><br><span class="line">  std::cout &lt;&lt; <span class="string">&quot;tuple中的char类型元素:&quot;</span> &lt;&lt; std::<span class="built_in">get</span>&lt;<span class="type">char</span>&gt;(tuple) &lt;&lt; <span class="string">&quot;\n&quot;</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>输出</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">tuple中的第一个元素:10</span><br><span class="line">tuple中的第二个元素:2.1</span><br><span class="line">tuple中的第三个元素:A</span><br><span class="line">tuple中的int类型元素:10</span><br><span class="line">tuple中的double类型元素:2.1</span><br><span class="line">tuple中的char类型元素:A</span><br></pre></td></tr></table></figure>
+
+<h3 id="tuple-cat"><a href="#tuple-cat" class="headerlink" title="tuple_cat"></a>tuple_cat</h3><p>通过连接任意数量的元组来创建一个tuple<br>通俗点讲就是将两个tuple组成一个</p>
+<p><strong>示例</strong></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;tuple&gt;</span></span></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">  <span class="keyword">auto</span> tuple1 = std::<span class="built_in">make_tuple</span>(<span class="number">10</span>, <span class="number">2.1</span>);</span><br><span class="line">  <span class="keyword">auto</span> tuple2 = std::<span class="built_in">make_tuple</span>(<span class="string">&#x27;A&#x27;</span>, <span class="string">&quot;B&quot;</span>);</span><br><span class="line">  <span class="comment">// 使用 std::tuple_cat 将两个元组合并为一个新的元组</span></span><br><span class="line">  <span class="keyword">auto</span> tuple = std::<span class="built_in">tuple_cat</span>(tuple1, tuple2);</span><br><span class="line">  std::cout &lt;&lt; <span class="string">&quot;tuple中的第一个元素:&quot;</span> &lt;&lt; std::<span class="built_in">get</span>&lt;<span class="number">0</span>&gt;(tuple) &lt;&lt; <span class="string">&quot;\n&quot;</span>;</span><br><span class="line">  std::cout &lt;&lt; <span class="string">&quot;tuple中的第二个元素:&quot;</span> &lt;&lt; std::<span class="built_in">get</span>&lt;<span class="number">1</span>&gt;(tuple) &lt;&lt; <span class="string">&quot;\n&quot;</span>;</span><br><span class="line">  std::cout &lt;&lt; <span class="string">&quot;tuple中的第三个元素:&quot;</span> &lt;&lt; std::<span class="built_in">get</span>&lt;<span class="number">2</span>&gt;(tuple) &lt;&lt; <span class="string">&quot;\n&quot;</span>;</span><br><span class="line">  std::cout &lt;&lt; <span class="string">&quot;tuple中的第四个元素:&quot;</span> &lt;&lt; std::<span class="built_in">get</span>&lt;<span class="number">3</span>&gt;(tuple) &lt;&lt; <span class="string">&quot;\n&quot;</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>输出</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">tuple中的第一个元素:10</span><br><span class="line">tuple中的第二个元素:2.1</span><br><span class="line">tuple中的第三个元素:A</span><br><span class="line">tuple中的第四个元素:B</span><br></pre></td></tr></table></figure>
+
+<h3 id="tie"><a href="#tie" class="headerlink" title="tie"></a>tie</h3><p>创建左值引用的 tuple ，或将 tuple 解包为独立对象</p>
+<p><strong>示例</strong></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;tuple&gt;</span></span></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">  <span class="keyword">auto</span> tuple = std::<span class="built_in">make_tuple</span>(<span class="number">10</span>, <span class="number">2.1</span>);</span><br><span class="line">  <span class="type">int</span> i;</span><br><span class="line">  <span class="type">double</span> d;</span><br><span class="line">  <span class="comment">// 使用std::tie解包tuple中的元素，将其分别赋值给i和d</span></span><br><span class="line">  std::<span class="built_in">tie</span>(i, d) = tuple;</span><br><span class="line">  std::cout &lt;&lt; <span class="string">&quot;i的值:&quot;</span> &lt;&lt; i &lt;&lt; <span class="string">&quot;\n&quot;</span> &lt;&lt; <span class="string">&quot;d的值:&quot;</span> &lt;&lt; d &lt;&lt; <span class="string">&quot;\n&quot;</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>输出</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">i的值:10</span><br><span class="line">d的值:2.1</span><br></pre></td></tr></table></figure>
+
+<h3 id="apply"><a href="#apply" class="headerlink" title="apply"></a>apply</h3><p>自动解包元组中的元素，将它们传递给函数作为参数</p>
+<p><strong>示例</strong></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;tuple&gt;</span></span></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">  <span class="keyword">auto</span> tuple = std::<span class="built_in">make_tuple</span>(<span class="number">10</span>, <span class="number">2.1</span>);</span><br><span class="line">  <span class="comment">// 使用 std::apply 调用lambda函数，将tuple中的元素作为参数传递给lambda</span></span><br><span class="line">  std::<span class="built_in">apply</span>(</span><br><span class="line">      [](<span class="type">int</span> a, <span class="type">double</span> b) &#123;</span><br><span class="line">        std::cout &lt;&lt; <span class="string">&quot;a的值:&quot;</span> &lt;&lt; a &lt;&lt; <span class="string">&quot;\n&quot;</span>;</span><br><span class="line">        std::cout &lt;&lt; <span class="string">&quot;b的值:&quot;</span> &lt;&lt; b &lt;&lt; <span class="string">&quot;\n&quot;</span>;</span><br><span class="line">      &#125;,</span><br><span class="line">      tuple);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>输出</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">a的值:10</span><br><span class="line">b的值:2.1</span><br></pre></td></tr></table></figure>
+
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">首页</a></li>
+        
+          <li><a href="/archives/">归档</a></li>
+        
+          <li><a href="/tags/">标签</a></li>
+        
+          <li><a href="/about/">关于</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+      <div id="toc-footer" style="display: none">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#pair"><span class="toc-number">1.</span> <span class="toc-text">pair</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#pair%E7%9A%84%E5%88%9D%E5%A7%8B%E5%8C%96"><span class="toc-number">1.1.</span> <span class="toc-text">pair的初始化</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#std-get"><span class="toc-number">1.2.</span> <span class="toc-text">std::get()</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#tuple"><span class="toc-number">2.</span> <span class="toc-text">tuple</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#tuple%E7%9A%84%E5%88%9D%E5%A7%8B%E5%8C%96"><span class="toc-number">2.1.</span> <span class="toc-text">tuple的初始化</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#std-get-1"><span class="toc-number">2.2.</span> <span class="toc-text">std::get()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#tuple-cat"><span class="toc-number">2.3.</span> <span class="toc-text">tuple_cat</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#tie"><span class="toc-number">2.4.</span> <span class="toc-text">tie</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#apply"><span class="toc-number">2.5.</span> <span class="toc-text">apply</span></a></li></ol></li></ol>
+      </div>
+    
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://zjhzzy.github.io/2023/10/01/pair-and-tuple/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://zjhzzy.github.io/2023/10/01/pair-and-tuple/&text=pair和tuple的使用"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://zjhzzy.github.io/2023/10/01/pair-and-tuple/&title=pair和tuple的使用"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://zjhzzy.github.io/2023/10/01/pair-and-tuple/&is_video=false&description=pair和tuple的使用"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=pair和tuple的使用&body=Check out this article: http://zjhzzy.github.io/2023/10/01/pair-and-tuple/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://zjhzzy.github.io/2023/10/01/pair-and-tuple/&title=pair和tuple的使用"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://zjhzzy.github.io/2023/10/01/pair-and-tuple/&title=pair和tuple的使用"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://zjhzzy.github.io/2023/10/01/pair-and-tuple/&title=pair和tuple的使用"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://zjhzzy.github.io/2023/10/01/pair-and-tuple/&title=pair和tuple的使用"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://zjhzzy.github.io/2023/10/01/pair-and-tuple/&name=pair和tuple的使用&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://zjhzzy.github.io/2023/10/01/pair-and-tuple/&t=pair和tuple的使用"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        
+          <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2021-2023
+    JinHong Zeng
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+      --><li><a href="/">首页</a></li><!--
+    --><!--
+      --><li><a href="/archives/">归档</a></li><!--
+    --><!--
+      --><li><a href="/tags/">标签</a></li><!--
+    --><!--
+      --><li><a href="/about/">关于</a></li><!--
+    -->
+      </ul>
+      <ul>
+        
+          <!-- 不蒜子统计 -->
+          <span id="busuanzi_container_site_pv">
+              本站总访问量<span id="busuanzi_value_site_pv"></span>次
+          </span>
+          <span class="post-meta-divider">|</span>
+          <span id="busuanzi_container_site_uv" style='display:none'>
+                  本站访客数<span id="busuanzi_value_site_uv"></span>人
+          </span>
+        <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+        
+      </ul>
+    </nav>
+  </div>
+  
+</footer>
+
+
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板！\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功！");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>

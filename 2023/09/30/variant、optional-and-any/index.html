@@ -6,15 +6,15 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="HandheldFriendly" content="True">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
-    <meta name="description" content="variant、optional和any">
+    <meta name="description" content="variant、optional和any 这三个模板类是用来取代C风格的一些不安全的代码 optional —— 持有T或为空variant&lt;T,U&gt; —— 持有T或U（类似于union）any —— 持有任意类型（类似于void*) 123456std::optional&lt;int&gt; var1 &#x3D; 7; std::variant&lt;int,string&gt; var2">
 <meta property="og:type" content="article">
 <meta property="og:title" content="variant、optional 和 any">
 <meta property="og:url" content="http://zjhzzy.github.io/2023/09/30/variant%E3%80%81optional-and-any/index.html">
 <meta property="og:site_name" content="Nlub&#39;s blog">
-<meta property="og:description" content="variant、optional和any">
+<meta property="og:description" content="variant、optional和any 这三个模板类是用来取代C风格的一些不安全的代码 optional —— 持有T或为空variant&lt;T,U&gt; —— 持有T或U（类似于union）any —— 持有任意类型（类似于void*) 123456std::optional&lt;int&gt; var1 &#x3D; 7; std::variant&lt;int,string&gt; var2">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2023-09-30T13:06:28.000Z">
-<meta property="article:modified_time" content="2023-09-30T14:42:48.322Z">
+<meta property="article:modified_time" content="2023-10-01T04:03:51.055Z">
 <meta property="article:author" content="JinHong Zeng">
 <meta property="article:tag" content="C++">
 <meta name="twitter:card" content="summary">
@@ -82,6 +82,8 @@
     <span id="actions">
       <ul>
         
+        <li><a class="icon" aria-label="上一篇" href="/2023/10/01/pair-and-tuple/"><i class="fa-solid fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
         
         <li><a class="icon" aria-label="下一篇" href="/2023/08/17/TCP-Server-Implementation-with-Socket-Programming-in-Linux/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
         
@@ -105,7 +107,7 @@
   <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://zjhzzy.github.io/2023/09/30/variant%E3%80%81optional-and-any/&title=variant、optional 和 any"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
   <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://zjhzzy.github.io/2023/09/30/variant%E3%80%81optional-and-any/&title=variant、optional 和 any"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
   <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://zjhzzy.github.io/2023/09/30/variant%E3%80%81optional-and-any/&title=variant、optional 和 any"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://zjhzzy.github.io/2023/09/30/variant%E3%80%81optional-and-any/&name=variant、optional 和 any&description=&lt;p&gt;variant、optional和any&lt;/p&gt;"><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://zjhzzy.github.io/2023/09/30/variant%E3%80%81optional-and-any/&name=variant、optional 和 any&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
   <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://zjhzzy.github.io/2023/09/30/variant%E3%80%81optional-and-any/&t=variant、optional 和 any"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
 </ul>
 
@@ -158,10 +160,7 @@
   
 
   <div class="content e-content" itemprop="articleBody">
-    <p>variant、optional和any</p>
-<span id="more"></span>
-
-<p>这三个模板类是用来取代C风格的一些不安全的代码</p>
+    <p>variant、optional和any 这三个模板类是用来取代C风格的一些不安全的代码</p>
 <p>optional<T> —— 持有T或为空<br>variant&lt;T,U&gt; —— 持有T或U（类似于union）<br>any —— 持有任意类型（类似于void*)</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">std::optional&lt;<span class="type">int</span>&gt; var1 = <span class="number">7</span>; </span><br><span class="line">std::variant&lt;<span class="type">int</span>,string&gt; var2 = <span class="number">7</span>; </span><br><span class="line">std::any var3 = <span class="number">7</span>; </span><br><span class="line"><span class="keyword">auto</span> x1 = *var1 ;               <span class="comment">// 对 optional 解引用 </span></span><br><span class="line"><span class="keyword">auto</span> x2 = std::<span class="built_in">get</span>&lt;<span class="type">int</span>&gt;(var2);       <span class="comment">// 像访问 tuple 一样访问 variant </span></span><br><span class="line"><span class="keyword">auto</span> x3 = std::<span class="built_in">any_cast</span>&lt;<span class="type">int</span>&gt;(var3);  <span class="comment">// 转换 any</span></span><br></pre></td></tr></table></figure>
 
@@ -246,7 +245,7 @@
   <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://zjhzzy.github.io/2023/09/30/variant%E3%80%81optional-and-any/&title=variant、optional 和 any"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
   <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://zjhzzy.github.io/2023/09/30/variant%E3%80%81optional-and-any/&title=variant、optional 和 any"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
   <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://zjhzzy.github.io/2023/09/30/variant%E3%80%81optional-and-any/&title=variant、optional 和 any"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://zjhzzy.github.io/2023/09/30/variant%E3%80%81optional-and-any/&name=variant、optional 和 any&description=&lt;p&gt;variant、optional和any&lt;/p&gt;"><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://zjhzzy.github.io/2023/09/30/variant%E3%80%81optional-and-any/&name=variant、optional 和 any&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
   <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://zjhzzy.github.io/2023/09/30/variant%E3%80%81optional-and-any/&t=variant、optional 和 any"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
 </ul>
 
