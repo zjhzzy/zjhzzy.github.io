@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="variant、optional和any">
+<meta property="og:type" content="article">
+<meta property="og:title" content="variant、optional 和 any">
+<meta property="og:url" content="http://zjhzzy.github.io/2023/09/30/variant%E3%80%81optional-and-any/index.html">
+<meta property="og:site_name" content="Nlub&#39;s blog">
+<meta property="og:description" content="variant、optional和any">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2023-09-30T13:06:28.000Z">
+<meta property="article:modified_time" content="2023-09-30T14:42:48.322Z">
+<meta property="article:author" content="JinHong Zeng">
+<meta property="article:tag" content="C++">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>variant、optional 和 any</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="顶部" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a href="/tags/">标签</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        
+        <li><a class="icon" aria-label="下一篇" href="/2023/08/17/TCP-Server-Implementation-with-Socket-Programming-in-Linux/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="返回顶部" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="分享文章" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://zjhzzy.github.io/2023/09/30/variant%E3%80%81optional-and-any/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://zjhzzy.github.io/2023/09/30/variant%E3%80%81optional-and-any/&text=variant、optional 和 any"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://zjhzzy.github.io/2023/09/30/variant%E3%80%81optional-and-any/&title=variant、optional 和 any"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://zjhzzy.github.io/2023/09/30/variant%E3%80%81optional-and-any/&is_video=false&description=variant、optional 和 any"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=variant、optional 和 any&body=Check out this article: http://zjhzzy.github.io/2023/09/30/variant%E3%80%81optional-and-any/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://zjhzzy.github.io/2023/09/30/variant%E3%80%81optional-and-any/&title=variant、optional 和 any"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://zjhzzy.github.io/2023/09/30/variant%E3%80%81optional-and-any/&title=variant、optional 和 any"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://zjhzzy.github.io/2023/09/30/variant%E3%80%81optional-and-any/&title=variant、optional 和 any"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://zjhzzy.github.io/2023/09/30/variant%E3%80%81optional-and-any/&title=variant、optional 和 any"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://zjhzzy.github.io/2023/09/30/variant%E3%80%81optional-and-any/&name=variant、optional 和 any&description=&lt;p&gt;variant、optional和any&lt;/p&gt;"><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://zjhzzy.github.io/2023/09/30/variant%E3%80%81optional-and-any/&t=variant、optional 和 any"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    
+    
+      <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#variant"><span class="toc-number">1.</span> <span class="toc-text">variant</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#visit"><span class="toc-number">1.0.1.</span> <span class="toc-text">visit</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#holds-alternative"><span class="toc-number">1.0.2.</span> <span class="toc-text">holds_alternative</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#std-get-std-variant"><span class="toc-number">1.0.3.</span> <span class="toc-text">std::get(std::variant)</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#optional"><span class="toc-number">2.</span> <span class="toc-text">optional</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#has-value"><span class="toc-number">2.0.1.</span> <span class="toc-text">has_value</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#any"><span class="toc-number">3.</span> <span class="toc-text">any</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#has-value-1"><span class="toc-number">3.0.1.</span> <span class="toc-text">has_value</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#type"><span class="toc-number">3.0.2.</span> <span class="toc-text">type</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#any-cast"><span class="toc-number">3.0.3.</span> <span class="toc-text">any_cast</span></a></li></ol></li></ol></li></ol>
+      </div>
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        variant、optional 和 any
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">JinHong Zeng</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2023-09-30T13:06:28.000Z" class="dt-published" itemprop="datePublished">2023-09-30</time>
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fa-solid fa-tag"></i>
+        <a class="p-category" href="/tags/C/" rel="tag">C++</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <p>variant、optional和any</p>
+<span id="more"></span>
+
+<p>这三个模板类是用来取代C风格的一些不安全的代码</p>
+<p>optional<T> —— 持有T或为空<br>variant&lt;T,U&gt; —— 持有T或U（类似于union）<br>any —— 持有任意类型（类似于void*)</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">std::optional&lt;<span class="type">int</span>&gt; var1 = <span class="number">7</span>; </span><br><span class="line">std::variant&lt;<span class="type">int</span>,string&gt; var2 = <span class="number">7</span>; </span><br><span class="line">std::any var3 = <span class="number">7</span>; </span><br><span class="line"><span class="keyword">auto</span> x1 = *var1 ;               <span class="comment">// 对 optional 解引用 </span></span><br><span class="line"><span class="keyword">auto</span> x2 = std::<span class="built_in">get</span>&lt;<span class="type">int</span>&gt;(var2);       <span class="comment">// 像访问 tuple 一样访问 variant </span></span><br><span class="line"><span class="keyword">auto</span> x3 = std::<span class="built_in">any_cast</span>&lt;<span class="type">int</span>&gt;(var3);  <span class="comment">// 转换 any</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="variant"><a href="#variant" class="headerlink" title="variant"></a>variant</h2><p>std::variant 表示一个类型安全的联合体（变化体）std::variant 的一个实例在任意时刻要么保有它的一个可选类型之一的值，要么在错误情况下无值</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// C风格</span></span><br><span class="line"><span class="keyword">union</span> <span class="title class_">variant</span>&#123;</span><br><span class="line">    <span class="type">int</span>,</span><br><span class="line">    <span class="type">char</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// C++风格</span></span><br><span class="line"><span class="keyword">typedef</span> std::variant&lt;<span class="type">int</span>,<span class="type">char</span>&gt; variant;</span><br></pre></td></tr></table></figure>
+
+<h4 id="visit"><a href="#visit" class="headerlink" title="visit"></a>visit</h4><p>以一或多个 variant 所保有的各实参调用所提供的函数对象</p>
+<p><strong>示例</strong></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;cstdio&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;type_traits&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;variant&gt;</span></span></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">  <span class="comment">// 创建一个 std::variant 变量，可以存放 int 或 char 类型的值，并初始化为整数 1022。</span></span><br><span class="line">  std::variant&lt;<span class="type">int</span>, <span class="type">char</span>&gt; variant = <span class="number">1022</span>;</span><br><span class="line">  <span class="comment">// 使用 std::visit 访问 variant 中的值，根据存储的类型输出不同的消息。</span></span><br><span class="line">  std::<span class="built_in">visit</span>(</span><br><span class="line">      [](<span class="keyword">auto</span> &amp;&amp;arg) &#123;</span><br><span class="line">        <span class="keyword">if</span> (std::is_same_v&lt;std::<span class="type">decay_t</span>&lt;<span class="keyword">decltype</span>(arg)&gt;, <span class="type">int</span>&gt;) &#123;</span><br><span class="line">          <span class="built_in">printf</span>(<span class="string">&quot;variant中存放的是int类型&quot;</span>); <span class="comment">// 如果存放的是int类型，输出此消息。</span></span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (std::is_same_v&lt;std::<span class="type">decay_t</span>&lt;<span class="keyword">decltype</span>(arg)&gt;, <span class="type">char</span>&gt;) &#123;</span><br><span class="line">          <span class="built_in">printf</span>(<span class="string">&quot;variant中存放的是char类型&quot;</span>); <span class="comment">// 如果存放的是char类型，输出此消息。</span></span><br><span class="line">        &#125;</span><br><span class="line">      &#125;,</span><br><span class="line">      variant);</span><br><span class="line">  <span class="comment">// 将 variant 的值更改为字符 &#x27;A&#x27;。</span></span><br><span class="line">  variant = <span class="string">&#x27;A&#x27;</span>;</span><br><span class="line">  <span class="comment">// 再次使用 std::visit 访问 variant 中的值，根据存储的类型输出不同的消息。</span></span><br><span class="line">  std::<span class="built_in">visit</span>(</span><br><span class="line">      [](<span class="keyword">auto</span> &amp;&amp;arg) &#123;</span><br><span class="line">        <span class="keyword">if</span> (std::is_same_v&lt;std::<span class="type">decay_t</span>&lt;<span class="keyword">decltype</span>(arg)&gt;, <span class="type">int</span>&gt;) &#123;</span><br><span class="line">          <span class="built_in">printf</span>(<span class="string">&quot;variant中存放的是int类型&quot;</span>); <span class="comment">// 如果存放的是int类型，输出此消息。</span></span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (std::is_same_v&lt;std::<span class="type">decay_t</span>&lt;<span class="keyword">decltype</span>(arg)&gt;, <span class="type">char</span>&gt;) &#123;</span><br><span class="line">          <span class="built_in">printf</span>(<span class="string">&quot;variant中存放的是char类型&quot;</span>); <span class="comment">// 如果存放的是char类型，输出此消息。</span></span><br><span class="line">        &#125;</span><br><span class="line">      &#125;,</span><br><span class="line">      variant);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这里只是给出部分示例，因为有些我自己还没看明白，所以后面会更新的</p>
+<h4 id="holds-alternative"><a href="#holds-alternative" class="headerlink" title="holds_alternative"></a>holds_alternative</h4><p>检查某个 variant 是否当前持有某个给定类型</p>
+<p><strong>示例</strong></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;cstdio&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;variant&gt;</span></span></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">  <span class="comment">// 创建一个 std::variant 变量，可以存放 int 或 char 类型的值，并初始化为整数 1022。</span></span><br><span class="line">  std::variant&lt;<span class="type">int</span>, <span class="type">char</span>&gt; variant = <span class="number">1022</span>;</span><br><span class="line">  <span class="comment">// 检查 variant 中是否存放的是 int 类型的值。</span></span><br><span class="line">  <span class="keyword">if</span> (std::<span class="built_in">holds_alternative</span>&lt;<span class="type">int</span>&gt;(variant)) &#123;</span><br><span class="line">    <span class="comment">// 如果存放的是 int 类型的值，使用 std::get&lt;int&gt; 获取它，并以整数格式输出。</span></span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;%d\n&quot;</span>, std::<span class="built_in">get</span>&lt;<span class="type">int</span>&gt;(variant));</span><br><span class="line">  &#125; <span class="keyword">else</span> <span class="keyword">if</span> (std::<span class="built_in">holds_alternative</span>&lt;<span class="type">char</span>&gt;(variant)) &#123;</span><br><span class="line">    <span class="comment">// 如果存放的是 char 类型的值，使用 std::get&lt;char&gt; 获取它，并以字符格式输出。</span></span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;%c\n&quot;</span>, std::<span class="built_in">get</span>&lt;<span class="type">char</span>&gt;(variant));</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// 将 variant 的值更改为字符 &#x27;A&#x27;。</span></span><br><span class="line">  variant = <span class="string">&#x27;A&#x27;</span>;</span><br><span class="line">  <span class="comment">// 检查 variant 中是否存放的是 int 类型的值。</span></span><br><span class="line">  <span class="keyword">if</span> (std::<span class="built_in">holds_alternative</span>&lt;<span class="type">int</span>&gt;(variant)) &#123;</span><br><span class="line">    <span class="comment">// 如果存放的是 int 类型的值，使用 std::get&lt;int&gt; 获取它，并以整数格式输出。</span></span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;%d\n&quot;</span>, std::<span class="built_in">get</span>&lt;<span class="type">int</span>&gt;(variant));</span><br><span class="line">  &#125; <span class="keyword">else</span> <span class="keyword">if</span> (std::<span class="built_in">holds_alternative</span>&lt;<span class="type">char</span>&gt;(variant)) &#123;</span><br><span class="line">    <span class="comment">// 如果存放的是 char 类型的值，使用 std::get&lt;char&gt; 获取它，并以字符格式输出。</span></span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;%c\n&quot;</span>, std::<span class="built_in">get</span>&lt;<span class="type">char</span>&gt;(variant));</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="std-get-std-variant"><a href="#std-get-std-variant" class="headerlink" title="std::get(std::variant)"></a>std::get(std::variant)</h4><p>以给定索引或类型（如果类型唯一）读取 variant 的值，错误时抛出异常</p>
+<p><strong>示例</strong></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;cstdio&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;variant&gt;</span></span></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">  <span class="comment">// 创建一个 std::variant 变量，可以存放 int 或 char 类型的值，并初始化为整数 1022。</span></span><br><span class="line">  std::variant&lt;<span class="type">int</span>, <span class="type">char</span>&gt; variant = <span class="number">1022</span>;</span><br><span class="line">  <span class="comment">// 使用get函数获取值并输出</span></span><br><span class="line">  <span class="built_in">printf</span>(<span class="string">&quot;%d\n&quot;</span>, std::<span class="built_in">get</span>&lt;<span class="type">int</span>&gt;(variant));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="optional"><a href="#optional" class="headerlink" title="optional"></a>optional</h2><p>std::optional 管理一个可选的容纳值，既可以存在也可以不存在的值</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// C风格</span></span><br><span class="line"><span class="type">int</span> optional = <span class="literal">NULL</span>;</span><br><span class="line"><span class="comment">// C++风格</span></span><br><span class="line">std::optional&lt;<span class="type">int</span>&gt; optional = std::<span class="literal">nullopt</span>;</span><br></pre></td></tr></table></figure>
+
+<h4 id="has-value"><a href="#has-value" class="headerlink" title="has_value"></a>has_value</h4><p>检查对象是否含值</p>
+<p><strong>示例</strong></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;cstdio&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;optional&gt;</span></span></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">  std::optional&lt;<span class="type">int</span>&gt; optional = std::<span class="literal">nullopt</span>;</span><br><span class="line">  <span class="keyword">if</span> (!optional.<span class="built_in">has_value</span>()) &#123;</span><br><span class="line">    <span class="comment">// 如果optional为空就输出</span></span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;optional为空&quot;</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="any"><a href="#any" class="headerlink" title="any"></a>any</h2><p>std::any 描述用于任何可拷贝构造类型的单个值的类型安全容器</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// C风格</span></span><br><span class="line"><span class="type">int</span> value = <span class="number">10</span>;</span><br><span class="line"><span class="type">void</span> *any = &amp;value;</span><br><span class="line"><span class="comment">// C++风格</span></span><br><span class="line">std::any any = <span class="number">10</span>;</span><br></pre></td></tr></table></figure>
+
+<h4 id="has-value-1"><a href="#has-value-1" class="headerlink" title="has_value"></a>has_value</h4><p>检查对象是否含有值</p>
+<p><strong>示例</strong></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;any&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;cstdio&gt;</span></span></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">  std::any any = <span class="number">10</span>;</span><br><span class="line">  <span class="keyword">if</span> (any.<span class="built_in">has_value</span>()) &#123;</span><br><span class="line">    <span class="comment">// 如果any不为空就输出</span></span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;any不为空\n&quot;</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="type"><a href="#type" class="headerlink" title="type"></a>type</h4><p>返回所含值的 typeid</p>
+<p><strong>示例</strong></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;any&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;cstdio&gt;</span></span></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">  std::any any = <span class="number">10</span>;</span><br><span class="line">  <span class="keyword">if</span> (any.<span class="built_in">type</span>() == <span class="built_in">typeid</span>(<span class="type">int</span>)) &#123;</span><br><span class="line">    <span class="comment">// any中存放的是int则输出</span></span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;any中存放的是int类型\n&quot;</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="any-cast"><a href="#any-cast" class="headerlink" title="any_cast"></a>any_cast</h4><p>对被容纳对象的类型安全访问</p>
+<p><strong>示例</strong></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;any&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;cstdio&gt;</span></span></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">  std::any any = <span class="number">10</span>;</span><br><span class="line">  <span class="keyword">if</span> (any.<span class="built_in">type</span>() == <span class="built_in">typeid</span>(<span class="type">int</span>)) &#123;</span><br><span class="line">    <span class="comment">// any中存放的是int则输出</span></span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;any中存放的是%d\n&quot;</span>,std::<span class="built_in">any_cast</span>&lt;<span class="type">int</span>&gt;(any));</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>目前variant、optional和any的使用也就这么点，后续我还会补充一些我遗漏的内容</p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">首页</a></li>
+        
+          <li><a href="/archives/">归档</a></li>
+        
+          <li><a href="/tags/">标签</a></li>
+        
+          <li><a href="/about/">关于</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+      <div id="toc-footer" style="display: none">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#variant"><span class="toc-number">1.</span> <span class="toc-text">variant</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#visit"><span class="toc-number">1.0.1.</span> <span class="toc-text">visit</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#holds-alternative"><span class="toc-number">1.0.2.</span> <span class="toc-text">holds_alternative</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#std-get-std-variant"><span class="toc-number">1.0.3.</span> <span class="toc-text">std::get(std::variant)</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#optional"><span class="toc-number">2.</span> <span class="toc-text">optional</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#has-value"><span class="toc-number">2.0.1.</span> <span class="toc-text">has_value</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#any"><span class="toc-number">3.</span> <span class="toc-text">any</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#has-value-1"><span class="toc-number">3.0.1.</span> <span class="toc-text">has_value</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#type"><span class="toc-number">3.0.2.</span> <span class="toc-text">type</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#any-cast"><span class="toc-number">3.0.3.</span> <span class="toc-text">any_cast</span></a></li></ol></li></ol></li></ol>
+      </div>
+    
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://zjhzzy.github.io/2023/09/30/variant%E3%80%81optional-and-any/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://zjhzzy.github.io/2023/09/30/variant%E3%80%81optional-and-any/&text=variant、optional 和 any"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://zjhzzy.github.io/2023/09/30/variant%E3%80%81optional-and-any/&title=variant、optional 和 any"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://zjhzzy.github.io/2023/09/30/variant%E3%80%81optional-and-any/&is_video=false&description=variant、optional 和 any"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=variant、optional 和 any&body=Check out this article: http://zjhzzy.github.io/2023/09/30/variant%E3%80%81optional-and-any/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://zjhzzy.github.io/2023/09/30/variant%E3%80%81optional-and-any/&title=variant、optional 和 any"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://zjhzzy.github.io/2023/09/30/variant%E3%80%81optional-and-any/&title=variant、optional 和 any"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://zjhzzy.github.io/2023/09/30/variant%E3%80%81optional-and-any/&title=variant、optional 和 any"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://zjhzzy.github.io/2023/09/30/variant%E3%80%81optional-and-any/&title=variant、optional 和 any"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://zjhzzy.github.io/2023/09/30/variant%E3%80%81optional-and-any/&name=variant、optional 和 any&description=&lt;p&gt;variant、optional和any&lt;/p&gt;"><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://zjhzzy.github.io/2023/09/30/variant%E3%80%81optional-and-any/&t=variant、optional 和 any"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        
+          <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2021-2023
+    JinHong Zeng
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+      --><li><a href="/">首页</a></li><!--
+    --><!--
+      --><li><a href="/archives/">归档</a></li><!--
+    --><!--
+      --><li><a href="/tags/">标签</a></li><!--
+    --><!--
+      --><li><a href="/about/">关于</a></li><!--
+    -->
+      </ul>
+      <ul>
+        
+          <!-- 不蒜子统计 -->
+          <span id="busuanzi_container_site_pv">
+              本站总访问量<span id="busuanzi_value_site_pv"></span>次
+          </span>
+          <span class="post-meta-divider">|</span>
+          <span id="busuanzi_container_site_uv" style='display:none'>
+                  本站访客数<span id="busuanzi_value_site_uv"></span>人
+          </span>
+        <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+        
+      </ul>
+    </nav>
+  </div>
+  
+</footer>
+
+
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板！\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功！");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>

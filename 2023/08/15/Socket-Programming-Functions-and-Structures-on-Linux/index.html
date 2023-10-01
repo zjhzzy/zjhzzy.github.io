@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="本文讲究的就是一个实用，所以不会所有的东西都介绍，只会介绍常用的 注：阅读本文前最好还是有些网络编程的基础概念比如大端小端之类的 结构体sockaddr_insockaddr_in是一个用来存放地址和端口的结构体，一般是IPV4协议使用 sin_family：存放使用的协议，必须是AF_INET（IPV4协议） sin_port：存放的是端口 sin_addr：存放的是地址 sin_zero：我找">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux下Socket编程中需要用到的函数以及结构体">
+<meta property="og:url" content="http://zjhzzy.github.io/2023/08/15/Socket-Programming-Functions-and-Structures-on-Linux/index.html">
+<meta property="og:site_name" content="Nlub&#39;s blog">
+<meta property="og:description" content="本文讲究的就是一个实用，所以不会所有的东西都介绍，只会介绍常用的 注：阅读本文前最好还是有些网络编程的基础概念比如大端小端之类的 结构体sockaddr_insockaddr_in是一个用来存放地址和端口的结构体，一般是IPV4协议使用 sin_family：存放使用的协议，必须是AF_INET（IPV4协议） sin_port：存放的是端口 sin_addr：存放的是地址 sin_zero：我找">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2023-08-15T05:07:57.000Z">
+<meta property="article:modified_time" content="2023-09-30T12:23:59.515Z">
+<meta property="article:author" content="JinHong Zeng">
+<meta property="article:tag" content="C++">
+<meta property="article:tag" content="Linux">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>Linux下Socket编程中需要用到的函数以及结构体</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="顶部" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a href="/tags/">标签</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="上一篇" href="/2023/08/16/Data-format-conversion-functions-in-Linux-socket-programming/"><i class="fa-solid fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="下一篇" href="/2023/08/14/Using-JSON-in-the-Qt-Framework/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="返回顶部" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="分享文章" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://zjhzzy.github.io/2023/08/15/Socket-Programming-Functions-and-Structures-on-Linux/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://zjhzzy.github.io/2023/08/15/Socket-Programming-Functions-and-Structures-on-Linux/&text=Linux下Socket编程中需要用到的函数以及结构体"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://zjhzzy.github.io/2023/08/15/Socket-Programming-Functions-and-Structures-on-Linux/&title=Linux下Socket编程中需要用到的函数以及结构体"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://zjhzzy.github.io/2023/08/15/Socket-Programming-Functions-and-Structures-on-Linux/&is_video=false&description=Linux下Socket编程中需要用到的函数以及结构体"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Linux下Socket编程中需要用到的函数以及结构体&body=Check out this article: http://zjhzzy.github.io/2023/08/15/Socket-Programming-Functions-and-Structures-on-Linux/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://zjhzzy.github.io/2023/08/15/Socket-Programming-Functions-and-Structures-on-Linux/&title=Linux下Socket编程中需要用到的函数以及结构体"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://zjhzzy.github.io/2023/08/15/Socket-Programming-Functions-and-Structures-on-Linux/&title=Linux下Socket编程中需要用到的函数以及结构体"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://zjhzzy.github.io/2023/08/15/Socket-Programming-Functions-and-Structures-on-Linux/&title=Linux下Socket编程中需要用到的函数以及结构体"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://zjhzzy.github.io/2023/08/15/Socket-Programming-Functions-and-Structures-on-Linux/&title=Linux下Socket编程中需要用到的函数以及结构体"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://zjhzzy.github.io/2023/08/15/Socket-Programming-Functions-and-Structures-on-Linux/&name=Linux下Socket编程中需要用到的函数以及结构体&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://zjhzzy.github.io/2023/08/15/Socket-Programming-Functions-and-Structures-on-Linux/&t=Linux下Socket编程中需要用到的函数以及结构体"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    
+    
+      <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BB%93%E6%9E%84%E4%BD%93"><span class="toc-number">1.</span> <span class="toc-text">结构体</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#sockaddr-in"><span class="toc-number">1.1.</span> <span class="toc-text">sockaddr_in</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#sockaddr-in6"><span class="toc-number">1.2.</span> <span class="toc-text">sockaddr_in6</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#msghdr"><span class="toc-number">1.3.</span> <span class="toc-text">msghdr</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%87%BD%E6%95%B0"><span class="toc-number">2.</span> <span class="toc-text">函数</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#socket"><span class="toc-number">2.1.</span> <span class="toc-text">socket</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#bind"><span class="toc-number">2.2.</span> <span class="toc-text">bind</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#listen"><span class="toc-number">2.3.</span> <span class="toc-text">listen</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#connect"><span class="toc-number">2.4.</span> <span class="toc-text">connect</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#accept"><span class="toc-number">2.5.</span> <span class="toc-text">accept</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#send"><span class="toc-number">2.6.</span> <span class="toc-text">send</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#sendto"><span class="toc-number">2.7.</span> <span class="toc-text">sendto</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#sendmsg"><span class="toc-number">2.8.</span> <span class="toc-text">sendmsg</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#recv"><span class="toc-number">2.9.</span> <span class="toc-text">recv</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#recvfrom"><span class="toc-number">2.10.</span> <span class="toc-text">recvfrom</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#recvmsg"><span class="toc-number">2.11.</span> <span class="toc-text">recvmsg</span></a></li></ol></li></ol>
+      </div>
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        Linux下Socket编程中需要用到的函数以及结构体
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">JinHong Zeng</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2023-08-15T05:07:57.000Z" class="dt-published" itemprop="datePublished">2023-08-15</time>
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fa-solid fa-tag"></i>
+        <a class="p-category" href="/tags/C/" rel="tag">C++</a>, <a class="p-category" href="/tags/Linux/" rel="tag">Linux</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <p>本文讲究的就是一个实用，所以不会所有的东西都介绍，只会介绍常用的</p>
+<p><strong>注：阅读本文前最好还是有些网络编程的基础概念比如大端小端之类的</strong></p>
+<h2 id="结构体"><a href="#结构体" class="headerlink" title="结构体"></a>结构体</h2><h3 id="sockaddr-in"><a href="#sockaddr-in" class="headerlink" title="sockaddr_in"></a>sockaddr_in</h3><p>sockaddr_in是一个用来存放地址和端口的结构体，一般是IPV4协议使用</p>
+<p>sin_family：存放使用的协议，必须是AF_INET（IPV4协议）</p>
+<p>sin_port：存放的是端口</p>
+<p>sin_addr：存放的是地址</p>
+<p>sin_zero：我找到的解释是为了让sockaddr和sockaddr_in的大小一致，方便互相转换来占空间用的</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">sockaddr_in</span> &#123;</span><br><span class="line">    <span class="type">short</span>            sin_family;   <span class="comment">/* AF_INET */</span></span><br><span class="line">    <span class="type">unsigned</span> <span class="type">short</span>   sin_port;     </span><br><span class="line">    <span class="keyword">struct</span> <span class="title class_">in_addr</span>   sin_addr;     </span><br><span class="line">    <span class="type">char</span>             sin_zero[<span class="number">8</span>];  </span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">in_addr</span> &#123;</span><br><span class="line">    <span class="type">unsigned</span> <span class="type">long</span> s_addr; <span class="comment">/* 地址 */</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h3 id="sockaddr-in6"><a href="#sockaddr-in6" class="headerlink" title="sockaddr_in6"></a>sockaddr_in6</h3><p>sockaddr_in6和sockaddr_in都是用来存放地址和端口的结构体，不同的地方就是sockaddr_in6是提供给IPV6协议使用的</p>
+<p>sin6_family：存放使用的协议，必须是AF_INET6（IPV6协议）</p>
+<p>sin6_port：存放的是端口</p>
+<p>sin6_flowinfo：流信息，一般情况下不需要显式的设置或使用sin6_flowinfo</p>
+<p>sin6_addr：存放的是地址，是一个结构体</p>
+<p>sin6_scope_id：地址范围的标识符，只有需要指定特定地址范围标识符时才会去显式设置其值</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">sockaddr_in6</span> &#123;</span><br><span class="line">	<span class="type">sa_family_t</span>     sin6_family;   <span class="comment">/* AF_INET6 */</span></span><br><span class="line">	<span class="type">in_port_t</span>       sin6_port;     </span><br><span class="line">	<span class="type">uint32_t</span>        sin6_flowinfo; </span><br><span class="line">	<span class="keyword">struct</span> <span class="title class_">in6_addr</span> sin6_addr;     </span><br><span class="line">	<span class="type">uint32_t</span>        sin6_scope_id;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">in6_addr</span> &#123;</span><br><span class="line">	<span class="type">unsigned</span> <span class="type">char</span>   s6_addr[<span class="number">16</span>];  <span class="comment">/* 地址 */</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h3 id="msghdr"><a href="#msghdr" class="headerlink" title="msghdr"></a>msghdr</h3><p>msg_name：存放地址结构体（sockaddr、sockaddr_in、sockaddr_in6）</p>
+<p>msg_namelen：地址结构体的长度（以字节数表示）</p>
+<p>msg_iov：指向iovec结构体的指针，里面存放着消息</p>
+<p>msg_iovlen：msg_iov这个数组的长度</p>
+<p>msg_control：辅助数据，一般传递其他与消息相关的信息，比如带外数据（Out-of-band-data）</p>
+<p>msg_controllen：辅助数据的长度（以字节数表示）</p>
+<p>iov_base：存放着数据</p>
+<p>iov_len：存放着iov_base指向的数据的长度（以字节数表示）</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">msghdr</span> &#123;</span><br><span class="line">	<span class="type">void</span>         *msg_name;       <span class="comment">/* Optional address */</span></span><br><span class="line">	<span class="type">socklen_t</span>     msg_namelen;    <span class="comment">/* Size of address */</span></span><br><span class="line">	<span class="keyword">struct</span> <span class="title class_">iovec</span> *msg_iov;        <span class="comment">/* Scatter/gather array */</span></span><br><span class="line">	<span class="type">size_t</span>        msg_iovlen;     <span class="comment">/* # elements in msg_iov */</span></span><br><span class="line">	<span class="type">void</span>         *msg_control;    <span class="comment">/* Ancillary data, see below */</span></span><br><span class="line">	<span class="type">size_t</span>		  msg_controllen; <span class="comment">/* Ancillary data buffer len */</span></span><br><span class="line">	<span class="type">int</span>           msg_flags;      <span class="comment">/* Flags on received message */</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">iovec</span> &#123;                    <span class="comment">/* Scatter/gather array items */</span></span><br><span class="line">    <span class="type">void</span>  *iov_base;              <span class="comment">/* Starting address */</span></span><br><span class="line">	<span class="type">size_t</span> iov_len;               <span class="comment">/* Number of bytes to transfer */</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h2 id="函数"><a href="#函数" class="headerlink" title="函数"></a>函数</h2><h3 id="socket"><a href="#socket" class="headerlink" title="socket"></a>socket</h3><p>这个函数是用来创建套接字的，创建成功会返回一个文件描述符，如果创建失败便会返回-1</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">int</span> <span class="title">socket</span><span class="params">(<span class="type">int</span> domain, <span class="type">int</span> type, <span class="type">int</span> protocol)</span>		</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>domain</strong></p>
+<p>地址族</p>
+<blockquote>
+<p><code>AF_INET</code>：IPV4地址族，用于支持IPV4协议<br><code>AF_INET6</code>：IPV6地址族，用于支持IPV6协议<br><code>AF_UNIX</code> and AF_LOCAL：Unix域套接字地址族，用于同一台主机上通信</p>
+</blockquote>
+<p><strong>type</strong></p>
+<p>套接字的类型</p>
+<blockquote>
+<p><code>SOCK_STREAM</code>：面向连接的可靠流式套接字<br><code>SOCK_DGRAM</code>：面向消息的报式套接字<br><code>SOCK_SEQPACKET</code>：面向连接的有序数据套接字<br><code>SOCK_RAW</code>：网络层原始套接字</p>
+</blockquote>
+<p><strong>protocol</strong></p>
+<p>传输协议</p>
+<ol>
+<li><p><code>SOCK_STREAM</code></p>
+<blockquote>
+<p><code>IPPROTO_TCP</code>：TCP协议，一种面向连接的、可靠的、基于字节流的传输协议</p>
+</blockquote>
+</li>
+<li><p><code>SOCK_DGRAM</code></p>
+<blockquote>
+<p><code>IPPROTO_UDP</code>：UDP协议，一种无连接的、不可靠的，基于报文的传输协议</p>
+</blockquote>
+</li>
+<li><p><code>SOCK_RAW</code></p>
+<blockquote>
+<p><code>IPPROTO_RAW</code>：原始套接字协议，允许应用程序直接访问底层网络协议栈，可以用于构造自定义的网络协议<br><code>IPPROTO_ICMP</code>：互联网控制消息协议（ICMP），用于网络设备之间传递错误和控制消息<br><code>IPPROTO_IP</code>：IP协议，是基于IP地址的网络层协议，用于在网络中传输数据包</p>
+</blockquote>
+</li>
+<li><p><code>SOCK_SEQPACKET</code></p>
+<blockquote>
+<p><code>IPPROTO_SCTP</code>：流控制传输协议（SCTP）提供类似TCP的可靠性和有序性</p>
+</blockquote>
+</li>
+</ol>
+<p><strong>示例</strong></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> sockfd = <span class="built_in">socket</span>(AF_INET,SOCK_STREAM,IPPROTO_TCP);</span><br></pre></td></tr></table></figure>
+
+<h3 id="bind"><a href="#bind" class="headerlink" title="bind"></a>bind</h3><p>给套接字绑定地址，如果成功返回0，发生错误就返回-1</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">int</span> <span class="title">bind</span><span class="params">(<span class="type">int</span> sockfd, <span class="type">const</span> <span class="keyword">struct</span> sockaddr *addr, <span class="type">socklen_t</span> addrlen)</span></span>;</span><br></pre></td></tr></table></figure>
+
+<p><strong>sockfd</strong></p>
+<p>套接字的文件描述符</p>
+<p><strong>addr</strong></p>
+<p>指向sockaddr结构体的指针</p>
+<p><strong>addrlen</strong></p>
+<p>地址结构体的字节数</p>
+<p><strong>示例</strong></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">sockaddr_in addr = &#123;<span class="number">0</span>&#125;;</span><br><span class="line">addr.sin_addr = INADDR_ANY; <span class="comment">// 这里的INADDR_ANY代表 0.0.0.0 可以理解成本地的意思</span></span><br><span class="line">addr.sin_port = <span class="built_in">honts</span>(<span class="number">8080</span>); <span class="comment">// 使用honts函数从主机字节序转换到网络字节序，下一篇文章会讲</span></span><br><span class="line">addr.sin_family = AF_INET;</span><br><span class="line"><span class="built_in">bind</span>(sockfd,(sockaddr*)&amp;addr,<span class="keyword">sizeof</span> addr);  <span class="comment">// 这里使用了C风格的强转将sockaddr_in指针转换成sockaddr</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="listen"><a href="#listen" class="headerlink" title="listen"></a>listen</h3><p>将套接字设置成监听（被动）模式</p>
+<p>如果成功返回0，发生错误就返回-1</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">int</span> <span class="title">listen</span><span class="params">(<span class="type">int</span> sockfd, <span class="type">int</span> backlog)</span></span>;</span><br></pre></td></tr></table></figure>
+
+<p><strong>sockfd</strong></p>
+<p>套接字的文件描述符</p>
+<p><strong>backlog</strong></p>
+<p>请求队列的最大数量</p>
+<p><strong>示例</strong></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">listen</span>(sockfd,<span class="number">128</span>);</span><br></pre></td></tr></table></figure>
+
+<h3 id="connect"><a href="#connect" class="headerlink" title="connect"></a>connect</h3><p><strong>流式套接字</strong>发送连接请求，连接到服务器就返回0，如果发生错误就返回-1</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">int</span> <span class="title">connect</span><span class="params">(<span class="type">int</span> sockfd, <span class="type">const</span> <span class="keyword">struct</span> sockaddr *addr, <span class="type">socklen_t</span> addrlen)</span></span>;</span><br></pre></td></tr></table></figure>
+
+<p><strong>sockfd</strong></p>
+<p>套接字的文件描述符</p>
+<p><strong>addr</strong></p>
+<p>指向sockaddr结构体的指针</p>
+<p><strong>addrlen</strong></p>
+<p>地址结构体的长度（以字节数表示）</p>
+<p><strong>示例</strong></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">sockaddr_in addr = &#123;<span class="number">0</span>&#125;;</span><br><span class="line">addr.sin_addr = <span class="built_in">inet_addr</span>(<span class="string">&quot;117.21.32.217&quot;</span>); <span class="comment">// 该ip为随机生成</span></span><br><span class="line">addr.sin_port = <span class="built_in">honts</span>(<span class="number">8080</span>);</span><br><span class="line">addr.sin_family = AF_INET;</span><br><span class="line"><span class="built_in">connect</span>(sockfd,(sockaddr*)&amp;addr,<span class="keyword">sizeof</span> addr);</span><br></pre></td></tr></table></figure>
+
+<h3 id="accept"><a href="#accept" class="headerlink" title="accept"></a>accept</h3><p><strong>面向连接的套接字</strong>用来同意客户端发送的连接请求</p>
+<p>会阻塞到有客户端发送连接请求</p>
+<p>如果成功便会返回一个与客户端通信的套接字文件描述符，如果失败返回-1</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">int</span> <span class="title">accept</span><span class="params">(<span class="type">int</span> sockfd, <span class="keyword">struct</span> sockaddr *addr, <span class="type">socklen_t</span> *addrlen)</span></span>;</span><br></pre></td></tr></table></figure>
+
+<p><strong>sockfd</strong></p>
+<p>套接字文件描述符</p>
+<p><strong>addr</strong></p>
+<p>指向sockaddr结构体的指针，客户端的地址和端口会存储在里面</p>
+<p><strong>addrlen</strong></p>
+<p>指向地址结构体字节数的指针</p>
+<p><strong>示例</strong></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sockaddr_in clientAddr = &#123;<span class="number">0</span>&#125;;</span><br><span class="line"><span class="type">socklen_t</span> clientAddrLen = <span class="keyword">sizeof</span> clientAddr;</span><br><span class="line"><span class="type">int</span> clientfd = <span class="built_in">accept</span>(sockfd,(sockaddr*)&amp;clientAddr,&amp;clientAddrLen);</span><br></pre></td></tr></table></figure>
+
+<h3 id="send"><a href="#send" class="headerlink" title="send"></a>send</h3><p>给<strong>面向连接的套接字</strong>发送数据的函数</p>
+<p>如果不额外设置会阻塞到消息完全发出为止</p>
+<p>发送<strong>成功</strong>返回发送数据的大小（以字节数表示），发生<strong>错误</strong>返回-1</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">ssize_t</span> <span class="title">send</span><span class="params">(<span class="type">int</span> sockfd, <span class="type">const</span> <span class="type">void</span> *buf, <span class="type">size_t</span> len, <span class="type">int</span> flags)</span>	</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>sockfd</strong></p>
+<p>套接字的文件描述符</p>
+<p><strong>buf</strong></p>
+<p>指向要发送的数据的缓冲区的指针</p>
+<p><strong>len</strong></p>
+<p>要发送的数据的长度（以字节数表示）</p>
+<p><strong>flags</strong></p>
+<p>发送数据时标记</p>
+<blockquote>
+<p><code>MSG_DONTROUTE</code>：不查找路由表，直接发送数据<br><code>MSG_OOB</code>：发送带外数据（Out-of-band data）<br><code>MSG_NOSIGNAL</code>：忽略 <code>SIGPIPE</code> 信号，如果发送的数据超出接收端的缓冲区大小，不会导致程序终止<br><code>MSG_MORE</code>：表示还有更多数据待发送，用于 TCP 的流控制优化</p>
+</blockquote>
+<p><strong>示例</strong></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">send</span>(clientfd,<span class="string">&quot;Hei Client&quot;</span>,<span class="built_in">sizeof</span>(<span class="string">&quot;Hei Client&quot;</span>),MSG_MORE|MSG_OOB);</span><br><span class="line"><span class="comment">// 使用（|）运算符设置两个标记</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="sendto"><a href="#sendto" class="headerlink" title="sendto"></a>sendto</h3><p>一般给<strong>不连接的套接字</strong>用来发送报文</p>
+<p>默认为阻塞模式</p>
+<p>发送<strong>成功</strong>返回发送数据的大小（以字节数表示），发生<strong>错误</strong>返回-1</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">ssize_t</span> <span class="title">sendto</span><span class="params">(<span class="type">int</span> sockfd, <span class="type">const</span> <span class="type">void</span> *buf, <span class="type">size_t</span> len, <span class="type">int</span> flags,</span></span></span><br><span class="line"><span class="params"><span class="function">               <span class="type">const</span> <span class="keyword">struct</span> sockaddr *dest_addr, <span class="type">socklen_t</span> addrlen)</span></span>;</span><br></pre></td></tr></table></figure>
+
+<p><strong>sockfd</strong></p>
+<p>套接字的文件描述符</p>
+<p><strong>buf</strong></p>
+<p>指向要发送的数据的缓冲区指针</p>
+<p><strong>len</strong></p>
+<p>要发送的数据的长度（以字节数表示）</p>
+<p><strong>flags</strong></p>
+<p>发送数据时的标记</p>
+<blockquote>
+<p><code>MSG_DONTROUTE</code>：不查找路由表，直接发送数据<br><code>MSG_OOB</code>：发送带外数据（Out-of-band data）<br><code>MSG_NOSIGNAL</code>：忽略 <code>SIGPIPE</code> 信号，如果发送的数据超出接收端的缓冲区大小，不会导致程序终止<br><code>MSG_DONTWAIT</code>：非阻塞模式发送，函数调用将立即返回，而不管是否能够发送全部数据，如果不能立即发送，则可能会发送部分数据</p>
+</blockquote>
+<p><strong>dest_addr</strong></p>
+<p>指向sockaddr结构体的指针，结构体内存放的是数据的目标地址与端口</p>
+<p><strong>addrlen</strong></p>
+<p>地址结构体的长度（以字节数表示）</p>
+<p><strong>示例</strong></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">sockaddr_in addr = &#123;<span class="number">0</span>&#125;;</span><br><span class="line">addr.sin_family = AF_INET;</span><br><span class="line">addr.sin_port = <span class="built_in">htons</span>(<span class="number">8989</span>);</span><br><span class="line">addr.sin_addr = <span class="built_in">inet_addr</span>(<span class="string">&quot;143.131.180.94&quot;</span>);</span><br><span class="line"><span class="built_in">sendto</span>(sockfd,<span class="string">&quot;Hei Udp Client&quot;</span>,<span class="built_in">sizeof</span>(<span class="string">&quot;Hei Udp Client&quot;</span>),<span class="number">0</span>,(sockaddr*)&amp;addr,<span class="keyword">sizeof</span> addr);</span><br><span class="line"><span class="comment">// 0 代表不使用任何标志参数</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="sendmsg"><a href="#sendmsg" class="headerlink" title="sendmsg"></a>sendmsg</h3><p>用于<strong>套接字</strong>发送数据</p>
+<p>默认为阻塞模式</p>
+<p>发送<strong>成功</strong>返回发送数据的大小（以字节数表示），发生<strong>错误</strong>返回-1</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">ssize_t</span> <span class="title">sendmsg</span><span class="params">(<span class="type">int</span> sockfd, <span class="type">const</span> <span class="keyword">struct</span> msghdr *msg, <span class="type">int</span> flags)</span></span>;</span><br></pre></td></tr></table></figure>
+
+<p><strong>sockfd</strong></p>
+<p>套接字的文件描述符</p>
+<p><strong>msg</strong></p>
+<p>指向要发送的msghdr结构体的指针</p>
+<p><strong>flags</strong></p>
+<p>发送数据时的标记</p>
+<blockquote>
+<p><code>MSG_DONTWAIT</code>：以非阻塞方式发送消息，即使发送缓冲区已满也立即返回<br><code>MSG_EOR</code>：表示消息中的最后一个缓冲区的结束<br><code>MSG_MORE</code>：表示消息中还有更多的数据要发送<br><code>MSG_NOSIGNAL</code>：禁止在发送失败时产生 <code>SIGPIPE</code> 信号，而是返回错误码，以避免由于对端关闭连接而引发的异常信号</p>
+</blockquote>
+<p><strong>示例</strong></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">msghdr msg = &#123;<span class="number">0</span>&#125;;</span><br><span class="line">iovec iov[<span class="number">2</span>];</span><br><span class="line"><span class="type">char</span> message1[<span class="number">12</span>] = <span class="string">&quot;Hei Client!&quot;</span>;</span><br><span class="line"><span class="type">char</span> message2[<span class="number">23</span>] = <span class="string">&quot;Hi Message from server&quot;</span>;</span><br><span class="line">iov[<span class="number">0</span>].iov_base = message1;</span><br><span class="line">iov[<span class="number">1</span>].iov_base = message2;</span><br><span class="line">iov[<span class="number">0</span>].iov_len = <span class="keyword">sizeof</span> message1;</span><br><span class="line">iov[<span class="number">1</span>].iov_len = <span class="keyword">sizeof</span> message2;</span><br><span class="line">msg.msg_iov = iov;</span><br><span class="line">msg.msg_iovlen = <span class="number">2</span>;</span><br><span class="line"><span class="built_in">sendmsg</span>(sockfd, &amp;msg, <span class="number">0</span>);</span><br></pre></td></tr></table></figure>
+
+<h3 id="recv"><a href="#recv" class="headerlink" title="recv"></a>recv</h3><p>用于套接字接收数据</p>
+<p>如果不额外设置会阻塞到接收到数据</p>
+<p>成功则返回接收到的数据的字节数（以字节数表示），失败则返回-1</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">ssize_t</span> <span class="title">recv</span><span class="params">(<span class="type">int</span> sockfd, <span class="type">void</span> *buf, <span class="type">size_t</span> len, <span class="type">int</span> flags)</span></span>;</span><br></pre></td></tr></table></figure>
+
+<p><strong>sockfd</strong></p>
+<p>套接字的文件描述符</p>
+<p><strong>buf</strong></p>
+<p>指向用来接收数据的缓冲区指针</p>
+<p><strong>len</strong></p>
+<p>缓冲区的大小或可接收的最大字节数</p>
+<p><strong>flags</strong></p>
+<p>指定接收时的额外选项</p>
+<blockquote>
+<p><code>MSG_DONTWAIT</code>：非阻塞模式 即使没有可用的数据，也立即返回结果，不会阻塞等待数据到达<br><code>MSG_PEEK</code>：表示从接收队列中查看而不移除数据，可以用来检查接收缓冲区中的数据而不实际读取它们<br><code>MSG_WAITALL</code>：接收过程中一直等待请求的数据直到满足条件，如果没有足够的数据，则阻塞等待<br><code>MSG_OOB</code>：表示接收或发送带外数据（Out-of-Band） 这种数据具有高优先级，通常在正常数据之外进行处理</p>
+</blockquote>
+<p><strong>示例</strong></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">char</span> buffer[<span class="number">1024</span>] = &#123;<span class="number">0</span>&#125;;</span><br><span class="line"><span class="built_in">recv</span>(sockfd,buffer,<span class="number">1024</span>,<span class="number">0</span>); <span class="comment">// 0 的意思没有指定额外的选项</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="recvfrom"><a href="#recvfrom" class="headerlink" title="recvfrom"></a>recvfrom</h3><p><strong>报式套接字</strong>用来接收数据的函数</p>
+<p>默认为阻塞模式</p>
+<p>成功则返回接收到的数据的字节数（以字节数表示），失败则返回-1</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">ssize_t</span> <span class="title">recvfrom</span><span class="params">(<span class="type">int</span> sockfd, <span class="type">void</span> *buf, <span class="type">size_t</span> len, <span class="type">int</span> flags,</span></span></span><br><span class="line"><span class="params"><span class="function">                  <span class="keyword">struct</span> sockaddr *src_addr, <span class="type">socklen_t</span> *addrlen)</span></span>;</span><br></pre></td></tr></table></figure>
+
+<p><strong>sockfd</strong></p>
+<p>套接字的文件描述符</p>
+<p><strong>buf</strong></p>
+<p>指向接收数据的缓冲区的指针</p>
+<p><strong>len</strong></p>
+<p>缓冲区的长度或可接收的最大字节数</p>
+<p><strong>flags</strong></p>
+<p>指定接收时的额外选项</p>
+<blockquote>
+<p><code>MSG_TRUNC</code>：如果接收缓冲区的大小小于接收到的数据报的大小，则截断数据<br><code>MSG_ERRQUEUE</code>：从错误队列接收错误消息<br><code>MSG_CMSG_CLOEXEC</code>：设置接收的辅助数据（控制消息）以 <code>FD_CLOEXEC</code> 标志关闭<br><code>MSG_DONTWAIT</code>：非阻塞模式 即使没有可用的数据，也立即返回结果，不会阻塞等待数据到达<br><code>MSG_PEEK</code>：表示从接收队列中查看而不移除数据，可以用来检查接收缓冲区中的数据而不实际读取它们<br><code>MSG_WAITALL</code>：接收过程中一直等待请求的数据直到满足条件，如果没有足够的数据，则阻塞等待</p>
+</blockquote>
+<p><strong>示例</strong></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">char</span> buffer[<span class="number">1024</span>] = &#123;<span class="number">0</span>&#125;;</span><br><span class="line">sockaddr_in addr = &#123;<span class="number">0</span>&#125;;</span><br><span class="line"><span class="type">socklen_t</span> addrLen = <span class="keyword">sizeof</span> addr;</span><br><span class="line"><span class="built_in">recvfrom</span>(sockfd,addr,<span class="number">1024</span>,MSG_WAITALL|MSG_PEEK,(sockaddr*)&amp;addr,&amp;addrLen);</span><br></pre></td></tr></table></figure>
+
+<h3 id="recvmsg"><a href="#recvmsg" class="headerlink" title="recvmsg"></a>recvmsg</h3><p>用于套接字接收数据</p>
+<p>默认为阻塞模式</p>
+<p>成功返回接收到的数据的长度（以字节数表示），不成功返回-1</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">ssize_t</span> <span class="title">recvmsg</span><span class="params">(<span class="type">int</span> sockfd, <span class="keyword">struct</span> msghdr *msg, <span class="type">int</span> flags)</span></span>;</span><br></pre></td></tr></table></figure>
+
+<p><strong>sockfd</strong></p>
+<p>套接字的文件描述符</p>
+<p><strong>msg</strong></p>
+<p>指向用来接收数据的msghdr结构体的指针</p>
+<p><strong>flags</strong></p>
+<p>指定接收时的额外选项</p>
+<blockquote>
+<p><code>MSG_CMSG_CLOEXEC</code>：在接收到控制消息（cmsg）时自动将其标记为 <code>FD_CLOEXEC</code>，使得接收的文件描述符在执行 <code>exec</code> 系列函数时会被关闭<br><code>MSG_DONTWAIT</code>：设置非阻塞模式，即使没有可用的数据，也立即返回<br><code>MSG_ERRQUEUE</code>：接收错误消息队列中的消息 这个标志通常用于接收一些与套接字操作相关的错误信息，例如 ICMP 错误消息<br><code>MSG_OOB</code>：表示接收或发送带外数据（Out-of-Band） 这种数据具有高优先级，通常在正常数据之外进行处理<br><code>MSG_PEEK</code>：表示从接收队列中查看而不移除数据，可以用来检查接收缓冲区中的数据而不实际读取它们<br><code>MSG_TRUNC</code>：如果接收缓冲区大小小于接收到的消息的大小，则将该标志设置为指示消息被截断<br><code>MSG_WAITALL</code>：接收过程中一直等待请求的数据直到满足条件，如果没有足够的数据，则阻塞等待<br><code>MSG_DONTWAIT</code>：非阻塞模式 即使没有可用的数据，也立即返回结果，不会阻塞等待数据到达</p>
+</blockquote>
+<p><strong>示例</strong></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">msghdr msg = &#123;<span class="number">0</span>&#125;;</span><br><span class="line"><span class="built_in">recvmsg</span>(sockfd, &amp;msg, MSG_OOB);</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;%s\n&quot;</span>,(<span class="type">char</span>*)msg.msg_control);</span><br><span class="line"><span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; msg.msg_iovlen; i++) &#123;</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;%s\n&quot;</span>,(<span class="type">char</span>*)msg.msg_iov[i].iov_base);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">首页</a></li>
+        
+          <li><a href="/archives/">归档</a></li>
+        
+          <li><a href="/tags/">标签</a></li>
+        
+          <li><a href="/about/">关于</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+      <div id="toc-footer" style="display: none">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BB%93%E6%9E%84%E4%BD%93"><span class="toc-number">1.</span> <span class="toc-text">结构体</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#sockaddr-in"><span class="toc-number">1.1.</span> <span class="toc-text">sockaddr_in</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#sockaddr-in6"><span class="toc-number">1.2.</span> <span class="toc-text">sockaddr_in6</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#msghdr"><span class="toc-number">1.3.</span> <span class="toc-text">msghdr</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%87%BD%E6%95%B0"><span class="toc-number">2.</span> <span class="toc-text">函数</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#socket"><span class="toc-number">2.1.</span> <span class="toc-text">socket</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#bind"><span class="toc-number">2.2.</span> <span class="toc-text">bind</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#listen"><span class="toc-number">2.3.</span> <span class="toc-text">listen</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#connect"><span class="toc-number">2.4.</span> <span class="toc-text">connect</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#accept"><span class="toc-number">2.5.</span> <span class="toc-text">accept</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#send"><span class="toc-number">2.6.</span> <span class="toc-text">send</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#sendto"><span class="toc-number">2.7.</span> <span class="toc-text">sendto</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#sendmsg"><span class="toc-number">2.8.</span> <span class="toc-text">sendmsg</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#recv"><span class="toc-number">2.9.</span> <span class="toc-text">recv</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#recvfrom"><span class="toc-number">2.10.</span> <span class="toc-text">recvfrom</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#recvmsg"><span class="toc-number">2.11.</span> <span class="toc-text">recvmsg</span></a></li></ol></li></ol>
+      </div>
+    
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://zjhzzy.github.io/2023/08/15/Socket-Programming-Functions-and-Structures-on-Linux/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://zjhzzy.github.io/2023/08/15/Socket-Programming-Functions-and-Structures-on-Linux/&text=Linux下Socket编程中需要用到的函数以及结构体"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://zjhzzy.github.io/2023/08/15/Socket-Programming-Functions-and-Structures-on-Linux/&title=Linux下Socket编程中需要用到的函数以及结构体"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://zjhzzy.github.io/2023/08/15/Socket-Programming-Functions-and-Structures-on-Linux/&is_video=false&description=Linux下Socket编程中需要用到的函数以及结构体"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Linux下Socket编程中需要用到的函数以及结构体&body=Check out this article: http://zjhzzy.github.io/2023/08/15/Socket-Programming-Functions-and-Structures-on-Linux/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://zjhzzy.github.io/2023/08/15/Socket-Programming-Functions-and-Structures-on-Linux/&title=Linux下Socket编程中需要用到的函数以及结构体"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://zjhzzy.github.io/2023/08/15/Socket-Programming-Functions-and-Structures-on-Linux/&title=Linux下Socket编程中需要用到的函数以及结构体"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://zjhzzy.github.io/2023/08/15/Socket-Programming-Functions-and-Structures-on-Linux/&title=Linux下Socket编程中需要用到的函数以及结构体"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://zjhzzy.github.io/2023/08/15/Socket-Programming-Functions-and-Structures-on-Linux/&title=Linux下Socket编程中需要用到的函数以及结构体"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://zjhzzy.github.io/2023/08/15/Socket-Programming-Functions-and-Structures-on-Linux/&name=Linux下Socket编程中需要用到的函数以及结构体&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://zjhzzy.github.io/2023/08/15/Socket-Programming-Functions-and-Structures-on-Linux/&t=Linux下Socket编程中需要用到的函数以及结构体"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        
+          <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2021-2023
+    JinHong Zeng
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+      --><li><a href="/">首页</a></li><!--
+    --><!--
+      --><li><a href="/archives/">归档</a></li><!--
+    --><!--
+      --><li><a href="/tags/">标签</a></li><!--
+    --><!--
+      --><li><a href="/about/">关于</a></li><!--
+    -->
+      </ul>
+      <ul>
+        
+          <!-- 不蒜子统计 -->
+          <span id="busuanzi_container_site_pv">
+              本站总访问量<span id="busuanzi_value_site_pv"></span>次
+          </span>
+          <span class="post-meta-divider">|</span>
+          <span id="busuanzi_container_site_uv" style='display:none'>
+                  本站访客数<span id="busuanzi_value_site_uv"></span>人
+          </span>
+        <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+        
+      </ul>
+    </nav>
+  </div>
+  
+</footer>
+
+
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板！\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功！");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>

@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="Linux下使用Socket实现Tcp服务器">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux下使用Socket实现Tcp服务器的示例以及解释">
+<meta property="og:url" content="http://zjhzzy.github.io/2023/08/17/TCP-Server-Implementation-with-Socket-Programming-in-Linux/index.html">
+<meta property="og:site_name" content="Nlub&#39;s blog">
+<meta property="og:description" content="Linux下使用Socket实现Tcp服务器">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2023-08-17T00:21:26.000Z">
+<meta property="article:modified_time" content="2023-10-01T00:22:52.973Z">
+<meta property="article:author" content="JinHong Zeng">
+<meta property="article:tag" content="C++">
+<meta property="article:tag" content="Linux">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>Linux下使用Socket实现Tcp服务器的示例以及解释</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="顶部" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a href="/tags/">标签</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="上一篇" href="/2023/09/30/variant%E3%80%81optional-and-any/"><i class="fa-solid fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="下一篇" href="/2023/08/16/Data-format-conversion-functions-in-Linux-socket-programming/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="返回顶部" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="分享文章" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://zjhzzy.github.io/2023/08/17/TCP-Server-Implementation-with-Socket-Programming-in-Linux/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://zjhzzy.github.io/2023/08/17/TCP-Server-Implementation-with-Socket-Programming-in-Linux/&text=Linux下使用Socket实现Tcp服务器的示例以及解释"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://zjhzzy.github.io/2023/08/17/TCP-Server-Implementation-with-Socket-Programming-in-Linux/&title=Linux下使用Socket实现Tcp服务器的示例以及解释"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://zjhzzy.github.io/2023/08/17/TCP-Server-Implementation-with-Socket-Programming-in-Linux/&is_video=false&description=Linux下使用Socket实现Tcp服务器的示例以及解释"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Linux下使用Socket实现Tcp服务器的示例以及解释&body=Check out this article: http://zjhzzy.github.io/2023/08/17/TCP-Server-Implementation-with-Socket-Programming-in-Linux/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://zjhzzy.github.io/2023/08/17/TCP-Server-Implementation-with-Socket-Programming-in-Linux/&title=Linux下使用Socket实现Tcp服务器的示例以及解释"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://zjhzzy.github.io/2023/08/17/TCP-Server-Implementation-with-Socket-Programming-in-Linux/&title=Linux下使用Socket实现Tcp服务器的示例以及解释"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://zjhzzy.github.io/2023/08/17/TCP-Server-Implementation-with-Socket-Programming-in-Linux/&title=Linux下使用Socket实现Tcp服务器的示例以及解释"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://zjhzzy.github.io/2023/08/17/TCP-Server-Implementation-with-Socket-Programming-in-Linux/&title=Linux下使用Socket实现Tcp服务器的示例以及解释"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://zjhzzy.github.io/2023/08/17/TCP-Server-Implementation-with-Socket-Programming-in-Linux/&name=Linux下使用Socket实现Tcp服务器的示例以及解释&description=&lt;p&gt;Linux下使用Socket实现Tcp服务器"><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://zjhzzy.github.io/2023/08/17/TCP-Server-Implementation-with-Socket-Programming-in-Linux/&t=Linux下使用Socket实现Tcp服务器的示例以及解释"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    
+    
+      <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%A4%BA%E4%BE%8B%E4%BB%A3%E7%A0%81"><span class="toc-number">1.</span> <span class="toc-text">示例代码</span></a></li></ol>
+      </div>
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        Linux下使用Socket实现Tcp服务器的示例以及解释
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">JinHong Zeng</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2023-08-17T00:21:26.000Z" class="dt-published" itemprop="datePublished">2023-08-17</time>
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fa-solid fa-tag"></i>
+        <a class="p-category" href="/tags/C/" rel="tag">C++</a>, <a class="p-category" href="/tags/Linux/" rel="tag">Linux</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <p>Linux下使用Socket实现Tcp服务器<span id="more"></span>并不困难简略下来就的流程就一段</p>
+<p>socket –&gt; bind –&gt; listen –&gt; accept –&gt; recv&#x2F;send(处理数据) –&gt; close</p>
+<p>这就是Linux下实现服务器的流程，接下来我会给出代码并且逐步解析</p>
+<p>这之中用到的函数都可以在这篇文章里看到解释</p>
+<p><a href="https://zjhzzy.github.io/2023/08/15/Socket-Programming-Functions-and-Structures-on-Linux/">Linux下Socket编程中需要用到的函数以及结构体</a></p>
+<p>因为只是示例程序就<strong>不进行错误判断</strong>了，编写项目时还是需要错误判断的</p>
+<h2 id="示例代码"><a href="#示例代码" class="headerlink" title="示例代码"></a>示例代码</h2><p>这段代码简单的实现了一个Tcp服务器，功能是接收对端发送来的消息并且输出，再将消息发送给对端</p>
+<p>接下来简单的解释这些代码</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;sys/socket.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;cstdio&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;arpa/inet.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;cstring&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;unistd.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">  <span class="type">int</span> sockfd = <span class="built_in">socket</span>(AF_INET, SOCK_STREAM, IPPROTO_TCP);</span><br><span class="line">  sockaddr_in addr = &#123;<span class="number">0</span>&#125;;</span><br><span class="line">  addr.sin_addr.s_addr = INADDR_ANY;</span><br><span class="line">  addr.sin_port = <span class="built_in">htons</span>(<span class="number">8000</span>);</span><br><span class="line">  addr.sin_family = AF_INET;</span><br><span class="line"></span><br><span class="line">  <span class="built_in">bind</span>(sockfd, (sockaddr *)&amp;addr, <span class="keyword">sizeof</span> addr);</span><br><span class="line"></span><br><span class="line">  <span class="built_in">listen</span>(sockfd, <span class="number">10</span>);</span><br><span class="line"></span><br><span class="line">  sockaddr_in clientAddr = &#123;<span class="number">0</span>&#125;;</span><br><span class="line">  <span class="type">socklen_t</span> clientAddrLen = <span class="keyword">sizeof</span> clientAddr;</span><br><span class="line">  <span class="type">int</span> clientfd = <span class="built_in">accept</span>(sockfd, (sockaddr *)&amp;clientAddr, &amp;clientAddrLen);</span><br><span class="line">  <span class="keyword">while</span> (<span class="literal">true</span>) &#123;</span><br><span class="line">	<span class="type">char</span> buffer[<span class="number">1024</span>] = &#123;<span class="number">0</span>&#125;;</span><br><span class="line">	<span class="type">int</span> recvByte = <span class="built_in">recv</span>(clientfd, buffer, <span class="number">1024</span>, <span class="number">0</span>);</span><br><span class="line">	<span class="keyword">if</span> (recvByte &lt;= <span class="number">0</span>) &#123;</span><br><span class="line">	  <span class="built_in">close</span>(clientfd);</span><br><span class="line">	  <span class="keyword">break</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;%s Say: %s&quot;</span>, <span class="built_in">inet_ntoa</span>(clientAddr.sin_addr), buffer);</span><br><span class="line">	<span class="type">int</span> sendByte = <span class="built_in">send</span>(clientfd, buffer, <span class="number">1024</span>, <span class="number">0</span>);</span><br><span class="line">	<span class="built_in">memset</span>(buffer, <span class="number">0</span>, <span class="number">1024</span>);</span><br><span class="line">	<span class="keyword">if</span> (sendByte &lt;= <span class="number">0</span>) &#123;</span><br><span class="line">	  <span class="built_in">close</span>(clientfd);</span><br><span class="line">	  <span class="keyword">break</span>;</span><br><span class="line">	&#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="built_in">close</span>(sockfd);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>声明一些需要的变量</p>
+<p>向socket中传三个参数</p>
+<p><strong>AF_INET</strong>：使用 IPV4 地址族</p>
+<p><strong>SOCK_STREAM</strong>：流式套接字</p>
+<p><strong>IPPRORO_TCP</strong>：采用TCP协议</p>
+<p>设置addr的值</p>
+<p>因为是服务器所以将地址设置为 INADDR_ANY(0.0.0.0)</p>
+<p>端口通过htons函数转换后赋值给sin_port</p>
+<p>设置地址族为 AF_INET(IPV4)</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> sockfd = <span class="built_in">socket</span>(AF_INET, SOCK_STREAM, IPPROTO_TCP);</span><br><span class="line">sockaddr_in addr = &#123;<span class="number">0</span>&#125;;</span><br><span class="line">addr.sin_addr.s_addr = INADDR_ANY;</span><br><span class="line">addr.sin_port = <span class="built_in">htons</span>(<span class="number">8000</span>);</span><br><span class="line">addr.sin_family = AF_INET;</span><br></pre></td></tr></table></figure>
+
+<p>绑定地址并启用监听(被动触发模式)</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">bind</span>(sockfd, (sockaddr *)&amp;addr, <span class="keyword">sizeof</span> addr);</span><br><span class="line"><span class="built_in">listen</span>(sockfd, <span class="number">10</span>);</span><br></pre></td></tr></table></figure>
+
+<p>声明clientAddr去接收客户端的地址，accept返回套接字的文件描述符</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sockaddr_in clientAddr = &#123;<span class="number">0</span>&#125;;</span><br><span class="line"><span class="type">socklen_t</span> clientAddrLen = <span class="keyword">sizeof</span> clientAddr;</span><br><span class="line"><span class="type">int</span> clientfd = <span class="built_in">accept</span>(sockfd, (sockaddr *)&amp;clientAddr, &amp;clientAddrLen);</span><br></pre></td></tr></table></figure>
+
+<p>声明buffer去接收客户端发送的数据，进行错误检查是否成功接收到数据，如果没有就关闭套接字</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">char</span> buffer[<span class="number">1024</span>] = &#123;<span class="number">0</span>&#125;;</span><br><span class="line"><span class="type">int</span> recvByte = <span class="built_in">recv</span>(clientfd, buffer, <span class="number">1024</span>, <span class="number">0</span>);</span><br><span class="line"><span class="keyword">if</span> (recvByte &lt;= <span class="number">0</span>) &#123;</span><br><span class="line">  <span class="built_in">close</span>(clientfd);</span><br><span class="line">  <span class="keyword">break</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>输出对端发送来的数据，并将其发送给对端，使用memset清空buffer，进行错误检查是否成功发送数据，如果没有就关闭套接字</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;%s Say: %s&quot;</span>, <span class="built_in">inet_ntoa</span>(clientAddr.sin_addr), buffer);</span><br><span class="line"><span class="type">int</span> sendByte = <span class="built_in">send</span>(clientfd, buffer, <span class="number">1024</span>, <span class="number">0</span>);</span><br><span class="line"><span class="built_in">memset</span>(buffer, <span class="number">0</span>, <span class="number">1024</span>);</span><br><span class="line"><span class="keyword">if</span> (sendByte &lt;= <span class="number">0</span>) &#123;</span><br><span class="line">  <span class="built_in">close</span>(clientfd);</span><br><span class="line">  <span class="keyword">break</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>如果运行没有出错会输出一下消息</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">对端地址 Say: 对端发来的消息</span><br><span class="line">对端地址 Say: 对端发来的消息</span><br></pre></td></tr></table></figure>
+
+<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width="330" height="86" src="https://music.163.com/outchain/player?type=2&amp;id=1936117399&amp;auto=0&amp;height=66" style="transition-property: color, background, box-shadow, border-color; transition-delay: 0s, 0s, 0s, 0s; transition-duration: 0.2s, 0.2s, 0.2s, 0.2s; transition-timing-function: ease, ease, ease, ease; color: rgb(190, 190, 198); font-family: 霞鹜新晰黑, 霞鹜新晰黑, sans-serif; font-size: 16px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 450; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; background-color: rgb(32, 33, 36); text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial;"></iframe>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">首页</a></li>
+        
+          <li><a href="/archives/">归档</a></li>
+        
+          <li><a href="/tags/">标签</a></li>
+        
+          <li><a href="/about/">关于</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+      <div id="toc-footer" style="display: none">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%A4%BA%E4%BE%8B%E4%BB%A3%E7%A0%81"><span class="toc-number">1.</span> <span class="toc-text">示例代码</span></a></li></ol>
+      </div>
+    
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://zjhzzy.github.io/2023/08/17/TCP-Server-Implementation-with-Socket-Programming-in-Linux/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://zjhzzy.github.io/2023/08/17/TCP-Server-Implementation-with-Socket-Programming-in-Linux/&text=Linux下使用Socket实现Tcp服务器的示例以及解释"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://zjhzzy.github.io/2023/08/17/TCP-Server-Implementation-with-Socket-Programming-in-Linux/&title=Linux下使用Socket实现Tcp服务器的示例以及解释"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://zjhzzy.github.io/2023/08/17/TCP-Server-Implementation-with-Socket-Programming-in-Linux/&is_video=false&description=Linux下使用Socket实现Tcp服务器的示例以及解释"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Linux下使用Socket实现Tcp服务器的示例以及解释&body=Check out this article: http://zjhzzy.github.io/2023/08/17/TCP-Server-Implementation-with-Socket-Programming-in-Linux/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://zjhzzy.github.io/2023/08/17/TCP-Server-Implementation-with-Socket-Programming-in-Linux/&title=Linux下使用Socket实现Tcp服务器的示例以及解释"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://zjhzzy.github.io/2023/08/17/TCP-Server-Implementation-with-Socket-Programming-in-Linux/&title=Linux下使用Socket实现Tcp服务器的示例以及解释"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://zjhzzy.github.io/2023/08/17/TCP-Server-Implementation-with-Socket-Programming-in-Linux/&title=Linux下使用Socket实现Tcp服务器的示例以及解释"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://zjhzzy.github.io/2023/08/17/TCP-Server-Implementation-with-Socket-Programming-in-Linux/&title=Linux下使用Socket实现Tcp服务器的示例以及解释"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://zjhzzy.github.io/2023/08/17/TCP-Server-Implementation-with-Socket-Programming-in-Linux/&name=Linux下使用Socket实现Tcp服务器的示例以及解释&description=&lt;p&gt;Linux下使用Socket实现Tcp服务器"><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://zjhzzy.github.io/2023/08/17/TCP-Server-Implementation-with-Socket-Programming-in-Linux/&t=Linux下使用Socket实现Tcp服务器的示例以及解释"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        
+          <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2021-2023
+    JinHong Zeng
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+      --><li><a href="/">首页</a></li><!--
+    --><!--
+      --><li><a href="/archives/">归档</a></li><!--
+    --><!--
+      --><li><a href="/tags/">标签</a></li><!--
+    --><!--
+      --><li><a href="/about/">关于</a></li><!--
+    -->
+      </ul>
+      <ul>
+        
+          <!-- 不蒜子统计 -->
+          <span id="busuanzi_container_site_pv">
+              本站总访问量<span id="busuanzi_value_site_pv"></span>次
+          </span>
+          <span class="post-meta-divider">|</span>
+          <span id="busuanzi_container_site_uv" style='display:none'>
+                  本站访客数<span id="busuanzi_value_site_uv"></span>人
+          </span>
+        <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+        
+      </ul>
+    </nav>
+  </div>
+  
+</footer>
+
+
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板！\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功！");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>

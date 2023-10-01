@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="这一篇博客是简单解释linux下的epoll epoll是linux提供的一种I&#x2F;O事件通知机制，能够高效的处理文件描述符[1]的I&#x2F;O事件，其基于事件驱动 结构体1234567891011struct epoll_event &amp;#123;  uint32_t events;  epoll_data_t data;&amp;#125;;typedef union epoll_data">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux下epoll的简单解释">
+<meta property="og:url" content="http://zjhzzy.github.io/2023/08/11/Understanding-a-Simple-Example-of-epoll-Usage-in-Linux/index.html">
+<meta property="og:site_name" content="Nlub&#39;s blog">
+<meta property="og:description" content="这一篇博客是简单解释linux下的epoll epoll是linux提供的一种I&#x2F;O事件通知机制，能够高效的处理文件描述符[1]的I&#x2F;O事件，其基于事件驱动 结构体1234567891011struct epoll_event &amp;#123;  uint32_t events;  epoll_data_t data;&amp;#125;;typedef union epoll_data">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2023-08-11T00:31:35.000Z">
+<meta property="article:modified_time" content="2023-09-30T12:02:48.706Z">
+<meta property="article:author" content="JinHong Zeng">
+<meta property="article:tag" content="C++">
+<meta property="article:tag" content="Linux">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>Linux下epoll的简单解释</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="顶部" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a href="/tags/">标签</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="上一篇" href="/2023/08/14/Using-JSON-in-the-Qt-Framework/"><i class="fa-solid fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="下一篇" href="/2023/08/10/About-Cpp-Condition-variables/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="返回顶部" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="分享文章" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://zjhzzy.github.io/2023/08/11/Understanding-a-Simple-Example-of-epoll-Usage-in-Linux/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://zjhzzy.github.io/2023/08/11/Understanding-a-Simple-Example-of-epoll-Usage-in-Linux/&text=Linux下epoll的简单解释"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://zjhzzy.github.io/2023/08/11/Understanding-a-Simple-Example-of-epoll-Usage-in-Linux/&title=Linux下epoll的简单解释"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://zjhzzy.github.io/2023/08/11/Understanding-a-Simple-Example-of-epoll-Usage-in-Linux/&is_video=false&description=Linux下epoll的简单解释"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Linux下epoll的简单解释&body=Check out this article: http://zjhzzy.github.io/2023/08/11/Understanding-a-Simple-Example-of-epoll-Usage-in-Linux/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://zjhzzy.github.io/2023/08/11/Understanding-a-Simple-Example-of-epoll-Usage-in-Linux/&title=Linux下epoll的简单解释"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://zjhzzy.github.io/2023/08/11/Understanding-a-Simple-Example-of-epoll-Usage-in-Linux/&title=Linux下epoll的简单解释"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://zjhzzy.github.io/2023/08/11/Understanding-a-Simple-Example-of-epoll-Usage-in-Linux/&title=Linux下epoll的简单解释"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://zjhzzy.github.io/2023/08/11/Understanding-a-Simple-Example-of-epoll-Usage-in-Linux/&title=Linux下epoll的简单解释"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://zjhzzy.github.io/2023/08/11/Understanding-a-Simple-Example-of-epoll-Usage-in-Linux/&name=Linux下epoll的简单解释&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://zjhzzy.github.io/2023/08/11/Understanding-a-Simple-Example-of-epoll-Usage-in-Linux/&t=Linux下epoll的简单解释"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    
+    
+      <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BB%93%E6%9E%84%E4%BD%93"><span class="toc-number">1.</span> <span class="toc-text">结构体</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B8%B8%E7%94%A8%E5%87%BD%E6%95%B0"><span class="toc-number">2.</span> <span class="toc-text">常用函数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%A4%BA%E4%BE%8B%E8%A7%A3%E9%87%8A"><span class="toc-number">3.</span> <span class="toc-text">示例解释</span></a></li></ol>
+      </div>
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        Linux下epoll的简单解释
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">JinHong Zeng</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2023-08-11T00:31:35.000Z" class="dt-published" itemprop="datePublished">2023-08-11</time>
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fa-solid fa-tag"></i>
+        <a class="p-category" href="/tags/C/" rel="tag">C++</a>, <a class="p-category" href="/tags/Linux/" rel="tag">Linux</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <p>这一篇博客是简单解释linux下的epoll</p>
+<p>epoll是linux提供的一种I&#x2F;O事件通知机制，能够高效的处理文件描述符[1]的I&#x2F;O事件，其基于事件驱动</p>
+<h2 id="结构体"><a href="#结构体" class="headerlink" title="结构体"></a>结构体</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">epoll_event</span> &#123;</span><br><span class="line">  <span class="type">uint32_t</span> events;</span><br><span class="line">  <span class="type">epoll_data_t</span> data;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">union</span> <span class="title class_">epoll_data</span> &#123;</span><br><span class="line">  <span class="type">void</span> *ptr;</span><br><span class="line">  <span class="type">int</span> fd;</span><br><span class="line">  <span class="type">uint32_t</span> u32;</span><br><span class="line">  <span class="type">uint64_t</span> u64;</span><br><span class="line">&#125; <span class="type">epoll_data_t</span>;</span><br></pre></td></tr></table></figure>
+
+<p>events：事件</p>
+<p>data：事件携带的数据，是一个联合体</p>
+<p>ptr：一个C风格的any</p>
+<p>fd：文件描述符</p>
+<p>u32：一个无符号32位整型</p>
+<p>u64：一个无符号64位整型</p>
+<h2 id="常用函数"><a href="#常用函数" class="headerlink" title="常用函数"></a>常用函数</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">int</span> <span class="title">epoll_create</span><span class="params">(<span class="type">int</span> size)</span></span></span><br></pre></td></tr></table></figure>
+
+<p>epoll_create函数用来创建epoll的，需要传入一个int类型的变量用来指定最多监听几个描述符，如果没有出现错误便会返回一个文件描述符也就是int，如果出现错误会返回一个-1</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">int</span> <span class="title">epoll_ctl</span><span class="params">(<span class="type">int</span> epfd, <span class="type">int</span> op, <span class="type">int</span> fd, <span class="keyword">struct</span> epoll_event *event)</span></span></span><br></pre></td></tr></table></figure>
+
+<p>epoll_ctl函数可以用来操作epoll文件描述符</p>
+<p>epfd：epoll的文件描述符</p>
+<p>op：对epoll文件描述符进行操作</p>
+<p>fd：需要监听的文件描述符</p>
+<p>event：要监听fd的哪些事件</p>
+<p>op的有效值有 EPOLL_CTL_ADD EPOLL_CTL_MOD EPOLL_CTL_DEL 分别代表添加、修改、删除</p>
+<blockquote>
+<p>EPOLL_CTL_ADD：注册新的fd到epfd中；</p>
+<p>EPOLL_CTL_MOD：修改已经注册的fd的监听事件；</p>
+<p>EPOLL_CTL_DEL：从epfd中删除一个fd；</p>
+</blockquote>
+<p>event是一个集合，值可以为</p>
+<blockquote>
+<p>EPOLLIN：对应的文件描述符可以进行读取操作时获得通知</p>
+<p>EPOLLOUT：对应的文件描述符可以进行写入操作时获得通知</p>
+<p>EPOLLRDHUP：进行通信时对端关闭了连接或者写的操作时获得通知</p>
+<p>EPOLLPRI：对应文件描述符有紧急数据可以进行读取时获得通知，一般是带外数据（Out-of-Band data)</p>
+<p>EPOLLERR：对应文件描述符发生错误时获得通知</p>
+<p>EPOLLHUP：发生挂起事件时，通常是对端关闭连接时获得通知</p>
+<p>EPOLLET：会开启边缘触发模式，在文件描述符状态变化时获得通知</p>
+<p>EPOLLONESHOT：表示启用一次事件通知，文件描述符会被设置成一次性模式，需要重新注册才会重新获取到通知</p>
+<p>EPOLLEXCLUSIVE：表示该文件描述符为独占，不与1其他的文件描述符共享通知</p>
+</blockquote>
+<p>如果函数发生错误将返回-1</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">int</span> <span class="title">epoll_wait</span><span class="params">(<span class="type">int</span> epfd, <span class="keyword">struct</span> epoll_event *events, <span class="type">int</span> maxevents, <span class="type">int</span> timeout)</span></span></span><br></pre></td></tr></table></figure>
+
+<p>epoll_wait执行后会阻塞线程，等待事件</p>
+<p>epfd：epoll的文件描述符</p>
+<p>events：用来存放被触发事件的数组</p>
+<p>maxevents：数组的长度或最大接受事件的数量</p>
+<p>timeout：超时时长，以毫秒为单位，超过该时间如果没有事件也会结束阻塞，如果为-1即代表阻塞到有事件被触发</p>
+<p>返回值为int类型，表示的是触发了几个事件，如果出现错误便返回-1</p>
+<h2 id="示例解释"><a href="#示例解释" class="headerlink" title="示例解释"></a>示例解释</h2><p>接下来会给出一个基于epoll的socket编程示例，并逐步解释来让你知道epoll该如何使用（会过关于套接字的部分），因为只是示例就不添加错误检查了</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;sys/epoll.h&gt;</span>	<span class="comment">// 想使用epoll必须加上这个头文件</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;sys/socket.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;unistd.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;arpa/inet.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;string&gt;</span></span></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">  <span class="type">int</span> epollfd = <span class="built_in">epoll_create</span>(<span class="number">10</span>);</span><br><span class="line">  epoll_event epoll_events[<span class="number">10</span>] = &#123;<span class="number">0</span>&#125;;</span><br><span class="line">  <span class="type">int</span> sockfd = <span class="built_in">socket</span>(AF_INET, SOCK_DGRAM, IPPROTO_UDP);</span><br><span class="line">  sockaddr_in addr = &#123;<span class="number">0</span>&#125;;</span><br><span class="line">  addr.sin_addr.s_addr = <span class="built_in">htonl</span>(INADDR_ANY);</span><br><span class="line">  addr.sin_family = AF_INET;</span><br><span class="line">  addr.sin_port = <span class="built_in">htons</span>(<span class="number">9888</span>);</span><br><span class="line">  <span class="built_in">bind</span>(sockfd, (sockaddr *) &amp;addr, <span class="keyword">sizeof</span> addr);</span><br><span class="line"></span><br><span class="line">  epoll_event event;</span><br><span class="line">  event.data.fd = sockfd;</span><br><span class="line">  event.events = (EPOLLIN);</span><br><span class="line">  <span class="built_in">epoll_ctl</span>(epollfd, EPOLL_CTL_ADD, sockfd, &amp;event);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">while</span> (<span class="literal">true</span>) &#123;</span><br><span class="line">    <span class="type">int</span> event_nums = <span class="built_in">epoll_wait</span>(epollfd, epoll_events, <span class="number">10</span>, <span class="number">100</span>);</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; event_nums; i++) &#123;</span><br><span class="line">      <span class="keyword">if</span> (epoll_events[i].events &amp; EPOLLIN) &#123;</span><br><span class="line">        sockaddr_in sock = &#123;<span class="number">0</span>&#125;;</span><br><span class="line">        std::string *buffer = <span class="keyword">new</span> std::<span class="built_in">string</span>(<span class="number">1024</span>, <span class="string">&#x27;\0&#x27;</span>);</span><br><span class="line">        <span class="type">socklen_t</span> socklen = <span class="keyword">sizeof</span> sock;</span><br><span class="line">        <span class="built_in">recvfrom</span>(sockfd, buffer-&gt;<span class="built_in">data</span>(), buffer-&gt;<span class="built_in">length</span>(), <span class="number">0</span>, (sockaddr *) &amp;sock, &amp;socklen);</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;%s发送数据:%s&quot;</span>, std::<span class="built_in">string</span>(<span class="built_in">inet_ntoa</span>(sock.sin_addr)).<span class="built_in">c_str</span>(), buffer-&gt;<span class="built_in">c_str</span>());</span><br><span class="line">        <span class="keyword">delete</span> buffer;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="built_in">close</span>(sockfd);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>先声明所有需要的变量</p>
+<p>epollfd：epoll的文件描述符，使用epoll_create创建</p>
+<p>epoll_events：前文提到过epoll是基于事件驱动的，所以这里面存放的是事件，初始化为0</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> epollfd = <span class="built_in">epoll_create</span>(<span class="number">10</span>);</span><br><span class="line">epoll_event epoll_events[<span class="number">10</span>] = &#123;<span class="number">0</span>&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>设置需要监听哪些事件，这里因为示例只监听了可读事件</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">epoll_event event;</span><br><span class="line">event.data.fd = fockfd;</span><br><span class="line">event.events = (EPOLLIN);</span><br><span class="line"><span class="built_in">epoll_ctl</span>(epollfd, EPOLL_CTL_ADD, sockfd, &amp;event);</span><br></pre></td></tr></table></figure>
+
+<p>开始循环，等待事件，用event_nums来接收有多少个事件</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">while</span> (<span class="literal">true</span>) &#123;</span><br><span class="line">    <span class="type">int</span> event_nums = <span class="built_in">epoll_wait</span>(epollfd, epoll_events, <span class="number">10</span>, <span class="number">100</span>);</span><br></pre></td></tr></table></figure>
+
+<p>遍历数组中的事件</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; event_nums; i++)</span><br></pre></td></tr></table></figure>
+
+<p>判断其是否为写入事件</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (epoll_events[i].events &amp; EPOLLIN) </span><br></pre></td></tr></table></figure>
+
+<p>对数据进行处理</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">sockaddr_in sock = &#123;<span class="number">0</span>&#125;;</span><br><span class="line">std::string *buffer = <span class="keyword">new</span> std::<span class="built_in">string</span>(<span class="number">1024</span>, <span class="string">&#x27;\0&#x27;</span>);</span><br><span class="line"><span class="type">socklen_t</span> socklen = <span class="keyword">sizeof</span> sock;</span><br><span class="line"><span class="built_in">recvfrom</span>(sockfd, buffer-&gt;<span class="built_in">data</span>(), buffer-&gt;<span class="built_in">length</span>(), <span class="number">0</span>, (sockaddr *) &amp;sock, &amp;socklen);</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;%s发送数据:%s&quot;</span>, std::<span class="built_in">string</span>(<span class="built_in">inet_ntoa</span>(sock.sin_addr)).<span class="built_in">c_str</span>(), buffer-&gt;<span class="built_in">c_str</span>());</span><br><span class="line"><span class="keyword">delete</span> buffer;</span><br></pre></td></tr></table></figure>
+
+<p>这样便实现了一个简单的Udp服务器，当然epoll的用法不只是网络编程，还有更多的用法等待着你去探索，讲解就到这里了，如果有不清楚的可以在下面提问，我会尽力解答的</p>
+<p>[1] 文件描述符：linux下一切皆是文件，文件描述符就是内核为了高效管理这些已经被打开的文件所创建的索引，想了解的可以看一下这篇<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/512491366">文章 </a></p>
+<p><strong>提示：epoll实例不需要显式关闭，但是要及时关闭其他不需要的文件描述符</strong> </p>
+<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width="330" height="86" src="https://music.163.com/outchain/player?type=2&amp;id=472045266&amp;auto=0&amp;height=66" style="transition-property: color, background, box-shadow, border-color; transition-delay: 0s, 0s, 0s, 0s; transition-duration: 0.2s, 0.2s, 0.2s, 0.2s; transition-timing-function: ease, ease, ease, ease; color: rgb(190, 190, 198); font-family: 霞鹜新晰黑, 霞鹜新晰黑, sans-serif; font-size: 16px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 450; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; background-color: rgb(32, 33, 36); text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial;"></iframe>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">首页</a></li>
+        
+          <li><a href="/archives/">归档</a></li>
+        
+          <li><a href="/tags/">标签</a></li>
+        
+          <li><a href="/about/">关于</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+      <div id="toc-footer" style="display: none">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BB%93%E6%9E%84%E4%BD%93"><span class="toc-number">1.</span> <span class="toc-text">结构体</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B8%B8%E7%94%A8%E5%87%BD%E6%95%B0"><span class="toc-number">2.</span> <span class="toc-text">常用函数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%A4%BA%E4%BE%8B%E8%A7%A3%E9%87%8A"><span class="toc-number">3.</span> <span class="toc-text">示例解释</span></a></li></ol>
+      </div>
+    
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://zjhzzy.github.io/2023/08/11/Understanding-a-Simple-Example-of-epoll-Usage-in-Linux/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://zjhzzy.github.io/2023/08/11/Understanding-a-Simple-Example-of-epoll-Usage-in-Linux/&text=Linux下epoll的简单解释"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://zjhzzy.github.io/2023/08/11/Understanding-a-Simple-Example-of-epoll-Usage-in-Linux/&title=Linux下epoll的简单解释"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://zjhzzy.github.io/2023/08/11/Understanding-a-Simple-Example-of-epoll-Usage-in-Linux/&is_video=false&description=Linux下epoll的简单解释"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Linux下epoll的简单解释&body=Check out this article: http://zjhzzy.github.io/2023/08/11/Understanding-a-Simple-Example-of-epoll-Usage-in-Linux/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://zjhzzy.github.io/2023/08/11/Understanding-a-Simple-Example-of-epoll-Usage-in-Linux/&title=Linux下epoll的简单解释"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://zjhzzy.github.io/2023/08/11/Understanding-a-Simple-Example-of-epoll-Usage-in-Linux/&title=Linux下epoll的简单解释"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://zjhzzy.github.io/2023/08/11/Understanding-a-Simple-Example-of-epoll-Usage-in-Linux/&title=Linux下epoll的简单解释"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://zjhzzy.github.io/2023/08/11/Understanding-a-Simple-Example-of-epoll-Usage-in-Linux/&title=Linux下epoll的简单解释"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://zjhzzy.github.io/2023/08/11/Understanding-a-Simple-Example-of-epoll-Usage-in-Linux/&name=Linux下epoll的简单解释&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://zjhzzy.github.io/2023/08/11/Understanding-a-Simple-Example-of-epoll-Usage-in-Linux/&t=Linux下epoll的简单解释"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        
+          <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2021-2023
+    JinHong Zeng
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+      --><li><a href="/">首页</a></li><!--
+    --><!--
+      --><li><a href="/archives/">归档</a></li><!--
+    --><!--
+      --><li><a href="/tags/">标签</a></li><!--
+    --><!--
+      --><li><a href="/about/">关于</a></li><!--
+    -->
+      </ul>
+      <ul>
+        
+          <!-- 不蒜子统计 -->
+          <span id="busuanzi_container_site_pv">
+              本站总访问量<span id="busuanzi_value_site_pv"></span>次
+          </span>
+          <span class="post-meta-divider">|</span>
+          <span id="busuanzi_container_site_uv" style='display:none'>
+                  本站访客数<span id="busuanzi_value_site_uv"></span>人
+          </span>
+        <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+        
+      </ul>
+    </nav>
+  </div>
+  
+</footer>
+
+
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板！\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功！");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>

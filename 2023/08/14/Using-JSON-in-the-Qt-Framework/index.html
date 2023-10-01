@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="这篇博客主要介绍Qt框架下的Json模块的使用 注：Json模块已经嵌入到QCore中，无需引入其他模块 需要使用的对象QJsonDocument这是Qt提供的一个用来序列化以及反序列化Json文本的类 1QJsonDocument(const QJsonObject &amp;*object*) QJsonDocument常用的构造函数，会将传入的QJsonObject设置成主对象 1fromJ">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Qt框架中的Json模块使用">
+<meta property="og:url" content="http://zjhzzy.github.io/2023/08/14/Using-JSON-in-the-Qt-Framework/index.html">
+<meta property="og:site_name" content="Nlub&#39;s blog">
+<meta property="og:description" content="这篇博客主要介绍Qt框架下的Json模块的使用 注：Json模块已经嵌入到QCore中，无需引入其他模块 需要使用的对象QJsonDocument这是Qt提供的一个用来序列化以及反序列化Json文本的类 1QJsonDocument(const QJsonObject &amp;*object*) QJsonDocument常用的构造函数，会将传入的QJsonObject设置成主对象 1fromJ">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2023-08-14T05:26:29.000Z">
+<meta property="article:modified_time" content="2023-09-30T12:08:30.100Z">
+<meta property="article:author" content="JinHong Zeng">
+<meta property="article:tag" content="Qt">
+<meta property="article:tag" content="C++">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>Qt框架中的Json模块使用</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="顶部" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a href="/tags/">标签</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="上一篇" href="/2023/08/15/Socket-Programming-Functions-and-Structures-on-Linux/"><i class="fa-solid fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="下一篇" href="/2023/08/11/Understanding-a-Simple-Example-of-epoll-Usage-in-Linux/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="返回顶部" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="分享文章" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://zjhzzy.github.io/2023/08/14/Using-JSON-in-the-Qt-Framework/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://zjhzzy.github.io/2023/08/14/Using-JSON-in-the-Qt-Framework/&text=Qt框架中的Json模块使用"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://zjhzzy.github.io/2023/08/14/Using-JSON-in-the-Qt-Framework/&title=Qt框架中的Json模块使用"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://zjhzzy.github.io/2023/08/14/Using-JSON-in-the-Qt-Framework/&is_video=false&description=Qt框架中的Json模块使用"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Qt框架中的Json模块使用&body=Check out this article: http://zjhzzy.github.io/2023/08/14/Using-JSON-in-the-Qt-Framework/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://zjhzzy.github.io/2023/08/14/Using-JSON-in-the-Qt-Framework/&title=Qt框架中的Json模块使用"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://zjhzzy.github.io/2023/08/14/Using-JSON-in-the-Qt-Framework/&title=Qt框架中的Json模块使用"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://zjhzzy.github.io/2023/08/14/Using-JSON-in-the-Qt-Framework/&title=Qt框架中的Json模块使用"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://zjhzzy.github.io/2023/08/14/Using-JSON-in-the-Qt-Framework/&title=Qt框架中的Json模块使用"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://zjhzzy.github.io/2023/08/14/Using-JSON-in-the-Qt-Framework/&name=Qt框架中的Json模块使用&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://zjhzzy.github.io/2023/08/14/Using-JSON-in-the-Qt-Framework/&t=Qt框架中的Json模块使用"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    
+    
+      <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%9C%80%E8%A6%81%E4%BD%BF%E7%94%A8%E7%9A%84%E5%AF%B9%E8%B1%A1"><span class="toc-number">1.</span> <span class="toc-text">需要使用的对象</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#QJsonDocument"><span class="toc-number">1.1.</span> <span class="toc-text">QJsonDocument</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#QJsonObject"><span class="toc-number">1.2.</span> <span class="toc-text">QJsonObject</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#QJsonValue"><span class="toc-number">1.3.</span> <span class="toc-text">QJsonValue</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#QJsonArray"><span class="toc-number">1.4.</span> <span class="toc-text">QJsonArray</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%A4%BA%E4%BE%8B%E8%A7%A3%E6%9E%90"><span class="toc-number">2.</span> <span class="toc-text">示例解析</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E7%A4%BA%E4%BE%8B"><span class="toc-number">2.1.</span> <span class="toc-text">反序列化示例</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BA%8F%E5%88%97%E5%8C%96%E7%A4%BA%E4%BE%8B"><span class="toc-number">2.2.</span> <span class="toc-text">序列化示例</span></a></li></ol></li></ol>
+      </div>
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        Qt框架中的Json模块使用
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">JinHong Zeng</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2023-08-14T05:26:29.000Z" class="dt-published" itemprop="datePublished">2023-08-14</time>
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fa-solid fa-tag"></i>
+        <a class="p-category" href="/tags/C/" rel="tag">C++</a>, <a class="p-category" href="/tags/Qt/" rel="tag">Qt</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <p>这篇博客主要介绍Qt框架下的Json模块的使用</p>
+<p>注：Json模块已经嵌入到QCore中，无需引入其他模块</p>
+<h2 id="需要使用的对象"><a href="#需要使用的对象" class="headerlink" title="需要使用的对象"></a>需要使用的对象</h2><h3 id="QJsonDocument"><a href="#QJsonDocument" class="headerlink" title="QJsonDocument"></a>QJsonDocument</h3><p>这是Qt提供的一个用来序列化以及反序列化Json文本的类</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">QJsonDocument</span>(<span class="type">const</span> QJsonObject &amp;*object*)</span><br></pre></td></tr></table></figure>
+<p>QJsonDocument常用的构造函数，会将传入的QJsonObject设置成主对象</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">fromJson</span>(<span class="type">const</span> QByteArray &amp;json, QJsonParseError error = <span class="literal">nullptr</span>)</span><br></pre></td></tr></table></figure>
+<p>fromJson函数解析UTF-8编码的Json文本，并创建一个QJsonDocument对方返回，如果解析失败将会返回空值</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">object</span>()</span><br></pre></td></tr></table></figure>
+<p>返回一个QJsonObject，如果文档为数组则返回空值</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">setObject</span>(<span class="type">const</span> QJsonObject &amp;object)</span><br></pre></td></tr></table></figure>
+
+<p>将传入的QJsonObject设置成主对象，也就是Json文本的根对象</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">toJson</span>(QJsonDocument::JsonFormat *format* = Indented) <span class="type">const</span></span><br></pre></td></tr></table></figure>
+
+<p>将存储在对象中的数据序列化为Json文本，需要传入一个变量，来确定转换之后的风格</p>
+<blockquote>
+<p>QJsonDocument::Indented 可读模式，这个是有缩进的风格也就是下文会给出的Json文本的风格</p>
+<p>QJsonDocument::Compact 紧凑模式，这个风格没有缩进是紧凑风格，一般用来减少占用使用</p>
+</blockquote>
+<h3 id="QJsonObject"><a href="#QJsonObject" class="headerlink" title="QJsonObject"></a>QJsonObject</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">operator</span>[](QString &amp;key)</span><br></pre></td></tr></table></figure>
+
+<p>对应键值存在就返回对应的QJsonValueRef，如果不存在就创建新的键，将新的值与其关联起来</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">take</span>(<span class="type">const</span> QString &amp;key)</span><br></pre></td></tr></table></figure>
+
+<p>对应键值存在就返回对应的QJsonValue并且在QJsonObject中删除该键，不存在就返回一个null</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">value</span>(<span class="type">const</span> QString &amp;key) <span class="type">const</span></span><br></pre></td></tr></table></figure>
+
+<p>对应键值存在便返回对应的QJsonValue，不存在就返回一个默认值，不会引发错误</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">insert</span>(<span class="type">const</span> QString &amp;key, <span class="type">const</span> QJsonValue &amp;value)</span><br></pre></td></tr></table></figure>
+
+<p>传入的第一个变量为键，第二个变量是其对应的变量</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">erase</span>(QJsonObject::iterator it)</span><br></pre></td></tr></table></figure>
+
+<p>擦除传入的迭代器指向的键值，并返回下一个对应的键值</p>
+<h3 id="QJsonValue"><a href="#QJsonValue" class="headerlink" title="QJsonValue"></a>QJsonValue</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">isInt</span>()</span><br></pre></td></tr></table></figure>
+
+<p>如果值包含int类型则返回true，其他的函数同理</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">toInt</span>(<span class="type">int</span> defaultValue = <span class="number">0</span>) <span class="type">const</span></span><br></pre></td></tr></table></figure>
+
+<p>如果值为int or double类型便返回，如果值不是便返回defaultValue</p>
+<p>其他to函数如果类型对应不上便返回defaultValue</p>
+<p>toObject、toString、toArray如果不传入defaultValue便返回其无参构造函数构造的值</p>
+<h3 id="QJsonArray"><a href="#QJsonArray" class="headerlink" title="QJsonArray"></a>QJsonArray</h3><p>这个比较好理解你只需要将其想成一个存放着QJsonValue的数组就可以了</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">at</span>(qsizetype *i*) <span class="type">const</span></span><br></pre></td></tr></table></figure>
+
+<p>返回对应索引位置的元素，i的值必须是有效索引位置(0&lt;&#x3D;i&lt;size)</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">takeAt</span>(qsizetype i)</span><br></pre></td></tr></table></figure>
+
+<p>删除对应索引位置的元素并将其返回，i的值必须是有效索引位置</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">removeAt</span>(qsizetype i)</span><br></pre></td></tr></table></figure>
+
+<p>同上但是不返回任何值</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">append</span>(<span class="type">const</span> QJsonValue &amp;value)</span><br></pre></td></tr></table></figure>
+
+<p>将值插入到数组的末尾</p>
+<h2 id="示例解析"><a href="#示例解析" class="headerlink" title="示例解析"></a>示例解析</h2><h3 id="反序列化示例"><a href="#反序列化示例" class="headerlink" title="反序列化示例"></a>反序列化示例</h3><p>我将给出一段代码，目的是反序列化这段Json文本</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;Text&quot;</span><span class="punctuation">:</span><span class="string">&quot;Hello Qt Json module&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;Array&quot;</span><span class="punctuation">:</span><span class="punctuation">[</span></span><br><span class="line">        <span class="punctuation">&#123;</span></span><br><span class="line">            <span class="attr">&quot;ObjectName&quot;</span><span class="punctuation">:</span><span class="string">&quot;QWidget&quot;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;Widget&quot;</span><span class="punctuation">:</span><span class="number">1920</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;High&quot;</span><span class="punctuation">:</span><span class="number">1080</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;Hide&quot;</span><span class="punctuation">:</span><span class="literal"><span class="keyword">true</span></span></span><br><span class="line">        <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="punctuation">&#123;</span></span><br><span class="line">            <span class="attr">&quot;ObjectName&quot;</span><span class="punctuation">:</span><span class="string">&quot;QLable&quot;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;Widget&quot;</span><span class="punctuation">:</span> <span class="number">114</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;High&quot;</span><span class="punctuation">:</span><span class="number">514</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;Hide&quot;</span><span class="punctuation">:</span><span class="literal"><span class="keyword">false</span></span></span><br><span class="line">        <span class="punctuation">&#125;</span></span><br><span class="line">    <span class="punctuation">]</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>这段代码反序列化了上面的Json文本并将存在里面的值输出了出来</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;QtCore/QCoreApplication&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;QJsonArray&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;QJsonObject&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;QFile&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;QJsonDocument&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;QJsonValue&gt;</span></span></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">(<span class="type">int</span> argc, <span class="type">char</span>* argv[])</span> </span>&#123;</span><br><span class="line">	<span class="function">QCoreApplication <span class="title">a</span><span class="params">(argc, argv)</span></span>;</span><br><span class="line">	<span class="function">QFile <span class="title">file</span><span class="params">(<span class="string">&quot;test.json&quot;</span>)</span></span>;</span><br><span class="line">	file.<span class="built_in">open</span>(QIODeviceBase::ReadOnly);</span><br><span class="line">	QJsonDocument document = QJsonDocument::<span class="built_in">fromJson</span>(file.<span class="built_in">readAll</span>());</span><br><span class="line">	<span class="built_in">qDebug</span>() &lt;&lt; document.<span class="built_in">object</span>()[<span class="string">&quot;Text&quot;</span>].<span class="built_in">toString</span>();</span><br><span class="line">	QJsonArray array = document.<span class="built_in">object</span>()[<span class="string">&quot;Array&quot;</span>].<span class="built_in">toArray</span>();</span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">auto</span> item : array) &#123;</span><br><span class="line">		<span class="built_in">qDebug</span>() &lt;&lt; item.<span class="built_in">toObject</span>()[<span class="string">&quot;ObjectName&quot;</span>].<span class="built_in">toString</span>();</span><br><span class="line">		<span class="built_in">qDebug</span>() &lt;&lt; item.<span class="built_in">toObject</span>()[<span class="string">&quot;Widget&quot;</span>].<span class="built_in">toDouble</span>();</span><br><span class="line">		<span class="built_in">qDebug</span>() &lt;&lt; item.<span class="built_in">toObject</span>()[<span class="string">&quot;High&quot;</span>].<span class="built_in">toDouble</span>();</span><br><span class="line">		<span class="built_in">qDebug</span>() &lt;&lt; item.<span class="built_in">toObject</span>()[<span class="string">&quot;Hide&quot;</span>].<span class="built_in">toBool</span>();</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> a.<span class="built_in">exec</span>();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>接下来逐步解析一下</p>
+<p>初始化file，设置文件名字为test.json</p>
+<p>使用只读模式打开test.json文件</p>
+<p>将test.json中的文本反序列化成QJsonDocument</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">QFile <span class="title">file</span><span class="params">(<span class="string">&quot;test.json&quot;</span>)</span></span>;</span><br><span class="line">file.<span class="built_in">open</span>(QIODeviceBase::ReadOnly);</span><br><span class="line">QJsonDocument document = QJsonDocument::<span class="built_in">fromJson</span>(file.<span class="built_in">readAll</span>());</span><br></pre></td></tr></table></figure>
+
+<p>读取Text键的值，将其转换成QString类型并输出</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">qDebug</span>() &lt;&lt; document.<span class="built_in">object</span>()[<span class="string">&quot;Text&quot;</span>].<span class="built_in">toString</span>();</span><br></pre></td></tr></table></figure>
+
+<p>读取Array键的值，将其转换成QJsonArray类型并赋值给array对象</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">QJsonArray array = document.<span class="built_in">object</span>()[<span class="string">&quot;Array&quot;</span>].<span class="built_in">toArray</span>();</span><br></pre></td></tr></table></figure>
+
+<p>使用for基于范围遍历array中的值，并输出item的值</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (<span class="keyword">auto</span> item : array) &#123;</span><br><span class="line">	<span class="built_in">qDebug</span>() &lt;&lt; item.<span class="built_in">toObject</span>()[<span class="string">&quot;ObjectName&quot;</span>].<span class="built_in">toString</span>();</span><br><span class="line">	<span class="built_in">qDebug</span>() &lt;&lt; item.<span class="built_in">toObject</span>()[<span class="string">&quot;Widget&quot;</span>].<span class="built_in">toDouble</span>();</span><br><span class="line">	<span class="built_in">qDebug</span>() &lt;&lt; item.<span class="built_in">toObject</span>()[<span class="string">&quot;High&quot;</span>].<span class="built_in">toDouble</span>();</span><br><span class="line">	<span class="built_in">qDebug</span>() &lt;&lt; item.<span class="built_in">toObject</span>()[<span class="string">&quot;Hide&quot;</span>].<span class="built_in">toBool</span>();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这便是一个简单的使用Qt框架中的Json模块反序列化的示例</p>
+<h3 id="序列化示例"><a href="#序列化示例" class="headerlink" title="序列化示例"></a>序列化示例</h3><p>这段代码生成了一段Json文本并写入了test.json文件中</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;QFile&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;QJsonArray&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;QJsonDocument&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;QJsonObject&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;QJsonValue&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;QtCore/QCoreApplication&gt;</span></span></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">(<span class="type">int</span> argc, <span class="type">char</span>* argv[])</span> </span>&#123;</span><br><span class="line">  <span class="function">QCoreApplication <span class="title">a</span><span class="params">(argc, argv)</span></span>;</span><br><span class="line">  <span class="function">QFile <span class="title">file</span><span class="params">(<span class="string">&quot;test.json&quot;</span>)</span></span>;</span><br><span class="line">  QJsonDocument document;</span><br><span class="line">  QJsonObject jsonObject;</span><br><span class="line">  QJsonArray array;</span><br><span class="line">  file.<span class="built_in">open</span>(QIODeviceBase::WriteOnly);</span><br><span class="line">  <span class="function">QJsonValue <span class="title">value1</span><span class="params">(<span class="string">&quot;Hello World&quot;</span>)</span></span>;</span><br><span class="line">  jsonObject.<span class="built_in">insert</span>(<span class="string">&quot;WelcomeText&quot;</span>, value1);</span><br><span class="line">  array.<span class="built_in">append</span>(<span class="built_in">QJsonValue</span>(<span class="string">&quot;ObjectName = Name&quot;</span>));</span><br><span class="line">  array.<span class="built_in">append</span>(<span class="built_in">QJsonValue</span>(<span class="string">&quot;Hei!&quot;</span>));</span><br><span class="line">  jsonObject.<span class="built_in">insert</span>(<span class="string">&quot;Array&quot;</span>, array);</span><br><span class="line">  document.<span class="built_in">setObject</span>(jsonObject);</span><br><span class="line">  file.<span class="built_in">write</span>(document.<span class="built_in">toJson</span>(QJsonDocument::Indented));</span><br><span class="line">  file.<span class="built_in">close</span>();</span><br><span class="line">  <span class="keyword">return</span> a.<span class="built_in">exec</span>();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>初始化需要的变量，设置file的文件名为test.json</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">QFile <span class="title">file</span><span class="params">(<span class="string">&quot;test.json&quot;</span>)</span></span>;</span><br><span class="line">QJsonDocument document;</span><br><span class="line">QJsonObject jsonObject;</span><br></pre></td></tr></table></figure>
+
+<p>使用只写模式打开</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">file.<span class="built_in">open</span>(QIODeviceBase::WriteOnly);</span><br></pre></td></tr></table></figure>
+
+<p>构造一个QJsonValue并将其插入jsonObject中</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">QJsonValue <span class="title">value1</span><span class="params">(<span class="string">&quot;Hello World&quot;</span>)</span></span>;</span><br><span class="line">jsonObject.<span class="built_in">insert</span>(<span class="string">&quot;WelcomeText&quot;</span>, value1);</span><br></pre></td></tr></table></figure>
+
+<p>向array的尾部追加两个QJsonValue并插入到jsonObject中</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">array.<span class="built_in">append</span>(<span class="built_in">QJsonValue</span>(<span class="string">&quot;ObjectName = Name&quot;</span>));</span><br><span class="line">array.<span class="built_in">append</span>(<span class="built_in">QJsonValue</span>(<span class="string">&quot;Hei!&quot;</span>));</span><br><span class="line">jsonObject.<span class="built_in">insert</span>(<span class="string">&quot;Array&quot;</span>, array);</span><br></pre></td></tr></table></figure>
+
+<p>将jsonObject设置为document的主对象</p>
+<p>将toJson使用Indented风格序列化出来的Json文本写入test.json文件中</p>
+<p>并关闭test.json文件</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">document.<span class="built_in">setObject</span>(jsonObject);</span><br><span class="line">file.<span class="built_in">write</span>(document.<span class="built_in">toJson</span>(QJsonDocument::Indented));</span><br><span class="line">file.<span class="built_in">close</span>();</span><br></pre></td></tr></table></figure>
+
+<p>这段代码运行后会生成一个test.json文件，文件中内容为</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;Array&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">        <span class="string">&quot;ObjectName = Name&quot;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="string">&quot;Hei!&quot;</span></span><br><span class="line">    <span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;WelcomeText&quot;</span><span class="punctuation">:</span> <span class="string">&quot;Hello World&quot;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>最后来首音乐放松一下吧</p>
+<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width="330" height="86" src="https://music.163.com/outchain/player?type=2&amp;id=494858498&amp;auto=0&amp;height=66" style="transition-property: color, background, box-shadow, border-color; transition-delay: 0s, 0s, 0s, 0s; transition-duration: 0.2s, 0.2s, 0.2s, 0.2s; transition-timing-function: ease, ease, ease, ease; color: rgb(190, 190, 198); font-family: 霞鹜新晰黑, 霞鹜新晰黑, sans-serif; font-size: 16px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 450; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; background-color: rgb(32, 33, 36); text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial;"></iframe>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">首页</a></li>
+        
+          <li><a href="/archives/">归档</a></li>
+        
+          <li><a href="/tags/">标签</a></li>
+        
+          <li><a href="/about/">关于</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+      <div id="toc-footer" style="display: none">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%9C%80%E8%A6%81%E4%BD%BF%E7%94%A8%E7%9A%84%E5%AF%B9%E8%B1%A1"><span class="toc-number">1.</span> <span class="toc-text">需要使用的对象</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#QJsonDocument"><span class="toc-number">1.1.</span> <span class="toc-text">QJsonDocument</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#QJsonObject"><span class="toc-number">1.2.</span> <span class="toc-text">QJsonObject</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#QJsonValue"><span class="toc-number">1.3.</span> <span class="toc-text">QJsonValue</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#QJsonArray"><span class="toc-number">1.4.</span> <span class="toc-text">QJsonArray</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%A4%BA%E4%BE%8B%E8%A7%A3%E6%9E%90"><span class="toc-number">2.</span> <span class="toc-text">示例解析</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E7%A4%BA%E4%BE%8B"><span class="toc-number">2.1.</span> <span class="toc-text">反序列化示例</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BA%8F%E5%88%97%E5%8C%96%E7%A4%BA%E4%BE%8B"><span class="toc-number">2.2.</span> <span class="toc-text">序列化示例</span></a></li></ol></li></ol>
+      </div>
+    
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://zjhzzy.github.io/2023/08/14/Using-JSON-in-the-Qt-Framework/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://zjhzzy.github.io/2023/08/14/Using-JSON-in-the-Qt-Framework/&text=Qt框架中的Json模块使用"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://zjhzzy.github.io/2023/08/14/Using-JSON-in-the-Qt-Framework/&title=Qt框架中的Json模块使用"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://zjhzzy.github.io/2023/08/14/Using-JSON-in-the-Qt-Framework/&is_video=false&description=Qt框架中的Json模块使用"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Qt框架中的Json模块使用&body=Check out this article: http://zjhzzy.github.io/2023/08/14/Using-JSON-in-the-Qt-Framework/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://zjhzzy.github.io/2023/08/14/Using-JSON-in-the-Qt-Framework/&title=Qt框架中的Json模块使用"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://zjhzzy.github.io/2023/08/14/Using-JSON-in-the-Qt-Framework/&title=Qt框架中的Json模块使用"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://zjhzzy.github.io/2023/08/14/Using-JSON-in-the-Qt-Framework/&title=Qt框架中的Json模块使用"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://zjhzzy.github.io/2023/08/14/Using-JSON-in-the-Qt-Framework/&title=Qt框架中的Json模块使用"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://zjhzzy.github.io/2023/08/14/Using-JSON-in-the-Qt-Framework/&name=Qt框架中的Json模块使用&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://zjhzzy.github.io/2023/08/14/Using-JSON-in-the-Qt-Framework/&t=Qt框架中的Json模块使用"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        
+          <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2021-2023
+    JinHong Zeng
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+      --><li><a href="/">首页</a></li><!--
+    --><!--
+      --><li><a href="/archives/">归档</a></li><!--
+    --><!--
+      --><li><a href="/tags/">标签</a></li><!--
+    --><!--
+      --><li><a href="/about/">关于</a></li><!--
+    -->
+      </ul>
+      <ul>
+        
+          <!-- 不蒜子统计 -->
+          <span id="busuanzi_container_site_pv">
+              本站总访问量<span id="busuanzi_value_site_pv"></span>次
+          </span>
+          <span class="post-meta-divider">|</span>
+          <span id="busuanzi_container_site_uv" style='display:none'>
+                  本站访客数<span id="busuanzi_value_site_uv"></span>人
+          </span>
+        <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+        
+      </ul>
+    </nav>
+  </div>
+  
+</footer>
+
+
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板！\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功！");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>
