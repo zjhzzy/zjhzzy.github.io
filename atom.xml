@@ -6,7 +6,7 @@
   <link href="http://zjhzzy.github.io/atom.xml" rel="self"/>
   
   <link href="http://zjhzzy.github.io/"/>
-  <updated>2023-10-21T01:21:18.695Z</updated>
+  <updated>2023-12-18T19:11:49.831Z</updated>
   <id>http://zjhzzy.github.io/</id>
   
   <author>
@@ -17,11 +17,30 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>我的世界（Minecraft）开服指北</title>
+    <link href="http://zjhzzy.github.io/2023/12/19/minecraft-server-run/"/>
+    <id>http://zjhzzy.github.io/2023/12/19/minecraft-server-run/</id>
+    <published>2023-12-18T19:04:03.000Z</published>
+    <updated>2023-12-18T19:11:49.831Z</updated>
+    
+    
+    <summary type="html">&lt;p&gt;想要和自己的朋友一起玩我的世界，但是朋友不在身边？&lt;/p&gt;
+&lt;p&gt;有空闲的服务器想要发挥它的作用？&lt;/p&gt;
+&lt;p&gt;看我这个教程就对了&lt;/p&gt;</summary>
+    
+    
+    
+    
+    <category term="Minecraft" scheme="http://zjhzzy.github.io/tags/Minecraft/"/>
+    
+  </entry>
+  
+  <entry>
     <title>C++11新特性属性（Attribute）的简单解析</title>
     <link href="http://zjhzzy.github.io/2023/10/20/Parsing-attributes-C/"/>
     <id>http://zjhzzy.github.io/2023/10/20/Parsing-attributes-C/</id>
     <published>2023-10-20T14:15:35.000Z</published>
-    <updated>2023-10-21T01:21:18.695Z</updated>
+    <updated>2023-11-02T00:14:58.090Z</updated>
     
     
       
