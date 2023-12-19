@@ -6,7 +6,7 @@
   <link href="http://zjhzzy.github.io/atom.xml" rel="self"/>
   
   <link href="http://zjhzzy.github.io/"/>
-  <updated>2023-12-18T19:11:49.831Z</updated>
+  <updated>2023-12-19T15:35:28.352Z</updated>
   <id>http://zjhzzy.github.io/</id>
   
   <author>
@@ -15,6 +15,23 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>我的世界基岩服务器开服教程</title>
+    <link href="http://zjhzzy.github.io/2023/12/19/minecraft-nukkit-server-run/"/>
+    <id>http://zjhzzy.github.io/2023/12/19/minecraft-nukkit-server-run/</id>
+    <published>2023-12-19T15:18:09.000Z</published>
+    <updated>2023-12-19T15:35:28.352Z</updated>
+    
+    
+    <summary type="html">&lt;p&gt;我的世界基岩版的开服流程与Java版的开服教程有些许区别，所以我在这里简略的写一下关于基岩版开服的过程&lt;/p&gt;</summary>
+    
+    
+    
+    
+    <category term="Minecraft" scheme="http://zjhzzy.github.io/tags/Minecraft/"/>
+    
+  </entry>
   
   <entry>
     <title>我的世界（Minecraft）开服指北</title>
@@ -192,9 +209,9 @@
     
     
     
-    <category term="C++" scheme="http://zjhzzy.github.io/tags/C/"/>
-    
     <category term="Qt" scheme="http://zjhzzy.github.io/tags/Qt/"/>
+    
+    <category term="C++" scheme="http://zjhzzy.github.io/tags/C/"/>
     
   </entry>
   
@@ -283,9 +300,9 @@
     
     
     
-    <category term="C++" scheme="http://zjhzzy.github.io/tags/C/"/>
-    
     <category term="Qt" scheme="http://zjhzzy.github.io/tags/Qt/"/>
+    
+    <category term="C++" scheme="http://zjhzzy.github.io/tags/C/"/>
     
   </entry>
   
