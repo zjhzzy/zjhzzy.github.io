@@ -17,8 +17,8 @@
 <meta property="article:published_time" content="2023-07-14T10:58:29.000Z">
 <meta property="article:modified_time" content="2023-10-05T16:18:50.764Z">
 <meta property="article:author" content="JinHong Zeng">
-<meta property="article:tag" content="Qt">
 <meta property="article:tag" content="C++">
+<meta property="article:tag" content="Qt">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://zjhzzy.github.io/image/QtPaintEventOverride.png">
     
@@ -61,6 +61,16 @@
     
 	<!-- mathjax -->
 	
+		<script type="text/x-mathjax-config">
+		  MathJax.Hub.Config({
+			tex2jax: {
+			  skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+			  inlineMath: [['$','$']]
+			}
+		  });
+		</script>
+		<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML' async></script>
+	
 <meta name="generator" content="Hexo 6.3.0"></head>
 
 <body class="max-width mx-auto px3 ltr">
@@ -77,7 +87,7 @@
      --><!--
        --><li><a href="/archives/">归档</a></li><!--
      --><!--
-       --><li><a href="/tags/">标签</a></li><!--
+       --><li><a href="/friend/">友链</a></li><!--
      --><!--
        --><li><a href="/about/">关于</a></li><!--
      -->
@@ -120,7 +130,7 @@
     
     
       <div id="toc">
-        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%A4%BA%E4%BE%8B"><span class="toc-number">1.</span> <span class="toc-text">示例</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%A7%A3%E9%87%8A%E9%83%A8%E5%88%86"><span class="toc-number">2.</span> <span class="toc-text">解释部分</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%8A%E6%96%87%E6%B2%A1%E6%9C%89%E8%AE%B2%E5%88%B0%E7%9A%84%E7%B1%BB"><span class="toc-number">2.1.</span> <span class="toc-text">上文没有讲到的类</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#QFont"><span class="toc-number">2.1.1.</span> <span class="toc-text">QFont</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#paintEvent%E7%9A%84%E8%A7%A6%E5%8F%91%E6%97%B6%E6%9C%BA%E5%92%8C%E6%96%B9%E5%BC%8F"><span class="toc-number">2.2.</span> <span class="toc-text">paintEvent的触发时机和方式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BC%98%E7%BC%BA%E7%82%B9"><span class="toc-number">2.3.</span> <span class="toc-text">优缺点</span></a></li></ol></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%A4%BA%E4%BE%8B"><span class="toc-number">1.</span> <span class="toc-text"> 示例</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%A7%A3%E9%87%8A%E9%83%A8%E5%88%86"><span class="toc-number">2.</span> <span class="toc-text"> 解释部分</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%8A%E6%96%87%E6%B2%A1%E6%9C%89%E8%AE%B2%E5%88%B0%E7%9A%84%E7%B1%BB"><span class="toc-number">2.1.</span> <span class="toc-text"> 上文没有讲到的类</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#qfont"><span class="toc-number">2.1.1.</span> <span class="toc-text"> QFont</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#paintevent%E7%9A%84%E8%A7%A6%E5%8F%91%E6%97%B6%E6%9C%BA%E5%92%8C%E6%96%B9%E5%BC%8F"><span class="toc-number">2.2.</span> <span class="toc-text"> paintEvent的触发时机和方式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BC%98%E7%BC%BA%E7%82%B9"><span class="toc-number">2.3.</span> <span class="toc-text"> 优缺点</span></a></li></ol></li></ol>
       </div>
     
   </span>
@@ -167,66 +177,73 @@
   <div class="content e-content" itemprop="articleBody">
     <p>学了qss之后会了一些美化，但是发现还有很多qss没法实现，那么这个文章就适合你了</p>
 <span id="more"></span>
-
 <p>当然不喜欢使用qss的比如我，也可以通过该文章快速学习通过重载paintEvent来绘制你想要的控件</p>
 <p>paintEvent是一个虚函数，需要子类进行重载才能实现自定义绘制</p>
 <p>paintEvent是一个绘制函数，会在调用后绘制图形</p>
-<h1 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h1><p>这里先给出一个示例，然后来逐步解析这个示例让你理解</p>
+<h1 id="示例"><a class="markdownIt-Anchor" href="#示例"></a> 示例</h1>
+<p>这里先给出一个示例，然后来逐步解析这个示例让你理解</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">QtWidget::paintEvent</span><span class="params">(QPaintEvent* Event)</span> </span>&#123;</span><br><span class="line">  QWidget::<span class="built_in">paintEvent</span>(Event);</span><br><span class="line">  <span class="function">QPainter <span class="title">painter</span><span class="params">(<span class="keyword">this</span>)</span></span>;</span><br><span class="line">  <span class="function">QPen <span class="title">pen</span><span class="params">(QColor(<span class="string">&quot;#b883a0&quot;</span>))</span></span>;</span><br><span class="line">  <span class="function">QBrush <span class="title">brush</span><span class="params">(QColor(<span class="string">&quot;#b883a0&quot;</span>))</span></span>;</span><br><span class="line">  painter.<span class="built_in">setPen</span>(pen);</span><br><span class="line">  painter.<span class="built_in">setBrush</span>(brush);</span><br><span class="line">  painter.<span class="built_in">drawEllipse</span>(<span class="built_in">QRect</span>(<span class="number">0</span>, <span class="number">0</span>, <span class="built_in">width</span>(), <span class="built_in">height</span>()));</span><br><span class="line">  painter.<span class="built_in">end</span>();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
 <p>这样一段简单的代码你就得到了一个圆</p>
 <p>接下来逐步解析这段代码</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">QWidget::<span class="built_in">paintEvent</span>(Event);</span><br></pre></td></tr></table></figure>
-
 <p>这段代码，是调用父类的绘制函数，来绘制一些默认和设置过后的图形</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">QPainter <span class="title">painter</span><span class="params">(<span class="keyword">this</span>)</span></span>;</span><br></pre></td></tr></table></figure>
-
 <p>声明了一个QPainter对象，它是一个画笔，可以用来绘制你想在控件上绘制的图形</p>
 <p>QPainter的构造函数需要传入QPainterDevice，你不知道这是啥，没关系，你只要知道Qt中所有的控件都是它的子类就行了</p>
 <p>这里我们传入了当前对象的指针，作为这个QPainter的绘图设备</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">QPen <span class="title">pen</span><span class="params">(QColor(<span class="string">&quot;#b883a0&quot;</span>))</span></span>;</span><br></pre></td></tr></table></figure>
-
 <p>这里传入了一个QColor也就是颜色去构造pen，QPen是一个画笔，当然它和前面的QPainter不一样，它储存着画笔的信息，是用来画图形的边框的</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">QBrush <span class="title">brush</span><span class="params">(QColor(<span class="string">&quot;#b883a0&quot;</span>))</span></span>;</span><br></pre></td></tr></table></figure>
-
 <p>QBrush是一个画刷，它储存的是填充封闭图形的画刷的信息</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">painter.<span class="built_in">setPen</span>(pen);</span><br><span class="line">painter.<span class="built_in">setBrush</span>(brush);</span><br></pre></td></tr></table></figure>
-
 <p>这里应该不用过多解释了，将pen和brush分别传入painter中</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">painter.<span class="built_in">drawEllipse</span>(<span class="built_in">QRect</span>(<span class="number">0</span>, <span class="number">0</span>, <span class="built_in">width</span>(), <span class="built_in">height</span>()));</span><br></pre></td></tr></table></figure>
-
 <p>painter对象调用了drawEllipse函数绘制了一个圆，传入了一个QRect，QRect构造函数中的参数分别是（x轴坐标，y轴坐标，控件的宽，控件的高）</p>
 <p>更多的绘制函数，可以参阅<a target="_blank" rel="noopener" href="https://doc.qt.io/qt-6/qpainter.html">Qt文档 </a>里面有解释</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">painter.<span class="built_in">end</span>();</span><br></pre></td></tr></table></figure>
-
 <p>最后调用end函数，结束绘画，当然不止end函数能结束绘制，销毁painter也是会结束绘制的</p>
 <p>实现了这么个窗口</p>
-<p><img src="https://zjhzzy.github.io/image/QtPaintEventOverride.png" alt="ProgramWindow"></p>
+<p><img src="https://zjhzzy.github.io/image/QtPaintEventOverride.png" alt="ProgramWindow" /></p>
 <p>相信到这里已经明白paintEvent函数后需要干什么和怎样绘制自己想要的控件了</p>
-<hr>
-<h1 id="解释部分"><a href="#解释部分" class="headerlink" title="解释部分"></a>解释部分</h1><h2 id="上文没有讲到的类"><a href="#上文没有讲到的类" class="headerlink" title="上文没有讲到的类"></a>上文没有讲到的类</h2><h3 id="QFont"><a href="#QFont" class="headerlink" title="QFont"></a>QFont</h3><p>这是一个字体类，里面储存了字体的信息，传入QPainter对象后，会在调用drawText时被读取</p>
-<h2 id="paintEvent的触发时机和方式"><a href="#paintEvent的触发时机和方式" class="headerlink" title="paintEvent的触发时机和方式"></a>paintEvent的触发时机和方式</h2><p>接下来说paintEvent会在什么时候被调用</p>
+<hr />
+<h1 id="解释部分"><a class="markdownIt-Anchor" href="#解释部分"></a> 解释部分</h1>
+<h2 id="上文没有讲到的类"><a class="markdownIt-Anchor" href="#上文没有讲到的类"></a> 上文没有讲到的类</h2>
+<h3 id="qfont"><a class="markdownIt-Anchor" href="#qfont"></a> QFont</h3>
+<p>这是一个字体类，里面储存了字体的信息，传入QPainter对象后，会在调用drawText时被读取</p>
+<h2 id="paintevent的触发时机和方式"><a class="markdownIt-Anchor" href="#paintevent的触发时机和方式"></a> paintEvent的触发时机和方式</h2>
+<p>接下来说paintEvent会在什么时候被调用</p>
 <ol>
-<li>show()<br>这是一个显示函数，它会调用paintEvent来绘制图形，注意，只有在被隐藏之后调用show()才会调用paintEvent来绘制，已经调用一次show()且没有调用hide()隐藏是不会调用paintEvent来重绘的，如果状态改变了需要重绘可以看下文的两个函数</li>
-<li>updata()<br>这是一个重绘函数，它不会立即调用paintEvent来重绘图形，它会返回主事件循环时安排一个绘制事件进行处理，Qt会对其优化速度和减少闪烁，updata()在调用之后通常只会调用一次paintEvent，当然也会有例外，见下文给出的文章</li>
-<li>repaint()<br>这是一个重绘函数，它会直接调用paintEvent来重绘图形<br>这个函数有风险，可能会一直递归循环调用父类的paintEvent，最好是在需要快速重绘的时候，比如动画等等，再去调用</li>
-<li>窗口大小修改后<br>比如拉动窗口边缘去改变窗口大小的时候就会直接调用paintEvent函数去重绘图形</li>
+<li>show()<br />
+这是一个显示函数，它会调用paintEvent来绘制图形，注意，只有在被隐藏之后调用show()才会调用paintEvent来绘制，已经调用一次show()且没有调用hide()隐藏是不会调用paintEvent来重绘的，如果状态改变了需要重绘可以看下文的两个函数</li>
+<li>updata()<br />
+这是一个重绘函数，它不会立即调用paintEvent来重绘图形，它会返回主事件循环时安排一个绘制事件进行处理，Qt会对其优化速度和减少闪烁，updata()在调用之后通常只会调用一次paintEvent，当然也会有例外，见下文给出的文章</li>
+<li>repaint()<br />
+这是一个重绘函数，它会直接调用paintEvent来重绘图形<br />
+这个函数有风险，可能会一直递归循环调用父类的paintEvent，最好是在需要快速重绘的时候，比如动画等等，再去调用</li>
+<li>窗口大小修改后<br />
+比如拉动窗口边缘去改变窗口大小的时候就会直接调用paintEvent函数去重绘图形</li>
 </ol>
 <p>Qt的文档给出了说明：</p>
 <p>Warning: If you call repaint() in a function which may itself be called from paintEvent(), you may get infinite recursion. The update() function never causes recursion.</p>
 <p><a target="_blank" rel="noopener" href="https://blog.csdn.net/holidayi/article/details/108330072">自定义绘制paintEvent方法导致的递归循环</a> 文章有解释，可以去看看</p>
-<h2 id="优缺点"><a href="#优缺点" class="headerlink" title="优缺点"></a>优缺点</h2><p>优点当然是自定义程度高，可以绘制一切你想绘制的图形</p>
+<h2 id="优缺点"><a class="markdownIt-Anchor" href="#优缺点"></a> 优缺点</h2>
+<p>优点当然是自定义程度高，可以绘制一切你想绘制的图形</p>
 <p>缺点对于小白来说，复用性不高，可能这个类到另外一个场景就要再写一个，当然使用一些时间后就会知道如何增加复用性</p>
 <p>去增加几个成员变量，在使用paintEvent去绘制时根据你的成员变量去绘制也能提高复用性</p>
 <p>比如</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// QtWidget.h</span></span><br><span class="line">QString TextColor;</span><br><span class="line">QString Text;</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">setColor</span><span class="params">(QString color)</span></span>;</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">setText</span><span class="params">(QString text)</span></span>;</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">paintEvent</span><span class="params">(QPaintEvent* Event)</span></span>;</span><br><span class="line"><span class="comment">//QtWidget.cpp</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">QtWidget::paintEvent</span><span class="params">(QPaintEvent* Event)</span> </span>&#123;</span><br><span class="line">    <span class="function">QPainter <span class="title">painter</span><span class="params">(<span class="keyword">this</span>)</span></span>;</span><br><span class="line">    painter.<span class="built_in">setFont</span>(<span class="built_in">QFont</span>(<span class="string">&quot;宋体&quot;</span>,<span class="number">15</span>));</span><br><span class="line">    painter.<span class="built_in">setPen</span>(<span class="built_in">QColor</span>(<span class="string">&quot;#f6cf9b&quot;</span>));</span><br><span class="line">    painter.<span class="built_in">setBrush</span>(<span class="built_in">QColor</span>(<span class="string">&quot;#f6cf9b&quot;</span>));</span><br><span class="line">    painter.<span class="built_in">drawText</span>(<span class="number">0</span>,<span class="number">0</span>,Text);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
 <p>这里面就定义了两个成员变量，在paintEvent中绘制，增加了复用性</p>
 <p>本文就到这里了，如果有什么地方写错了，可以在下面提出来</p>
 
   </div>
 </article>
 
+
+    <div class="blog-post-comments">
+        <div id="utterances_thread">
+            <noscript>加载评论需要在浏览器启用 JavaScript 脚本支持。</noscript>
+        </div>
+    </div>
 
 
         
@@ -240,7 +257,7 @@
         
           <li><a href="/archives/">归档</a></li>
         
-          <li><a href="/tags/">标签</a></li>
+          <li><a href="/friend/">友链</a></li>
         
           <li><a href="/about/">关于</a></li>
         
@@ -250,7 +267,7 @@
     
     
       <div id="toc-footer" style="display: none">
-        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%A4%BA%E4%BE%8B"><span class="toc-number">1.</span> <span class="toc-text">示例</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%A7%A3%E9%87%8A%E9%83%A8%E5%88%86"><span class="toc-number">2.</span> <span class="toc-text">解释部分</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%8A%E6%96%87%E6%B2%A1%E6%9C%89%E8%AE%B2%E5%88%B0%E7%9A%84%E7%B1%BB"><span class="toc-number">2.1.</span> <span class="toc-text">上文没有讲到的类</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#QFont"><span class="toc-number">2.1.1.</span> <span class="toc-text">QFont</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#paintEvent%E7%9A%84%E8%A7%A6%E5%8F%91%E6%97%B6%E6%9C%BA%E5%92%8C%E6%96%B9%E5%BC%8F"><span class="toc-number">2.2.</span> <span class="toc-text">paintEvent的触发时机和方式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BC%98%E7%BC%BA%E7%82%B9"><span class="toc-number">2.3.</span> <span class="toc-text">优缺点</span></a></li></ol></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%A4%BA%E4%BE%8B"><span class="toc-number">1.</span> <span class="toc-text"> 示例</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%A7%A3%E9%87%8A%E9%83%A8%E5%88%86"><span class="toc-number">2.</span> <span class="toc-text"> 解释部分</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%8A%E6%96%87%E6%B2%A1%E6%9C%89%E8%AE%B2%E5%88%B0%E7%9A%84%E7%B1%BB"><span class="toc-number">2.1.</span> <span class="toc-text"> 上文没有讲到的类</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#qfont"><span class="toc-number">2.1.1.</span> <span class="toc-text"> QFont</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#paintevent%E7%9A%84%E8%A7%A6%E5%8F%91%E6%97%B6%E6%9C%BA%E5%92%8C%E6%96%B9%E5%BC%8F"><span class="toc-number">2.2.</span> <span class="toc-text"> paintEvent的触发时机和方式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BC%98%E7%BC%BA%E7%82%B9"><span class="toc-number">2.3.</span> <span class="toc-text"> 优缺点</span></a></li></ol></li></ol>
       </div>
     
 
@@ -289,7 +306,7 @@
     Copyright &copy;
     
     
-    2021-2023
+    2021-2024
     JinHong Zeng
   </div>
   <div class="footer-right">
@@ -300,7 +317,7 @@
     --><!--
       --><li><a href="/archives/">归档</a></li><!--
     --><!--
-      --><li><a href="/tags/">标签</a></li><!--
+      --><li><a href="/friend/">友链</a></li><!--
     --><!--
       --><li><a href="/about/">关于</a></li><!--
     -->
@@ -372,11 +389,41 @@
 
 <!-- Baidu Analytics -->
 
+  <script type="text/javascript">
+        var _hmt = _hmt || [];
+        (function() {
+          var hm = document.createElement("script");
+          hm.src = "https://hm.baidu.com/hm.js?868a81b0088244713de9ce6298f992db";
+          var s = document.getElementsByTagName("script")[0];
+          s.parentNode.insertBefore(hm, s);
+        })();
+        </script>
+
 <!-- Cloudflare Analytics -->
 
 <!-- Disqus Comments -->
 
 <!-- utterances Comments -->
+
+    <script type="text/javascript">
+      var utterances_repo = 'zjhzzy/zjhzzy.github.io';
+      var utterances_issue_term = 'pathname';
+      var utterances_label = 'Comment';
+      var utterances_theme = 'github-dark';
+
+      (function(){
+          var script = document.createElement('script');
+
+          script.src = 'https://utteranc.es/client.js';
+          script.setAttribute('repo', utterances_repo);
+          script.setAttribute('issue-term', 'pathname');
+          script.setAttribute('label', utterances_label);
+          script.setAttribute('theme', utterances_theme);
+          script.setAttribute('crossorigin', 'anonymous');
+          script.async = true;
+          (document.getElementById('utterances_thread')).appendChild(script);
+      }());
+  </script>
 
 </body>
 </html>

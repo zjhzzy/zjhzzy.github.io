@@ -59,6 +59,16 @@
     
 	<!-- mathjax -->
 	
+		<script type="text/x-mathjax-config">
+		  MathJax.Hub.Config({
+			tex2jax: {
+			  skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+			  inlineMath: [['$','$']]
+			}
+		  });
+		</script>
+		<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML' async></script>
+	
 <meta name="generator" content="Hexo 6.3.0"></head>
 
 <body class="max-width mx-auto px3 ltr">
@@ -75,7 +85,7 @@
      --><!--
        --><li><a href="/archives/">归档</a></li><!--
      --><!--
-       --><li><a href="/tags/">标签</a></li><!--
+       --><li><a href="/friend/">友链</a></li><!--
      --><!--
        --><li><a href="/about/">关于</a></li><!--
      -->
@@ -118,7 +128,7 @@
     
     
       <div id="toc">
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86"><span class="toc-number">1.</span> <span class="toc-text">基础知识</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%95%A5%E6%98%AF%E4%B8%BB%E6%9C%BA%E5%AD%97%E8%8A%82%E5%BA%8F%EF%BC%9F%E5%95%A5%E6%98%AF%E7%BD%91%E7%BB%9C%E5%AD%97%E8%8A%82%E5%BA%8F%EF%BC%9F"><span class="toc-number">1.1.</span> <span class="toc-text">啥是主机字节序？啥是网络字节序？</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%87%BD%E6%95%B0"><span class="toc-number">2.</span> <span class="toc-text">函数</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#htons"><span class="toc-number">2.1.</span> <span class="toc-text">htons</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#htonl"><span class="toc-number">2.2.</span> <span class="toc-text">htonl</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ntohs"><span class="toc-number">2.3.</span> <span class="toc-text">ntohs</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ntonl"><span class="toc-number">2.4.</span> <span class="toc-text">ntonl</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#inet-addr"><span class="toc-number">2.5.</span> <span class="toc-text">inet_addr</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#inet-network"><span class="toc-number">2.6.</span> <span class="toc-text">inet_network</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#inet-ntoa"><span class="toc-number">2.7.</span> <span class="toc-text">inet_ntoa</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#inet-pton"><span class="toc-number">2.8.</span> <span class="toc-text">inet_pton</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#inet-ntop"><span class="toc-number">2.9.</span> <span class="toc-text">inet_ntop</span></a></li></ol></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86"><span class="toc-number">1.</span> <span class="toc-text"> 基础知识</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%95%A5%E6%98%AF%E4%B8%BB%E6%9C%BA%E5%AD%97%E8%8A%82%E5%BA%8F%E5%95%A5%E6%98%AF%E7%BD%91%E7%BB%9C%E5%AD%97%E8%8A%82%E5%BA%8F"><span class="toc-number">1.1.</span> <span class="toc-text"> 啥是主机字节序？啥是网络字节序？</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%87%BD%E6%95%B0"><span class="toc-number">2.</span> <span class="toc-text"> 函数</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#htons"><span class="toc-number">2.1.</span> <span class="toc-text"> htons</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#htonl"><span class="toc-number">2.2.</span> <span class="toc-text"> htonl</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ntohs"><span class="toc-number">2.3.</span> <span class="toc-text"> ntohs</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ntonl"><span class="toc-number">2.4.</span> <span class="toc-text"> ntonl</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#inet_addr"><span class="toc-number">2.5.</span> <span class="toc-text"> inet_addr</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#inet_network"><span class="toc-number">2.6.</span> <span class="toc-text"> inet_network</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#inet_ntoa"><span class="toc-number">2.7.</span> <span class="toc-text"> inet_ntoa</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#inet_pton"><span class="toc-number">2.8.</span> <span class="toc-text"> inet_pton</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#inet_ntop"><span class="toc-number">2.9.</span> <span class="toc-text"> inet_ntop</span></a></li></ol></li></ol>
       </div>
     
   </span>
@@ -164,78 +174,71 @@
 
   <div class="content e-content" itemprop="articleBody">
     <p>Linux下socket编程常常会进行数据格式转换<span id="more"></span>，所以我就列出来一些常用的函数的使用方法、其作用等等</p>
-<h2 id="基础知识"><a href="#基础知识" class="headerlink" title="基础知识"></a>基础知识</h2><h3 id="啥是主机字节序？啥是网络字节序？"><a href="#啥是主机字节序？啥是网络字节序？" class="headerlink" title="啥是主机字节序？啥是网络字节序？"></a>啥是主机字节序？啥是网络字节序？</h3><p>主机字节序指的是在特定计算机体系结构中多字节数据类型（就是字节数不为1的数据类型）在内存在存储的顺序</p>
+<h2 id="基础知识"><a class="markdownIt-Anchor" href="#基础知识"></a> 基础知识</h2>
+<h3 id="啥是主机字节序啥是网络字节序"><a class="markdownIt-Anchor" href="#啥是主机字节序啥是网络字节序"></a> 啥是主机字节序？啥是网络字节序？</h3>
+<p>主机字节序指的是在特定计算机体系结构中多字节数据类型（就是字节数不为1的数据类型）在内存在存储的顺序</p>
 <p>字节序两种顺序，一种是大端，一种是小端</p>
 <p>大端模式 是低位字节存放在高地址，高位字节存放在低地址</p>
 <p>通俗点讲就是如果有一个数组采用大端存储那么数组的第一个元素在一段内存的尾部，而数组的尾部却在那一段内存的头部</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">numbers[4] | 0x12 | 0x16 | 0x20 | numbers[0]</span><br></pre></td></tr></table></figure>
-
 <p>小端模式是低位字节存放在低地址，高位字节存放在高地址</p>
 <p>与大端的相反，如果有一个数组采用小端存储那么数组的第一个元素在那一段内存的头部，数组的尾部在那段内存的尾部</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">numbers[0] | 0x12 | 0x16 | 0x20 | numbers[4]</span><br></pre></td></tr></table></figure>
-
 <p>主机字节序可能是大端<em>可能</em>是小端，但是小端的比较多，具体还是<em>取决于计算机</em></p>
 <p>网络字节序一般采用的都是大端</p>
 <p>所以在传输数据是要进行字节序的转换</p>
-<h2 id="函数"><a href="#函数" class="headerlink" title="函数"></a>函数</h2><p>本文中所有的函数需要导入<code>&lt;arpa/inet.h&gt;</code>头文件才能使用</p>
+<h2 id="函数"><a class="markdownIt-Anchor" href="#函数"></a> 函数</h2>
+<p>本文中所有的函数需要导入<code>&lt;arpa/inet.h&gt;</code>头文件才能使用</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;arpa/inet.h&gt;</span></span></span><br></pre></td></tr></table></figure>
-
-<h3 id="htons"><a href="#htons" class="headerlink" title="htons"></a>htons</h3><p>将使用主机字节序的 uint16_t（unsigned int） 类型数据转换成使用网络字节序 uint16_t（unsigned int）</p>
+<h3 id="htons"><a class="markdownIt-Anchor" href="#htons"></a> htons</h3>
+<p>将使用主机字节序的 uint16_t（unsigned int） 类型数据转换成使用网络字节序 uint16_t（unsigned int）</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">uint16_t</span> <span class="title">htons</span><span class="params">(<span class="type">uint16_t</span> hostshort)</span></span>;</span><br></pre></td></tr></table></figure>
-
 <p><strong>示例</strong></p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sockaddr_in addr = &#123;<span class="number">0</span>&#125;;</span><br><span class="line">addr.sin_port = <span class="built_in">htons</span>(<span class="number">8080</span>);</span><br></pre></td></tr></table></figure>
-
-<h3 id="htonl"><a href="#htonl" class="headerlink" title="htonl"></a>htonl</h3><p>将使用主机字节序的 uint32_t（unsigned int） 类型数据转换成使用网络字节序 uint32_t（unsigned int）</p>
+<h3 id="htonl"><a class="markdownIt-Anchor" href="#htonl"></a> htonl</h3>
+<p>将使用主机字节序的 uint32_t（unsigned int） 类型数据转换成使用网络字节序 uint32_t（unsigned int）</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">uint32_t</span> <span class="title">htonl</span><span class="params">(<span class="type">uint32_t</span> hostlong)</span></span>;</span><br></pre></td></tr></table></figure>
-
 <p><strong>示例</strong></p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sockaddr_in addr = &#123;<span class="number">0</span>&#125;;</span><br><span class="line"><span class="type">uint32_t</span> ip = <span class="built_in">inet_network</span>(<span class="string">&quot;127.0.0.1&quot;</span>);</span><br><span class="line">addr.sin_addr.s_addr = <span class="built_in">htonl</span>(ip);</span><br></pre></td></tr></table></figure>
-
-<h3 id="ntohs"><a href="#ntohs" class="headerlink" title="ntohs"></a>ntohs</h3><p>将使用网络字节序的 uint16_t（unsigned short int） 类型数据转换成使用主机字节序 uint16_t（unsigned short int）</p>
+<h3 id="ntohs"><a class="markdownIt-Anchor" href="#ntohs"></a> ntohs</h3>
+<p>将使用网络字节序的 uint16_t（unsigned short int） 类型数据转换成使用主机字节序 uint16_t（unsigned short int）</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">uint16_t</span> <span class="title">ntohs</span><span class="params">(<span class="type">uint16_t</span> netshort)</span></span>;</span><br></pre></td></tr></table></figure>
-
 <p><strong>示例</strong></p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> clientfd = <span class="built_in">accept</span>(sockfd,(sockaddr*)&amp;addr,<span class="keyword">sizeof</span> addr);</span><br><span class="line"><span class="type">uint16_t</span> port = <span class="built_in">ntons</span>(addr.sin_port);</span><br></pre></td></tr></table></figure>
-
-<h3 id="ntonl"><a href="#ntonl" class="headerlink" title="ntonl"></a>ntonl</h3><p>将使用网络字节序的 uint32_t（unsigned int） 类型数据转换成使用主机字节序 uint32_t（unsigned int）</p>
+<h3 id="ntonl"><a class="markdownIt-Anchor" href="#ntonl"></a> ntonl</h3>
+<p>将使用网络字节序的 uint32_t（unsigned int） 类型数据转换成使用主机字节序 uint32_t（unsigned int）</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">uint32_t</span> <span class="title">ntohs</span><span class="params">(<span class="type">uint32_t</span> netlong)</span></span>;</span><br></pre></td></tr></table></figure>
-
-<h3 id="inet-addr"><a href="#inet-addr" class="headerlink" title="inet_addr"></a>inet_addr</h3><p>将十进制字符串格式的<strong>IPV4</strong>地址转换成网络字节序的二进制格式</p>
+<h3 id="inet_addr"><a class="markdownIt-Anchor" href="#inet_addr"></a> inet_addr</h3>
+<p>将十进制字符串格式的<strong>IPV4</strong>地址转换成网络字节序的二进制格式</p>
 <p>转换成功则返回对应的网络字节序的二进制数据，如果转换出错返回 <code>INADDR_NONE</code>（通常为-1）</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">in_addr_t</span> <span class="title">inet_addr</span><span class="params">(<span class="type">const</span> <span class="type">char</span> *cp)</span></span>;</span><br></pre></td></tr></table></figure>
-
 <p><strong>示例</strong></p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sockaddr_in addr = &#123;<span class="number">0</span>&#125;;</span><br><span class="line">addr.sin_addr.s_addr = <span class="built_in">inet_addr</span>(<span class="string">&quot;127.0.0.1&quot;</span>);</span><br></pre></td></tr></table></figure>
-
-<h3 id="inet-network"><a href="#inet-network" class="headerlink" title="inet_network"></a>inet_network</h3><p>将十进制字符串格式的<strong>IPV4</strong>地址转换成二进制格式</p>
+<h3 id="inet_network"><a class="markdownIt-Anchor" href="#inet_network"></a> inet_network</h3>
+<p>将十进制字符串格式的<strong>IPV4</strong>地址转换成二进制格式</p>
 <p>注：<strong>返回的还是主机字节序不是网络字节序</strong></p>
 <p>转换成功则返回<strong>IPV4</strong>地址的二进制格式数据，转换失败则返回-1</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">in_addr_t</span> <span class="title">inet_network</span><span class="params">(<span class="type">const</span> <span class="type">char</span> *cp)</span></span>;</span><br></pre></td></tr></table></figure>
-
 <p><strong>示例</strong></p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">sockaddr_in addr = &#123;<span class="number">0</span>&#125;;</span><br><span class="line">addr.sin_addr.s_addr = <span class="built_in">htonl</span>(<span class="built_in">inet_network</span>(<span class="string">&quot;127.0.0.1&quot;</span>));</span><br><span class="line"><span class="comment">// 因为 inet_network 函数只会将地址转换成二进制</span></span><br><span class="line"><span class="comment">// 所以需要 htonl 函数将其转换成网络字节序</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="inet-ntoa"><a href="#inet-ntoa" class="headerlink" title="inet_ntoa"></a>inet_ntoa</h3><p>将网络字节序的二进制数据转换成主机字节序的十进制字符串格式的<strong>IPV4</strong>地址</p>
+<h3 id="inet_ntoa"><a class="markdownIt-Anchor" href="#inet_ntoa"></a> inet_ntoa</h3>
+<p>将网络字节序的二进制数据转换成主机字节序的十进制字符串格式的<strong>IPV4</strong>地址</p>
 <p>注：<strong>返回的指针是指向静态缓冲区的，后续的调用会覆盖该缓冲区</strong></p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">char</span> *<span class="title">inet_ntoa</span><span class="params">(<span class="keyword">struct</span> in_addr in)</span></span>;</span><br></pre></td></tr></table></figure>
-
 <p><strong>示例</strong></p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sockaddr_in addr = &#123;<span class="number">0</span>&#125;;</span><br><span class="line">addr.sin_addr.s_addr = <span class="built_in">inet_addr</span>(<span class="string">&quot;127.0.0.1&quot;</span>);</span><br><span class="line"><span class="type">char</span> *buffer = <span class="built_in">inet_ntoa</span>(addr.sin_addr); <span class="comment">// buffer = &quot;127.0.0.1&quot;</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="inet-pton"><a href="#inet-pton" class="headerlink" title="inet_pton"></a>inet_pton</h3><p>将主机字节序的十进制字符串格式的<strong>IP</strong>转换成网络字节序的二进制格式写入到dst中</p>
+<h3 id="inet_pton"><a class="markdownIt-Anchor" href="#inet_pton"></a> inet_pton</h3>
+<p>将主机字节序的十进制字符串格式的<strong>IP</strong>转换成网络字节序的二进制格式写入到dst中</p>
 <p>如果成功转换并写入则返回 -1，如果src中的值为空则返回 0，如果af不是正确的地址族则返回 -1</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;arpa/inet.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">inet_pton</span><span class="params">(<span class="type">int</span> af, <span class="type">const</span> <span class="type">char</span> *src, <span class="type">void</span> *dst)</span></span>;</span><br></pre></td></tr></table></figure>
-
 <p>af：使用的地址族</p>
 <p>src：IP地址的字符串</p>
 <p>dst：指向你要写入的那个缓冲区的指针</p>
 <p><strong>示例</strong></p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sockaddr_in6 addr = &#123;<span class="number">0</span>&#125;;</span><br><span class="line"><span class="built_in">inet_pton</span>(AF_INET6,<span class="string">&quot;2001:0db8:85a3:0000:0000:8a2e:0370:7334&quot;</span>,&amp;addr.sin6_addr);</span><br><span class="line"><span class="comment">// 将第二个参数转换成网络字节序的二进制格式写入到 addr.sin6_addr 中</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="inet-ntop"><a href="#inet-ntop" class="headerlink" title="inet_ntop"></a>inet_ntop</h3><p>将网络字节序的二进制格式的<strong>IP</strong>地址 转换成主机字节序的十进制字符串格式写入到dst中</p>
+<h3 id="inet_ntop"><a class="markdownIt-Anchor" href="#inet_ntop"></a> inet_ntop</h3>
+<p>将网络字节序的二进制格式的<strong>IP</strong>地址 转换成主机字节序的十进制字符串格式写入到dst中</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">const</span> <span class="type">char</span> *<span class="title">inet_ntop</span><span class="params">(<span class="type">int</span> af, <span class="type">const</span> <span class="type">void</span> *src, <span class="type">char</span> *dst, <span class="type">socklen_t</span> size)</span></span>;</span><br></pre></td></tr></table></figure>
-
 <p>af：使用的地址族</p>
 <p>src：指向需要转换的IP地址的指针</p>
 <p>dst：等待写入地址的字符串</p>
@@ -246,6 +249,12 @@
   </div>
 </article>
 
+
+    <div class="blog-post-comments">
+        <div id="utterances_thread">
+            <noscript>加载评论需要在浏览器启用 JavaScript 脚本支持。</noscript>
+        </div>
+    </div>
 
 
         
@@ -259,7 +268,7 @@
         
           <li><a href="/archives/">归档</a></li>
         
-          <li><a href="/tags/">标签</a></li>
+          <li><a href="/friend/">友链</a></li>
         
           <li><a href="/about/">关于</a></li>
         
@@ -269,7 +278,7 @@
     
     
       <div id="toc-footer" style="display: none">
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86"><span class="toc-number">1.</span> <span class="toc-text">基础知识</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%95%A5%E6%98%AF%E4%B8%BB%E6%9C%BA%E5%AD%97%E8%8A%82%E5%BA%8F%EF%BC%9F%E5%95%A5%E6%98%AF%E7%BD%91%E7%BB%9C%E5%AD%97%E8%8A%82%E5%BA%8F%EF%BC%9F"><span class="toc-number">1.1.</span> <span class="toc-text">啥是主机字节序？啥是网络字节序？</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%87%BD%E6%95%B0"><span class="toc-number">2.</span> <span class="toc-text">函数</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#htons"><span class="toc-number">2.1.</span> <span class="toc-text">htons</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#htonl"><span class="toc-number">2.2.</span> <span class="toc-text">htonl</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ntohs"><span class="toc-number">2.3.</span> <span class="toc-text">ntohs</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ntonl"><span class="toc-number">2.4.</span> <span class="toc-text">ntonl</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#inet-addr"><span class="toc-number">2.5.</span> <span class="toc-text">inet_addr</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#inet-network"><span class="toc-number">2.6.</span> <span class="toc-text">inet_network</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#inet-ntoa"><span class="toc-number">2.7.</span> <span class="toc-text">inet_ntoa</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#inet-pton"><span class="toc-number">2.8.</span> <span class="toc-text">inet_pton</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#inet-ntop"><span class="toc-number">2.9.</span> <span class="toc-text">inet_ntop</span></a></li></ol></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86"><span class="toc-number">1.</span> <span class="toc-text"> 基础知识</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%95%A5%E6%98%AF%E4%B8%BB%E6%9C%BA%E5%AD%97%E8%8A%82%E5%BA%8F%E5%95%A5%E6%98%AF%E7%BD%91%E7%BB%9C%E5%AD%97%E8%8A%82%E5%BA%8F"><span class="toc-number">1.1.</span> <span class="toc-text"> 啥是主机字节序？啥是网络字节序？</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%87%BD%E6%95%B0"><span class="toc-number">2.</span> <span class="toc-text"> 函数</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#htons"><span class="toc-number">2.1.</span> <span class="toc-text"> htons</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#htonl"><span class="toc-number">2.2.</span> <span class="toc-text"> htonl</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ntohs"><span class="toc-number">2.3.</span> <span class="toc-text"> ntohs</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ntonl"><span class="toc-number">2.4.</span> <span class="toc-text"> ntonl</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#inet_addr"><span class="toc-number">2.5.</span> <span class="toc-text"> inet_addr</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#inet_network"><span class="toc-number">2.6.</span> <span class="toc-text"> inet_network</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#inet_ntoa"><span class="toc-number">2.7.</span> <span class="toc-text"> inet_ntoa</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#inet_pton"><span class="toc-number">2.8.</span> <span class="toc-text"> inet_pton</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#inet_ntop"><span class="toc-number">2.9.</span> <span class="toc-text"> inet_ntop</span></a></li></ol></li></ol>
       </div>
     
 
@@ -308,7 +317,7 @@
     Copyright &copy;
     
     
-    2021-2023
+    2021-2024
     JinHong Zeng
   </div>
   <div class="footer-right">
@@ -319,7 +328,7 @@
     --><!--
       --><li><a href="/archives/">归档</a></li><!--
     --><!--
-      --><li><a href="/tags/">标签</a></li><!--
+      --><li><a href="/friend/">友链</a></li><!--
     --><!--
       --><li><a href="/about/">关于</a></li><!--
     -->
@@ -391,11 +400,41 @@
 
 <!-- Baidu Analytics -->
 
+  <script type="text/javascript">
+        var _hmt = _hmt || [];
+        (function() {
+          var hm = document.createElement("script");
+          hm.src = "https://hm.baidu.com/hm.js?868a81b0088244713de9ce6298f992db";
+          var s = document.getElementsByTagName("script")[0];
+          s.parentNode.insertBefore(hm, s);
+        })();
+        </script>
+
 <!-- Cloudflare Analytics -->
 
 <!-- Disqus Comments -->
 
 <!-- utterances Comments -->
+
+    <script type="text/javascript">
+      var utterances_repo = 'zjhzzy/zjhzzy.github.io';
+      var utterances_issue_term = 'pathname';
+      var utterances_label = 'Comment';
+      var utterances_theme = 'github-dark';
+
+      (function(){
+          var script = document.createElement('script');
+
+          script.src = 'https://utteranc.es/client.js';
+          script.setAttribute('repo', utterances_repo);
+          script.setAttribute('issue-term', 'pathname');
+          script.setAttribute('label', utterances_label);
+          script.setAttribute('theme', utterances_theme);
+          script.setAttribute('crossorigin', 'anonymous');
+          script.async = true;
+          (document.getElementById('utterances_thread')).appendChild(script);
+      }());
+  </script>
 
 </body>
 </html>

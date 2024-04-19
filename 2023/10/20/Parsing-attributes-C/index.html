@@ -14,7 +14,7 @@
 <meta property="og:description" content="C++11加入的属性（Attribute）是给各种语言扩展（例如GNU与IBM的语言扩展 __attribute__((...))，微软的语言扩展 __declspec() 等）提供了统一化的语法 属性可以运用在C++的几乎每个地方  类型 变量 函数 名字 代码块 整个翻译单元  C++目前引入的标准属性  C++11 起[[noreturn]]	指示函数不返回[[carries_depende">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2023-10-20T14:15:35.000Z">
-<meta property="article:modified_time" content="2023-11-02T00:14:58.090Z">
+<meta property="article:modified_time" content="2024-04-19T04:46:47.424Z">
 <meta property="article:author" content="JinHong Zeng">
 <meta property="article:tag" content="C++">
 <meta name="twitter:card" content="summary">
@@ -58,6 +58,16 @@
     
 	<!-- mathjax -->
 	
+		<script type="text/x-mathjax-config">
+		  MathJax.Hub.Config({
+			tex2jax: {
+			  skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+			  inlineMath: [['$','$']]
+			}
+		  });
+		</script>
+		<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML' async></script>
+	
 <meta name="generator" content="Hexo 6.3.0"></head>
 
 <body class="max-width mx-auto px3 ltr">
@@ -74,7 +84,7 @@
      --><!--
        --><li><a href="/archives/">归档</a></li><!--
      --><!--
-       --><li><a href="/tags/">标签</a></li><!--
+       --><li><a href="/friend/">友链</a></li><!--
      --><!--
        --><li><a href="/about/">关于</a></li><!--
      -->
@@ -117,7 +127,7 @@
     
     
       <div id="toc">
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AF%AD%E6%B3%95"><span class="toc-number">1.</span> <span class="toc-text">语法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A0%87%E5%87%86%E5%B1%9E%E6%80%A7"><span class="toc-number">2.</span> <span class="toc-text">标准属性</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#noreturn"><span class="toc-number">2.1.</span> <span class="toc-text">noreturn</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#deprecated"><span class="toc-number">2.2.</span> <span class="toc-text">deprecated</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#class-struct-union"><span class="toc-number">2.2.1.</span> <span class="toc-text">class&#x2F;struct&#x2F;union</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#typedef-%E5%88%AB%E5%90%8D%E5%A3%B0%E6%98%8E"><span class="toc-number">2.2.2.</span> <span class="toc-text">typedef&#x2F;别名声明</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8F%98%E9%87%8F%E5%A3%B0%E6%98%8E"><span class="toc-number">2.2.3.</span> <span class="toc-text">变量声明</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%91%BD%E5%90%8D%E7%A9%BA%E9%97%B4"><span class="toc-number">2.2.4.</span> <span class="toc-text">命名空间</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%9E%9A%E4%B8%BE-%E6%9E%9A%E4%B8%BE%E9%A1%B9"><span class="toc-number">2.2.5.</span> <span class="toc-text">枚举&#x2F;枚举项</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%A8%A1%E6%9D%BF%E7%89%B9%E5%8C%96"><span class="toc-number">2.2.6.</span> <span class="toc-text">模板特化</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#nodiscard"><span class="toc-number">2.3.</span> <span class="toc-text">nodiscard</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#struct"><span class="toc-number">2.3.1.</span> <span class="toc-text">struct</span></a></li></ol></li></ol></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AF%AD%E6%B3%95"><span class="toc-number">1.</span> <span class="toc-text"> 语法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A0%87%E5%87%86%E5%B1%9E%E6%80%A7"><span class="toc-number">2.</span> <span class="toc-text"> 标准属性</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#noreturn"><span class="toc-number">2.1.</span> <span class="toc-text"> noreturn</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#deprecated"><span class="toc-number">2.2.</span> <span class="toc-text"> deprecated</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#classstructunion"><span class="toc-number">2.2.1.</span> <span class="toc-text"> class&#x2F;struct&#x2F;union</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#typedef%E5%88%AB%E5%90%8D%E5%A3%B0%E6%98%8E"><span class="toc-number">2.2.2.</span> <span class="toc-text"> typedef&#x2F;别名声明</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8F%98%E9%87%8F%E5%A3%B0%E6%98%8E"><span class="toc-number">2.2.3.</span> <span class="toc-text"> 变量声明</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%91%BD%E5%90%8D%E7%A9%BA%E9%97%B4"><span class="toc-number">2.2.4.</span> <span class="toc-text"> 命名空间</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%9E%9A%E4%B8%BE%E6%9E%9A%E4%B8%BE%E9%A1%B9"><span class="toc-number">2.2.5.</span> <span class="toc-text"> 枚举&#x2F;枚举项</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%A8%A1%E6%9D%BF%E7%89%B9%E5%8C%96"><span class="toc-number">2.2.6.</span> <span class="toc-text"> 模板特化</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#nodiscard"><span class="toc-number">2.3.</span> <span class="toc-text"> nodiscard</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#struct"><span class="toc-number">2.3.1.</span> <span class="toc-text"> struct</span></a></li></ol></li></ol></li></ol>
       </div>
     
   </span>
@@ -177,54 +187,62 @@
 <li>C++11 起<br>[[noreturn]]	指示函数不返回<br>[[carries_dependency]] 指示释放消费 std::memory_order 中的依赖链传入和传出该函数</li>
 <li>C++14 起<br>[[deprecated]]<br>[[deprecated(“原因”)]] 指示允许使用声明有此属性的名称或实体，但因原因 而不鼓励使用</li>
 <li>C++17 起<br>[[fallthrough]] 指示从前一 case 标号直落是有意的，而在发生直落时给出警告的编译器不应该为此诊断<br>[[nodiscard]] 鼓励编译器在返回值被舍弃时发布警告<br>[[maybe_unused]] 禁止显示有关未使用实体的警告</li>
-<li>C++20 起<br>[[likely]]<br>[[unlikely]] 指示编译器应该针对通过某语句的执行路径比任何其他执行路径更可能或更不可能的情况进行优化<br>[[no_unique_address]] 指示非静态数据成员的地址不需要拥有与它所在的类的所有其他非静态数据成员不同<br>[[nodiscard(“原因”)]]	鼓励编译器在返回值被舍弃时发布警告<br></li>
-<li>C++23 起<br>[[assume]] 指出某个表达式在某个地方始终会求值为 true<br>[[optimize_for_synchronized]] (TM TS) 指示应该针对来自 synchronized 语句的调用来优化该函数定义</li>
+<li>C++20 起<br>[[likely]]<br />
+[[unlikely]] 指示编译器应该针对通过某语句的执行路径比任何其他执行路径更可能或更不可能的情况进行优化<br>[[no_unique_address]] 指示非静态数据成员的地址不需要拥有与它所在的类的所有其他非静态数据成员不同<br />
+[[nodiscard(“原因”)]]	鼓励编译器在返回值被舍弃时发布警告<br></li>
+<li>C++23 起<br>[[assume]] 指出某个表达式在某个地方始终会求值为 true<br />
+[[optimize_for_synchronized]] (TM TS) 指示应该针对来自 synchronized 语句的调用来优化该函数定义</li>
 </ul>
-<h2 id="语法"><a href="#语法" class="headerlink" title="语法"></a>语法</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[[ 属性列表 ]]</span><br><span class="line">[[ <span class="keyword">using</span> 属性命名空间 : 属性列表 ]] <span class="comment">// C++17开始</span></span><br></pre></td></tr></table></figure>
-
+<h2 id="语法"><a class="markdownIt-Anchor" href="#语法"></a> 语法</h2>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[[ 属性列表 ]]</span><br><span class="line">[[ <span class="keyword">using</span> 属性命名空间 : 属性列表 ]] <span class="comment">// C++17开始</span></span><br></pre></td></tr></table></figure>
 <p>应用在函数上</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[[<span class="built_in">deprecated</span>(<span class="string">&quot;这个函数的实现不安全&quot;</span>)]]</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">foo</span><span class="params">()</span></span>;</span><br></pre></td></tr></table></figure>
-
 <p>应用在代码块上</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (<span class="number">1</span> &gt; <span class="number">0</span>) [[likely]] &#123;</span><br><span class="line">    std::cout &lt;&lt; <span class="string">&quot;1&gt;0&quot;</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="标准属性"><a href="#标准属性" class="headerlink" title="标准属性"></a>标准属性</h2><h3 id="noreturn"><a href="#noreturn" class="headerlink" title="noreturn"></a>noreturn</h3><p>它表明了执行后不返回到调用者<br>使用了这个属性的函数有 exit(),abort()</p>
+<h2 id="标准属性"><a class="markdownIt-Anchor" href="#标准属性"></a> 标准属性</h2>
+<h3 id="noreturn"><a class="markdownIt-Anchor" href="#noreturn"></a> noreturn</h3>
+<p>它表明了执行后不返回到调用者<br />
+使用了这个属性的函数有 exit(),abort()</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdexcept&gt;</span></span></span><br><span class="line">[[noreturn]] <span class="function"><span class="type">void</span> <span class="title">ExitProgram</span><span class="params">()</span> </span>&#123; </span><br><span class="line">  <span class="keyword">throw</span> std::<span class="built_in">runtime_error</span>(<span class="string">&quot;抛出错误&quot;</span>); <span class="comment">// 抛出错误于是不会返回主函数</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123; </span><br><span class="line">  <span class="built_in">ExitProgram</span>();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="deprecated"><a href="#deprecated" class="headerlink" title="deprecated"></a>deprecated</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[[<span class="built_in">deprecated</span>(Message)]]</span><br></pre></td></tr></table></figure>
-
-<p>表示拥有该属性的实体被弃用，允许被使用，但是不鼓励使用<br>编译器通常会对其使用情况发出警告若指定了<u>字符串字面量(Message)</u>，则它通常被包含于警告中。</p>
+<h3 id="deprecated"><a class="markdownIt-Anchor" href="#deprecated"></a> deprecated</h3>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[[<span class="built_in">deprecated</span>(Message)]]</span><br></pre></td></tr></table></figure>
+<p>表示拥有该属性的实体被弃用，允许被使用，但是不鼓励使用<br />
+编译器通常会对其使用情况发出警告若指定了<u>字符串字面量(Message)</u>，则它通常被包含于警告中。</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdexcept&gt;</span></span></span><br><span class="line"></span><br><span class="line">[[<span class="built_in">deprecated</span>(<span class="string">&quot;会抛出异常&quot;</span>)]] <span class="function"><span class="type">void</span> <span class="title">ExitProgram</span><span class="params">()</span> </span>&#123;</span><br><span class="line">  <span class="keyword">throw</span> std::<span class="built_in">runtime_error</span>(<span class="string">&quot;抛出错误&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123; <span class="built_in">ExitProgram</span>(); &#125;</span><br></pre></td></tr></table></figure>
-
 <p>编译输出</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">main.cpp:<span class="number">8</span>:<span class="number">25</span>: warning: ‘<span class="function"><span class="type">void</span> <span class="title">ExitProgram</span><span class="params">()</span>’ is deprecated: 会抛出异常 [-Wdeprecated-declarations]</span></span><br><span class="line"><span class="function">    <span class="number">8</span> | int main() &#123;</span> <span class="built_in">ExitProgram</span>(); &#125;</span><br><span class="line">      |              ~~~~~~~~~~~^~</span><br><span class="line">main.cpp:<span class="number">4</span>:<span class="number">35</span>: note: declared here</span><br><span class="line">    <span class="number">4</span> | [[<span class="built_in">deprecated</span>(<span class="string">&quot;会抛出异常&quot;</span>)]] <span class="function"><span class="type">void</span> <span class="title">ExitProgram</span><span class="params">()</span> </span>&#123;</span><br><span class="line">      |                                   ^~~~~~~~~~~</span><br></pre></td></tr></table></figure>
-
 <p>多种使用方法</p>
-<h4 id="class-struct-union"><a href="#class-struct-union" class="headerlink" title="class&#x2F;struct&#x2F;union"></a>class&#x2F;struct&#x2F;union</h4><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> [[<span class="built_in">deprecated</span>(<span class="string">&quot;这个类有新的实现可以代替&quot;</span>)]] udp;</span><br></pre></td></tr></table></figure>
-
-<h4 id="typedef-别名声明"><a href="#typedef-别名声明" class="headerlink" title="typedef&#x2F;别名声明"></a>typedef&#x2F;别名声明</h4><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[[<span class="built_in">deprecated</span>(<span class="string">&quot;请使用标准的int32_t&quot;</span>)]] <span class="keyword">typedef</span> <span class="type">int32_t</span> i32;</span><br><span class="line"><span class="keyword">using</span> i32 [[<span class="built_in">deprecated</span>(<span class="string">&quot;请使用标准的int_32&quot;</span>)]] = <span class="type">int32_t</span>;</span><br></pre></td></tr></table></figure>
-
-<h4 id="变量声明"><a href="#变量声明" class="headerlink" title="变量声明"></a>变量声明</h4><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[[deprecated]] <span class="type">int</span> num;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">udp</span> &#123;</span><br><span class="line">  [[<span class="built_in">deprecated</span>(<span class="string">&quot;新版本将不再基于文件描述符&quot;</span>)]] <span class="type">int</span> fd_;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-<h4 id="命名空间"><a href="#命名空间" class="headerlink" title="命名空间"></a>命名空间</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">namespace [[deprecated(&quot;以后将剥离net命名空间&quot;)]] net &#123;</span><br><span class="line">  class udp;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-<h4 id="枚举-枚举项"><a href="#枚举-枚举项" class="headerlink" title="枚举&#x2F;枚举项"></a>枚举&#x2F;枚举项</h4><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">enum</span> [[<span class="built_in">deprecated</span>(<span class="string">&quot;目前网络库并不完善&quot;</span>)]] ip &#123;</span><br><span class="line">  v4,</span><br><span class="line">  v6[[<span class="built_in">deprecated</span>(<span class="string">&quot;目前对于ipv6的支持并不全面&quot;</span>)]]</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-<h4 id="模板特化"><a href="#模板特化" class="headerlink" title="模板特化"></a>模板特化</h4><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> type&gt; <span class="keyword">struct</span> <span class="title class_">MyStruct</span>;</span><br><span class="line"><span class="keyword">template</span> &lt;&gt; <span class="keyword">struct</span> [[<span class="built_in">deprecated</span>(<span class="string">&quot;该类的实现有问题&quot;</span>)]] MyStruct&lt;<span class="type">int</span>&gt;;</span><br></pre></td></tr></table></figure>
-
-<h3 id="nodiscard"><a href="#nodiscard" class="headerlink" title="nodiscard"></a>nodiscard</h3><p>可以增强代码的可读性和可维护性，从而提醒开发人员不要忽略返回的值<br>出现在函数声明、枚举声明或类声明中</p>
+<h4 id="classstructunion"><a class="markdownIt-Anchor" href="#classstructunion"></a> class/struct/union</h4>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> [[<span class="built_in">deprecated</span>(<span class="string">&quot;这个类有新的实现可以代替&quot;</span>)]] udp;</span><br></pre></td></tr></table></figure>
+<h4 id="typedef别名声明"><a class="markdownIt-Anchor" href="#typedef别名声明"></a> typedef/别名声明</h4>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[[<span class="built_in">deprecated</span>(<span class="string">&quot;请使用标准的int32_t&quot;</span>)]] <span class="keyword">typedef</span> <span class="type">int32_t</span> i32;</span><br><span class="line"><span class="keyword">using</span> i32 [[<span class="built_in">deprecated</span>(<span class="string">&quot;请使用标准的int_32&quot;</span>)]] = <span class="type">int32_t</span>;</span><br></pre></td></tr></table></figure>
+<h4 id="变量声明"><a class="markdownIt-Anchor" href="#变量声明"></a> 变量声明</h4>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[[deprecated]] <span class="type">int</span> num;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">udp</span> &#123;</span><br><span class="line">  [[<span class="built_in">deprecated</span>(<span class="string">&quot;新版本将不再基于文件描述符&quot;</span>)]] <span class="type">int</span> fd_;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h4 id="命名空间"><a class="markdownIt-Anchor" href="#命名空间"></a> 命名空间</h4>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">namespace [[deprecated(&quot;以后将剥离net命名空间&quot;)]] net &#123;</span><br><span class="line">  class udp;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h4 id="枚举枚举项"><a class="markdownIt-Anchor" href="#枚举枚举项"></a> 枚举/枚举项</h4>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">enum</span> [[<span class="built_in">deprecated</span>(<span class="string">&quot;目前网络库并不完善&quot;</span>)]] ip &#123;</span><br><span class="line">  v4,</span><br><span class="line">  v6[[<span class="built_in">deprecated</span>(<span class="string">&quot;目前对于ipv6的支持并不全面&quot;</span>)]]</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h4 id="模板特化"><a class="markdownIt-Anchor" href="#模板特化"></a> 模板特化</h4>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> type&gt; <span class="keyword">struct</span> <span class="title class_">MyStruct</span>;</span><br><span class="line"><span class="keyword">template</span> &lt;&gt; <span class="keyword">struct</span> [[<span class="built_in">deprecated</span>(<span class="string">&quot;该类的实现有问题&quot;</span>)]] MyStruct&lt;<span class="type">int</span>&gt;;</span><br></pre></td></tr></table></figure>
+<h3 id="nodiscard"><a class="markdownIt-Anchor" href="#nodiscard"></a> nodiscard</h3>
+<p>可以增强代码的可读性和可维护性，从而提醒开发人员不要忽略返回的值<br />
+出现在函数声明、枚举声明或类声明中</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[[nodiscard]] <span class="function"><span class="type">int</span> <span class="title">foo</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">10</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
 <p>编译输出</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">main.cpp:<span class="number">7</span>:<span class="number">17</span>: warning: ignoring <span class="keyword">return</span> value of ‘<span class="type">int</span> <span class="built_in">foo</span>()’, declared with attribute ‘nodiscard’ [-Wunused-result]</span><br><span class="line">    <span class="number">7</span> | <span class="type">int</span> <span class="built_in">main</span>() &#123; <span class="built_in">foo</span>(); &#125;</span><br><span class="line">      |              ~~~^~</span><br><span class="line">main.cpp:<span class="number">6</span>:<span class="number">19</span>: note: declared here</span><br><span class="line">    <span class="number">6</span> | [[nodiscard]] <span class="function"><span class="type">int</span> <span class="title">foo</span><span class="params">()</span> </span>&#123; <span class="keyword">return</span> <span class="number">10</span>; &#125;</span><br><span class="line">      |                   ^~~</span><br></pre></td></tr></table></figure>
-
-<h4 id="struct"><a href="#struct" class="headerlink" title="struct"></a>struct</h4><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">[[nodiscard]] <span class="keyword">struct</span> <span class="title class_">MyStruct</span> &#123;</span><br><span class="line">    <span class="type">int</span> value;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">foo</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    MyStruct myObject&#123;<span class="number">42</span>&#125;; <span class="comment">// 创建 MyStruct 对象</span></span><br><span class="line">    <span class="comment">// 使用对象的值</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="built_in">foo</span>(); <span class="comment">// 未使用 foo() 函数中 MyStruct 对象的返回值，编译器可能会发出警告</span></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
+<h4 id="struct"><a class="markdownIt-Anchor" href="#struct"></a> struct</h4>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">[[nodiscard]] <span class="keyword">struct</span> <span class="title class_">MyStruct</span> &#123;</span><br><span class="line">    <span class="type">int</span> value;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">foo</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    MyStruct myObject&#123;<span class="number">42</span>&#125;; <span class="comment">// 创建 MyStruct 对象</span></span><br><span class="line">    <span class="comment">// 使用对象的值</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="built_in">foo</span>(); <span class="comment">// 未使用 foo() 函数中 MyStruct 对象的返回值，编译器可能会发出警告</span></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p><span style="background:#40a9ff"><u>该文章并未完全写完，我将会在几天后完善该文章</u></span></p>
 
   </div>
 </article>
 
+
+    <div class="blog-post-comments">
+        <div id="utterances_thread">
+            <noscript>加载评论需要在浏览器启用 JavaScript 脚本支持。</noscript>
+        </div>
+    </div>
 
 
         
@@ -238,7 +256,7 @@
         
           <li><a href="/archives/">归档</a></li>
         
-          <li><a href="/tags/">标签</a></li>
+          <li><a href="/friend/">友链</a></li>
         
           <li><a href="/about/">关于</a></li>
         
@@ -248,7 +266,7 @@
     
     
       <div id="toc-footer" style="display: none">
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AF%AD%E6%B3%95"><span class="toc-number">1.</span> <span class="toc-text">语法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A0%87%E5%87%86%E5%B1%9E%E6%80%A7"><span class="toc-number">2.</span> <span class="toc-text">标准属性</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#noreturn"><span class="toc-number">2.1.</span> <span class="toc-text">noreturn</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#deprecated"><span class="toc-number">2.2.</span> <span class="toc-text">deprecated</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#class-struct-union"><span class="toc-number">2.2.1.</span> <span class="toc-text">class&#x2F;struct&#x2F;union</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#typedef-%E5%88%AB%E5%90%8D%E5%A3%B0%E6%98%8E"><span class="toc-number">2.2.2.</span> <span class="toc-text">typedef&#x2F;别名声明</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8F%98%E9%87%8F%E5%A3%B0%E6%98%8E"><span class="toc-number">2.2.3.</span> <span class="toc-text">变量声明</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%91%BD%E5%90%8D%E7%A9%BA%E9%97%B4"><span class="toc-number">2.2.4.</span> <span class="toc-text">命名空间</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%9E%9A%E4%B8%BE-%E6%9E%9A%E4%B8%BE%E9%A1%B9"><span class="toc-number">2.2.5.</span> <span class="toc-text">枚举&#x2F;枚举项</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%A8%A1%E6%9D%BF%E7%89%B9%E5%8C%96"><span class="toc-number">2.2.6.</span> <span class="toc-text">模板特化</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#nodiscard"><span class="toc-number">2.3.</span> <span class="toc-text">nodiscard</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#struct"><span class="toc-number">2.3.1.</span> <span class="toc-text">struct</span></a></li></ol></li></ol></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AF%AD%E6%B3%95"><span class="toc-number">1.</span> <span class="toc-text"> 语法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A0%87%E5%87%86%E5%B1%9E%E6%80%A7"><span class="toc-number">2.</span> <span class="toc-text"> 标准属性</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#noreturn"><span class="toc-number">2.1.</span> <span class="toc-text"> noreturn</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#deprecated"><span class="toc-number">2.2.</span> <span class="toc-text"> deprecated</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#classstructunion"><span class="toc-number">2.2.1.</span> <span class="toc-text"> class&#x2F;struct&#x2F;union</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#typedef%E5%88%AB%E5%90%8D%E5%A3%B0%E6%98%8E"><span class="toc-number">2.2.2.</span> <span class="toc-text"> typedef&#x2F;别名声明</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8F%98%E9%87%8F%E5%A3%B0%E6%98%8E"><span class="toc-number">2.2.3.</span> <span class="toc-text"> 变量声明</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%91%BD%E5%90%8D%E7%A9%BA%E9%97%B4"><span class="toc-number">2.2.4.</span> <span class="toc-text"> 命名空间</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%9E%9A%E4%B8%BE%E6%9E%9A%E4%B8%BE%E9%A1%B9"><span class="toc-number">2.2.5.</span> <span class="toc-text"> 枚举&#x2F;枚举项</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%A8%A1%E6%9D%BF%E7%89%B9%E5%8C%96"><span class="toc-number">2.2.6.</span> <span class="toc-text"> 模板特化</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#nodiscard"><span class="toc-number">2.3.</span> <span class="toc-text"> nodiscard</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#struct"><span class="toc-number">2.3.1.</span> <span class="toc-text"> struct</span></a></li></ol></li></ol></li></ol>
       </div>
     
 
@@ -287,7 +305,7 @@
     Copyright &copy;
     
     
-    2021-2023
+    2021-2024
     JinHong Zeng
   </div>
   <div class="footer-right">
@@ -298,7 +316,7 @@
     --><!--
       --><li><a href="/archives/">归档</a></li><!--
     --><!--
-      --><li><a href="/tags/">标签</a></li><!--
+      --><li><a href="/friend/">友链</a></li><!--
     --><!--
       --><li><a href="/about/">关于</a></li><!--
     -->
@@ -370,11 +388,41 @@
 
 <!-- Baidu Analytics -->
 
+  <script type="text/javascript">
+        var _hmt = _hmt || [];
+        (function() {
+          var hm = document.createElement("script");
+          hm.src = "https://hm.baidu.com/hm.js?868a81b0088244713de9ce6298f992db";
+          var s = document.getElementsByTagName("script")[0];
+          s.parentNode.insertBefore(hm, s);
+        })();
+        </script>
+
 <!-- Cloudflare Analytics -->
 
 <!-- Disqus Comments -->
 
 <!-- utterances Comments -->
+
+    <script type="text/javascript">
+      var utterances_repo = 'zjhzzy/zjhzzy.github.io';
+      var utterances_issue_term = 'pathname';
+      var utterances_label = 'Comment';
+      var utterances_theme = 'github-dark';
+
+      (function(){
+          var script = document.createElement('script');
+
+          script.src = 'https://utteranc.es/client.js';
+          script.setAttribute('repo', utterances_repo);
+          script.setAttribute('issue-term', 'pathname');
+          script.setAttribute('label', utterances_label);
+          script.setAttribute('theme', utterances_theme);
+          script.setAttribute('crossorigin', 'anonymous');
+          script.async = true;
+          (document.getElementById('utterances_thread')).appendChild(script);
+      }());
+  </script>
 
 </body>
 </html>

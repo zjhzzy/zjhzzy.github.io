@@ -6,7 +6,7 @@
   <link href="http://zjhzzy.github.io/atom.xml" rel="self"/>
   
   <link href="http://zjhzzy.github.io/"/>
-  <updated>2023-12-19T15:35:28.352Z</updated>
+  <updated>2024-04-19T08:39:49.369Z</updated>
   <id>http://zjhzzy.github.io/</id>
   
   <author>
@@ -17,11 +17,38 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>我的MySQL学习笔记</title>
+    <link href="http://zjhzzy.github.io/2024/04/17/MySQL-Study-notes/"/>
+    <id>http://zjhzzy.github.io/2024/04/17/MySQL-Study-notes/</id>
+    <published>2024-04-17T12:06:28.000Z</published>
+    <updated>2024-04-19T08:39:49.369Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h2 id=&quot;数据类型&quot;&gt;&lt;a class=&quot;markdownIt-Anchor&quot; href=&quot;#数据类型&quot;&gt;&lt;/a&gt; 数据类型&lt;/h2&gt;
+&lt;p&gt;MySQL 中数据字段的类型对数据库的优化很重要，错误的数据类型会严重影响应用的功能和性能&lt;/p&gt;
+&lt;h3</summary>
+        
+      
+    
+    
+    
+    
+    <category term="SQL" scheme="http://zjhzzy.github.io/tags/SQL/"/>
+    
+    <category term="MySQL" scheme="http://zjhzzy.github.io/tags/MySQL/"/>
+    
+  </entry>
+  
+  <entry>
     <title>我的世界基岩服务器开服教程</title>
     <link href="http://zjhzzy.github.io/2023/12/19/minecraft-nukkit-server-run/"/>
     <id>http://zjhzzy.github.io/2023/12/19/minecraft-nukkit-server-run/</id>
     <published>2023-12-19T15:18:09.000Z</published>
-    <updated>2023-12-19T15:35:28.352Z</updated>
+    <updated>2023-12-19T15:50:17.900Z</updated>
     
     
     <summary type="html">&lt;p&gt;我的世界基岩版的开服流程与Java版的开服教程有些许区别，所以我在这里简略的写一下关于基岩版开服的过程&lt;/p&gt;</summary>
@@ -57,7 +84,7 @@
     <link href="http://zjhzzy.github.io/2023/10/20/Parsing-attributes-C/"/>
     <id>http://zjhzzy.github.io/2023/10/20/Parsing-attributes-C/</id>
     <published>2023-10-20T14:15:35.000Z</published>
-    <updated>2023-11-02T00:14:58.090Z</updated>
+    <updated>2024-04-19T04:46:47.424Z</updated>
     
     
       
@@ -87,8 +114,9 @@
       
         
         
-    <summary type="html">&lt;p&gt;pair和tuple是用来存储不同类型的值的容器&lt;br&gt;主要目的是为了方便存储和处理不同类型的数据，它们更适合在特定的情况下用于数据的组织和传递&lt;/p&gt;
-&lt;h2 id=&quot;pair&quot;&gt;&lt;a href=&quot;#pair&quot; class=&quot;headerlink&quot;</summary>
+    <summary type="html">&lt;p&gt;pair和tuple是用来存储不同类型的值的容器&lt;br /&gt;
+主要目的是为了方便存储和处理不同类型的数据，它们更适合在特定的情况下用于数据的组织和传递&lt;/p&gt;
+&lt;h2 id=&quot;pair&quot;&gt;&lt;a class=&quot;markdownIt-Anchor&quot;</summary>
         
       
     
@@ -112,7 +140,9 @@
         
         
     <summary type="html">&lt;p&gt;variant、optional和any 这三个模板类是用来取代C风格的一些不安全的代码&lt;/p&gt;
-&lt;p&gt;optional&lt;T&gt; —— 持有T或为空&lt;br&gt;variant&amp;lt;T,U&amp;gt; —— 持有T或U（类似于union）&lt;br&gt;any ——</summary>
+&lt;p&gt;optional&lt;T&gt; —— 持有T或为空&lt;br /&gt;
+variant&amp;lt;T,U&amp;gt; —— 持有T或U（类似于union）&lt;br /&gt;
+any ——</summary>
         
       
     
@@ -175,7 +205,7 @@
         
     <summary type="html">&lt;p&gt;本文讲究的就是一个实用，所以不会所有的东西都介绍，只会介绍常用的&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;注：阅读本文前最好还是有些网络编程的基础概念比如大端小端之类的&lt;/strong&gt;&lt;/p&gt;
-&lt;h2 id=&quot;结构体&quot;&gt;&lt;a href=&quot;#结构体&quot;</summary>
+&lt;h2 id=&quot;结构体&quot;&gt;&lt;a class=&quot;markdownIt-Anchor&quot;</summary>
         
       
     
@@ -202,16 +232,16 @@
         
     <summary type="html">&lt;p&gt;这篇博客主要介绍Qt框架下的Json模块的使用&lt;/p&gt;
 &lt;p&gt;注：Json模块已经嵌入到QCore中，无需引入其他模块&lt;/p&gt;
-&lt;h2 id=&quot;需要使用的对象&quot;&gt;&lt;a href=&quot;#需要使用的对象&quot; class=&quot;headerlink&quot;</summary>
+&lt;h2 id=&quot;需要使用的对象&quot;&gt;&lt;a class=&quot;markdownIt-Anchor&quot; href=&quot;#需要使用的对象&quot;&gt;&lt;/a&gt;</summary>
         
       
     
     
     
     
-    <category term="Qt" scheme="http://zjhzzy.github.io/tags/Qt/"/>
-    
     <category term="C++" scheme="http://zjhzzy.github.io/tags/C/"/>
+    
+    <category term="Qt" scheme="http://zjhzzy.github.io/tags/Qt/"/>
     
   </entry>
   
@@ -228,8 +258,8 @@
         
         
     <summary type="html">&lt;p&gt;这一篇博客是简单解释linux下的epoll&lt;/p&gt;
-&lt;p&gt;epoll是linux提供的一种I&amp;#x2F;O事件通知机制，能够高效的处理文件描述符[1]的I&amp;#x2F;O事件，其基于事件驱动&lt;/p&gt;
-&lt;h2 id=&quot;结构体&quot;&gt;&lt;a href=&quot;#结构体&quot;</summary>
+&lt;p&gt;epoll是linux提供的一种I/O事件通知机制，能够高效的处理文件描述符[1]的I/O事件，其基于事件驱动&lt;/p&gt;
+&lt;h2 id=&quot;结构体&quot;&gt;&lt;a class=&quot;markdownIt-Anchor&quot;</summary>
         
       
     
@@ -273,10 +303,10 @@
       
         
         
-    <summary type="html">&lt;p&gt;在学习C++的过程中有些新手可能听说了C++传引用减少拷贝次数增快程序速度，然后就会去一股脑全部使用引用&lt;/p&gt;
+    <summary type="html">&lt;p&gt;在学习C&lt;ins&gt;的过程中有些新手可能听说了C&lt;/ins&gt;传引用减少拷贝次数增快程序速度，然后就会去一股脑全部使用引用&lt;/p&gt;
 &lt;p&gt;这篇博客就是来简单说明一下让新手有些了解&lt;/p&gt;
 &lt;p&gt;本文仅作本人经验所记，并不是很全面&lt;/p&gt;
-&lt;h1 id=&quot;传值&quot;&gt;&lt;a href=&quot;#传值&quot;</summary>
+&lt;h1 id=&quot;传值&quot;&gt;&lt;a</summary>
         
       
     
@@ -300,9 +330,9 @@
     
     
     
-    <category term="Qt" scheme="http://zjhzzy.github.io/tags/Qt/"/>
-    
     <category term="C++" scheme="http://zjhzzy.github.io/tags/C/"/>
+    
+    <category term="Qt" scheme="http://zjhzzy.github.io/tags/Qt/"/>
     
   </entry>
   

@@ -59,6 +59,16 @@
     
 	<!-- mathjax -->
 	
+		<script type="text/x-mathjax-config">
+		  MathJax.Hub.Config({
+			tex2jax: {
+			  skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+			  inlineMath: [['$','$']]
+			}
+		  });
+		</script>
+		<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML' async></script>
+	
 <meta name="generator" content="Hexo 6.3.0"></head>
 
 <body class="max-width mx-auto px3 ltr">
@@ -75,7 +85,7 @@
      --><!--
        --><li><a href="/archives/">归档</a></li><!--
      --><!--
-       --><li><a href="/tags/">标签</a></li><!--
+       --><li><a href="/friend/">友链</a></li><!--
      --><!--
        --><li><a href="/about/">关于</a></li><!--
      -->
@@ -161,45 +171,34 @@
   <div class="content e-content" itemprop="articleBody">
     <p>条件变量（condition variable）这是C++11加入的一个类 用于线程之间的通信</p>
 <span id="more"></span>
-
 <p>condition variable 类是同步原语[1] 能同时阻塞多个线程 直到共享变量被修改并通知 condition variable 时经过判断解除阻塞</p>
 <p>下面演示条件变量的简单用法并且解释作用</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;condition_variable&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;thread&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;mutex&gt;</span></span></span><br><span class="line"></span><br><span class="line">std::condition_variable cv;</span><br><span class="line">std::mutex mutex;</span><br><span class="line"><span class="type">bool</span> variable = <span class="literal">false</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">Print</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="function">std::unique_lock&lt;std::mutex&gt; <span class="title">lock</span><span class="params">(mutex)</span></span>;</span><br><span class="line">    cv.<span class="built_in">wait</span>(lock, [&amp;] &#123; <span class="keyword">return</span> variable; &#125;);</span><br><span class="line">    std::cout &lt;&lt; <span class="string">&quot;Hello World\n&quot;</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="function">std::unique_lock&lt;std::mutex&gt; <span class="title">lock</span><span class="params">(mutex)</span></span>;</span><br><span class="line">    <span class="function">std::thread <span class="title">Thread</span><span class="params">(Print)</span></span>;</span><br><span class="line">    std::this_thread::<span class="built_in">sleep_for</span>(std::chrono::<span class="built_in">seconds</span>(<span class="number">5</span>));</span><br><span class="line">    variable = <span class="literal">true</span>;</span><br><span class="line">    lock.<span class="built_in">unlock</span>();</span><br><span class="line">    cv.<span class="built_in">notify_one</span>();</span><br><span class="line">    Thread.<span class="built_in">join</span>();</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
 <p>声明所需变量</p>
 <p>cv：条件变量 上文解释过</p>
 <p>mutex：互斥锁 对临界区[2]上锁避免竞态条件</p>
 <p>variable：布尔 在 Print 函数中用来判断是否解除阻塞</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">std::condition_variable cv;</span><br><span class="line">std::mutex mutex;</span><br><span class="line"><span class="type">bool</span> variable = <span class="literal">false</span>;</span><br></pre></td></tr></table></figure>
-
 <p>使用 mutex 初始化 unique_lock[3]</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">std::unique_lock&lt;std::mutex&gt; <span class="title">lock</span><span class="params">(mutex)</span></span>;</span><br></pre></td></tr></table></figure>
-
 <p>阻塞线程</p>
 <p>wait 需要传入两个参数</p>
 <p>一个是unique_lock用于获取互斥锁（mutex）</p>
 <p>一个是返回布尔（bool）的函数，在被唤醒后，如果返回值为真（true）就解除阻塞</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cv.<span class="built_in">wait</span>(lock, [&amp;] &#123; <span class="keyword">return</span> variable; &#125;);</span><br></pre></td></tr></table></figure>
-
 <p>输出 Hello World 代表函数执行完毕</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">std::cout &lt;&lt; <span class="string">&quot;Hello World\n&quot;</span>;</span><br></pre></td></tr></table></figure>
-
 <p>创建线程执行 Print 函数</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">std::thread <span class="title">Thread</span><span class="params">(Print)</span></span>;</span><br></pre></td></tr></table></figure>
-
 <p>将主线程暂停5秒</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">std::this_thread::<span class="built_in">sleep_for</span>(std::chrono::<span class="built_in">seconds</span>(<span class="number">5</span>));</span><br></pre></td></tr></table></figure>
-
 <p>修改共享变量</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">variable = <span class="literal">true</span>;</span><br></pre></td></tr></table></figure>
-
 <p>解锁并通知条件变量 Print 中的 wait 判断后解除阻塞</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">lock.<span class="built_in">unlock</span>();</span><br><span class="line">cv.<span class="built_in">notify_one</span>();</span><br></pre></td></tr></table></figure>
-
 <p>等待线程执行完毕</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Thread.<span class="built_in">join</span>();</span><br></pre></td></tr></table></figure>
-
-<p> <strong>提示：即使共享变量是原子的，也必须在互斥下修改它，以正确地发布修改到等待的线程</strong></p>
+<p><strong>提示：即使共享变量是原子的，也必须在互斥下修改它，以正确地发布修改到等待的线程</strong></p>
 <p>[1] 同步原语：如互斥锁，对临界区上锁以避免竞态条件保证线程安全性</p>
 <p>[2] 临界区：指的是一个访问共享资源的代码块</p>
 <p>[3] unique_lock：是一种通用互斥包装器，提供了更灵活的加锁和解锁操作</p>
@@ -209,6 +208,12 @@
   </div>
 </article>
 
+
+    <div class="blog-post-comments">
+        <div id="utterances_thread">
+            <noscript>加载评论需要在浏览器启用 JavaScript 脚本支持。</noscript>
+        </div>
+    </div>
 
 
         
@@ -222,7 +227,7 @@
         
           <li><a href="/archives/">归档</a></li>
         
-          <li><a href="/tags/">标签</a></li>
+          <li><a href="/friend/">友链</a></li>
         
           <li><a href="/about/">关于</a></li>
         
@@ -265,7 +270,7 @@
     Copyright &copy;
     
     
-    2021-2023
+    2021-2024
     JinHong Zeng
   </div>
   <div class="footer-right">
@@ -276,7 +281,7 @@
     --><!--
       --><li><a href="/archives/">归档</a></li><!--
     --><!--
-      --><li><a href="/tags/">标签</a></li><!--
+      --><li><a href="/friend/">友链</a></li><!--
     --><!--
       --><li><a href="/about/">关于</a></li><!--
     -->
@@ -348,11 +353,41 @@
 
 <!-- Baidu Analytics -->
 
+  <script type="text/javascript">
+        var _hmt = _hmt || [];
+        (function() {
+          var hm = document.createElement("script");
+          hm.src = "https://hm.baidu.com/hm.js?868a81b0088244713de9ce6298f992db";
+          var s = document.getElementsByTagName("script")[0];
+          s.parentNode.insertBefore(hm, s);
+        })();
+        </script>
+
 <!-- Cloudflare Analytics -->
 
 <!-- Disqus Comments -->
 
 <!-- utterances Comments -->
+
+    <script type="text/javascript">
+      var utterances_repo = 'zjhzzy/zjhzzy.github.io';
+      var utterances_issue_term = 'pathname';
+      var utterances_label = 'Comment';
+      var utterances_theme = 'github-dark';
+
+      (function(){
+          var script = document.createElement('script');
+
+          script.src = 'https://utteranc.es/client.js';
+          script.setAttribute('repo', utterances_repo);
+          script.setAttribute('issue-term', 'pathname');
+          script.setAttribute('label', utterances_label);
+          script.setAttribute('theme', utterances_theme);
+          script.setAttribute('crossorigin', 'anonymous');
+          script.async = true;
+          (document.getElementById('utterances_thread')).appendChild(script);
+      }());
+  </script>
 
 </body>
 </html>
