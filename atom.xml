@@ -6,7 +6,7 @@
   <link href="http://zjhzzy.github.io/atom.xml" rel="self"/>
   
   <link href="http://zjhzzy.github.io/"/>
-  <updated>2023-10-21T01:21:18.695Z</updated>
+  <updated>2024-07-15T07:12:21.593Z</updated>
   <id>http://zjhzzy.github.io/</id>
   
   <author>
@@ -17,11 +17,96 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>推荐 Windows 新手用户的那些好用软件</title>
+    <link href="http://zjhzzy.github.io/2024/07/14/New-Windows-User-used-Software-recommand/"/>
+    <id>http://zjhzzy.github.io/2024/07/14/New-Windows-User-used-Software-recommand/</id>
+    <published>2024-07-14T13:51:17.000Z</published>
+    <updated>2024-07-15T07:12:21.593Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h2 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h2&gt;&lt;p&gt;我在这里主要讲的是一些比较好用的，我个人比较推荐的 Windows</summary>
+        
+      
+    
+    
+    
+    
+    <category term="Windows" scheme="http://zjhzzy.github.io/tags/Windows/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>我的MySQL学习笔记</title>
+    <link href="http://zjhzzy.github.io/2024/04/17/MySQL-Study-notes/"/>
+    <id>http://zjhzzy.github.io/2024/04/17/MySQL-Study-notes/</id>
+    <published>2024-04-17T12:06:28.000Z</published>
+    <updated>2024-07-14T13:43:40.736Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h2 id=&quot;数据类型&quot;&gt;&lt;a href=&quot;#数据类型&quot; class=&quot;headerlink&quot; title=&quot;数据类型&quot;&gt;&lt;/a&gt;数据类型&lt;/h2&gt;&lt;p&gt;MySQL 中数据字段的类型对数据库的优化很重要，错误的数据类型会严重影响应用的功能和性能&lt;/p&gt;
+&lt;h3</summary>
+        
+      
+    
+    
+    
+    
+    <category term="SQL" scheme="http://zjhzzy.github.io/tags/SQL/"/>
+    
+    <category term="MySQL" scheme="http://zjhzzy.github.io/tags/MySQL/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>我的世界基岩服务器开服教程</title>
+    <link href="http://zjhzzy.github.io/2023/12/19/minecraft-nukkit-server-run/"/>
+    <id>http://zjhzzy.github.io/2023/12/19/minecraft-nukkit-server-run/</id>
+    <published>2023-12-19T15:18:09.000Z</published>
+    <updated>2023-12-19T15:50:17.900Z</updated>
+    
+    
+    <summary type="html">&lt;p&gt;我的世界基岩版的开服流程与Java版的开服教程有些许区别，所以我在这里简略的写一下关于基岩版开服的过程&lt;/p&gt;</summary>
+    
+    
+    
+    
+    <category term="Minecraft" scheme="http://zjhzzy.github.io/tags/Minecraft/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>我的世界（Minecraft）开服指北</title>
+    <link href="http://zjhzzy.github.io/2023/12/19/minecraft-server-run/"/>
+    <id>http://zjhzzy.github.io/2023/12/19/minecraft-server-run/</id>
+    <published>2023-12-18T19:04:03.000Z</published>
+    <updated>2023-12-18T19:11:49.831Z</updated>
+    
+    
+    <summary type="html">&lt;p&gt;想要和自己的朋友一起玩我的世界，但是朋友不在身边？&lt;/p&gt;
+&lt;p&gt;有空闲的服务器想要发挥它的作用？&lt;/p&gt;
+&lt;p&gt;看我这个教程就对了&lt;/p&gt;</summary>
+    
+    
+    
+    
+    <category term="Minecraft" scheme="http://zjhzzy.github.io/tags/Minecraft/"/>
+    
+  </entry>
+  
+  <entry>
     <title>C++11新特性属性（Attribute）的简单解析</title>
     <link href="http://zjhzzy.github.io/2023/10/20/Parsing-attributes-C/"/>
     <id>http://zjhzzy.github.io/2023/10/20/Parsing-attributes-C/</id>
     <published>2023-10-20T14:15:35.000Z</published>
-    <updated>2023-10-21T01:21:18.695Z</updated>
+    <updated>2024-04-19T04:46:47.424Z</updated>
     
     
       
@@ -157,7 +242,7 @@
     <link href="http://zjhzzy.github.io/2023/08/14/Using-JSON-in-the-Qt-Framework/"/>
     <id>http://zjhzzy.github.io/2023/08/14/Using-JSON-in-the-Qt-Framework/</id>
     <published>2023-08-14T05:26:29.000Z</published>
-    <updated>2023-10-05T16:17:45.399Z</updated>
+    <updated>2024-06-21T13:46:45.940Z</updated>
     
     
       
@@ -184,7 +269,7 @@
     <link href="http://zjhzzy.github.io/2023/08/11/Understanding-a-Simple-Example-of-epoll-Usage-in-Linux/"/>
     <id>http://zjhzzy.github.io/2023/08/11/Understanding-a-Simple-Example-of-epoll-Usage-in-Linux/</id>
     <published>2023-08-11T00:31:35.000Z</published>
-    <updated>2023-10-05T16:18:08.189Z</updated>
+    <updated>2024-06-21T13:43:26.716Z</updated>
     
     
       
@@ -230,7 +315,7 @@
     <link href="http://zjhzzy.github.io/2023/08/08/Should-I-pass-by-value-pass-by-pointer-or-pass-by-reference/"/>
     <id>http://zjhzzy.github.io/2023/08/08/Should-I-pass-by-value-pass-by-pointer-or-pass-by-reference/</id>
     <published>2023-08-08T02:44:37.000Z</published>
-    <updated>2023-10-20T14:15:47.038Z</updated>
+    <updated>2024-07-14T14:54:47.556Z</updated>
     
     
       
@@ -240,7 +325,7 @@
     <summary type="html">&lt;p&gt;在学习C++的过程中有些新手可能听说了C++传引用减少拷贝次数增快程序速度，然后就会去一股脑全部使用引用&lt;/p&gt;
 &lt;p&gt;这篇博客就是来简单说明一下让新手有些了解&lt;/p&gt;
 &lt;p&gt;本文仅作本人经验所记，并不是很全面&lt;/p&gt;
-&lt;h1 id=&quot;传值&quot;&gt;&lt;a href=&quot;#传值&quot;</summary>
+&lt;h2 id=&quot;传值&quot;&gt;&lt;a href=&quot;#传值&quot;</summary>
         
       
     

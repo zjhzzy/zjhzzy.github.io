@@ -14,7 +14,7 @@
 <meta property="og:description" content="C++11加入的属性（Attribute）是给各种语言扩展（例如GNU与IBM的语言扩展 __attribute__((...))，微软的语言扩展 __declspec() 等）提供了统一化的语法 属性可以运用在C++的几乎每个地方  类型 变量 函数 名字 代码块 整个翻译单元  C++目前引入的标准属性  C++11 起[[noreturn]]	指示函数不返回[[carries_depende">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2023-10-20T14:15:35.000Z">
-<meta property="article:modified_time" content="2023-10-21T01:21:18.695Z">
+<meta property="article:modified_time" content="2024-04-19T04:46:47.424Z">
 <meta property="article:author" content="JinHong Zeng">
 <meta property="article:tag" content="C++">
 <meta name="twitter:card" content="summary">
@@ -83,6 +83,8 @@
     <br/>
     <span id="actions">
       <ul>
+        
+        <li><a class="icon" aria-label="上一篇" href="/2023/12/19/minecraft-server-run/"><i class="fa-solid fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
         
         
         <li><a class="icon" aria-label="下一篇" href="/2023/10/01/pair-and-tuple/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
@@ -174,7 +176,7 @@
 <ul>
 <li>C++11 起<br>[[noreturn]]	指示函数不返回<br>[[carries_dependency]] 指示释放消费 std::memory_order 中的依赖链传入和传出该函数</li>
 <li>C++14 起<br>[[deprecated]]<br>[[deprecated(“原因”)]] 指示允许使用声明有此属性的名称或实体，但因原因 而不鼓励使用</li>
-<li>C++17 起<br>[[fallthrough]] 指示从前一 case 标号直落是有意的，而在发生直落时给出警告的编译器不应该为此诊断<br>[[nodiscard]] 鼓励编译器在返回值被舍弃时发布警告<br>[[maybe_unused]] 压制编译器在未使用实体上的警告，若存在</li>
+<li>C++17 起<br>[[fallthrough]] 指示从前一 case 标号直落是有意的，而在发生直落时给出警告的编译器不应该为此诊断<br>[[nodiscard]] 鼓励编译器在返回值被舍弃时发布警告<br>[[maybe_unused]] 禁止显示有关未使用实体的警告</li>
 <li>C++20 起<br>[[likely]]<br>[[unlikely]] 指示编译器应该针对通过某语句的执行路径比任何其他执行路径更可能或更不可能的情况进行优化<br>[[no_unique_address]] 指示非静态数据成员的地址不需要拥有与它所在的类的所有其他非静态数据成员不同<br>[[nodiscard(“原因”)]]	鼓励编译器在返回值被舍弃时发布警告<br></li>
 <li>C++23 起<br>[[assume]] 指出某个表达式在某个地方始终会求值为 true<br>[[optimize_for_synchronized]] (TM TS) 指示应该针对来自 synchronized 语句的调用来优化该函数定义</li>
 </ul>
@@ -285,7 +287,7 @@
     Copyright &copy;
     
     
-    2021-2023
+    2021-2024
     JinHong Zeng
   </div>
   <div class="footer-right">

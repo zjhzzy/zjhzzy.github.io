@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="想要和自己的朋友一起玩我的世界，但是朋友不在身边？ 有空闲的服务器想要发挥它的作用？ 看我这个教程就对了">
+<meta property="og:type" content="article">
+<meta property="og:title" content="我的世界（Minecraft）开服指北">
+<meta property="og:url" content="http://zjhzzy.github.io/2023/12/19/minecraft-server-run/index.html">
+<meta property="og:site_name" content="Nlub&#39;s blog">
+<meta property="og:description" content="想要和自己的朋友一起玩我的世界，但是朋友不在身边？ 有空闲的服务器想要发挥它的作用？ 看我这个教程就对了">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://zjhzzy.github.io/images/2023-12-19-09-35-23-image.png">
+<meta property="og:image" content="http://zjhzzy.github.io/images/2023-12-19-09-39-29-image.png">
+<meta property="og:image" content="http://zjhzzy.github.io/images/2023-12-19-09-42-22-image.png">
+<meta property="og:image" content="http://zjhzzy.github.io/images/2023-12-19-09-50-19-image.png">
+<meta property="og:image" content="http://zjhzzy.github.io/images/2023-12-19-10-01-31-image.png">
+<meta property="og:image" content="http://zjhzzy.github.io/images/2023-12-19-10-27-00-image.png">
+<meta property="article:published_time" content="2023-12-18T19:04:03.000Z">
+<meta property="article:modified_time" content="2023-12-18T19:11:49.831Z">
+<meta property="article:author" content="JinHong Zeng">
+<meta property="article:tag" content="Minecraft">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://zjhzzy.github.io/images/2023-12-19-09-35-23-image.png">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>我的世界（Minecraft）开服指北</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+      <link rel="alternate" href="/atom.xml" title="Nlub&#39;s blog" type="application/atom+xml" />
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="顶部" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a href="/tags/">标签</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="上一篇" href="/2023/12/19/minecraft-nukkit-server-run/"><i class="fa-solid fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="下一篇" href="/2023/10/20/Parsing-attributes-C/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="返回顶部" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="分享文章" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://zjhzzy.github.io/2023/12/19/minecraft-server-run/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://zjhzzy.github.io/2023/12/19/minecraft-server-run/&text=我的世界（Minecraft）开服指北"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://zjhzzy.github.io/2023/12/19/minecraft-server-run/&title=我的世界（Minecraft）开服指北"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://zjhzzy.github.io/2023/12/19/minecraft-server-run/&is_video=false&description=我的世界（Minecraft）开服指北"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=我的世界（Minecraft）开服指北&body=Check out this article: http://zjhzzy.github.io/2023/12/19/minecraft-server-run/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://zjhzzy.github.io/2023/12/19/minecraft-server-run/&title=我的世界（Minecraft）开服指北"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://zjhzzy.github.io/2023/12/19/minecraft-server-run/&title=我的世界（Minecraft）开服指北"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://zjhzzy.github.io/2023/12/19/minecraft-server-run/&title=我的世界（Minecraft）开服指北"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://zjhzzy.github.io/2023/12/19/minecraft-server-run/&title=我的世界（Minecraft）开服指北"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://zjhzzy.github.io/2023/12/19/minecraft-server-run/&name=我的世界（Minecraft）开服指北&description=&lt;p&gt;想要和自己的朋友一起玩我的世界，但是朋友不在身边？&lt;/p&gt;
+&lt;p&gt;有空闲的服务器想要发挥它的作用？&lt;/p&gt;
+&lt;p&gt;看我这个教程就对了&lt;/p&gt;"><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://zjhzzy.github.io/2023/12/19/minecraft-server-run/&t=我的世界（Minecraft）开服指北"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    
+    
+      <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9C%8D%E5%8A%A1%E7%AB%AF%E7%B1%BB%E5%9E%8B"><span class="toc-number">1.</span> <span class="toc-text">服务端类型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BC%80%E5%A7%8B%E6%95%99%E7%A8%8B"><span class="toc-number">2.</span> <span class="toc-text">开始教程</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%89%E8%A3%85JDK"><span class="toc-number">2.1.</span> <span class="toc-text">安装JDK</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%8B%E8%BD%BD%E6%9C%8D%E5%8A%A1%E7%AB%AF"><span class="toc-number">2.2.</span> <span class="toc-text">下载服务端</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9C%8D%E5%8A%A1%E7%AB%AF%E5%90%AF%E5%8A%A8%EF%BC%81%EF%BC%81%EF%BC%81"><span class="toc-number">2.3.</span> <span class="toc-text">服务端启动！！！</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#eula-txt"><span class="toc-number">2.3.1.</span> <span class="toc-text">eula.txt</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#server-properties"><span class="toc-number">2.3.2.</span> <span class="toc-text">server.properties</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%86%8D%E6%AC%A1%E5%90%AF%E5%8A%A8"><span class="toc-number">2.3.3.</span> <span class="toc-text">再次启动</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B7%BB%E5%8A%A0%E6%8F%92%E4%BB%B6"><span class="toc-number">2.4.</span> <span class="toc-text">添加插件</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BB%93%E8%AF%AD"><span class="toc-number">3.</span> <span class="toc-text">结语</span></a></li></ol>
+      </div>
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        我的世界（Minecraft）开服指北
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">JinHong Zeng</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2023-12-18T19:04:03.000Z" class="dt-published" itemprop="datePublished">2023-12-19</time>
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fa-solid fa-tag"></i>
+        <a class="p-category" href="/tags/Minecraft/" rel="tag">Minecraft</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <p>想要和自己的朋友一起玩我的世界，但是朋友不在身边？</p>
+<p>有空闲的服务器想要发挥它的作用？</p>
+<p>看我这个教程就对了</p>
+<span id="more"></span>
+
+<h2 id="服务端类型"><a href="#服务端类型" class="headerlink" title="服务端类型"></a>服务端类型</h2><p>我的世界有两大类Java和Bedrock，这两个大类下又有几个小类</p>
+<ul>
+<li>Java<ul>
+<li>原版端 顾名思义就是Minecraft官方发布的端，啥都不能添加</li>
+<li>插件端 这类服务端只能添加插件也被称为纯净端，但是技术够厉害的也能做出和mod差不多的插件，最具代表性的为Spigot&#x2F;Paper</li>
+<li>模组端 这类服务端只能添加模组也被称为模组端，最具代表性的就是Forge&#x2F;Fabric</li>
+<li>插件模组混合系 这类服务端既能添加插件也能添加模组，最具代表性的是Arclight&#x2F;Mohist</li>
+<li>代理端 这个我也不太熟悉就不介绍了</li>
+</ul>
+</li>
+<li>Bedrock<ul>
+<li>原版端 同上</li>
+<li>Nukkit系 与Java的插件端差不多，最具代表性的是Nukkit&#x2F;PocketMine服务端<br>现在正式开始教程，各个服务端之间都有些许差别，本教程是<strong>基于Spigot系</strong>而做的教程</li>
+</ul>
+</li>
+</ul>
+<h2 id="开始教程"><a href="#开始教程" class="headerlink" title="开始教程"></a>开始教程</h2><h3 id="安装JDK"><a href="#安装JDK" class="headerlink" title="安装JDK"></a>安装JDK</h3><p><a target="_blank" rel="noopener" href="https://www.oracle.com/cn/java/technologies/downloads/">Java Downloads | Oracle 中国</a> 选择一个适合自己的版本下载</p>
+<h3 id="下载服务端"><a href="#下载服务端" class="headerlink" title="下载服务端"></a>下载服务端</h3><p>下载服务端到一个空目录下，我这里给出<a target="_blank" rel="noopener" href="https://download.fastmirror.net/download/Spigot/1.20.2/3943">Spigot</a>的下载链接<br>此时目录应该是这样的（如下图）</p>
+<p><img src="/../images/2023-12-19-09-35-23-image.png"></p>
+<h3 id="服务端启动！！！"><a href="#服务端启动！！！" class="headerlink" title="服务端启动！！！"></a>服务端启动！！！</h3><p>启动终端，进入到jar文件在的那个目录，进行第一次启动</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">java -jar 你所下载的jar文件的名字</span><br></pre></td></tr></table></figure>
+<p>执行完这条命令一会后你会发现程序终止了，目录下多出了几个文件，我来介绍一下</p>
+<p><img src="/../images/2023-12-19-09-39-29-image.png"></p>
+<h4 id="eula-txt"><a href="#eula-txt" class="headerlink" title="eula.txt"></a>eula.txt</h4><p>这个是有关<a target="_blank" rel="noopener" href="https://account.mojang.com/documents/minecraft_eula">eula协议</a>的文件，需要将false改成true同意该协议服务端才能正常启动</p>
+<p><img src="/../images/2023-12-19-09-42-22-image.png"></p>
+<h4 id="server-properties"><a href="#server-properties" class="headerlink" title="server.properties"></a>server.properties</h4><p>这个是服务端的配置文件，我这里讲解几个基础的配置项</p>
+<blockquote>
+<p>server-port：这个是服务端发送数据的端口，默认为25565<br>online-mode：这个是服务端是否是在线模式，如果你或你朋友没有正版账号的话就设置为false<br>gamemode：服务端的模式，默认为生存<br>motd：服务器在游戏中显示的介绍</p>
+</blockquote>
+<h4 id="再次启动"><a href="#再次启动" class="headerlink" title="再次启动"></a>再次启动</h4><p>还是同样的命令，这一次没有意外的话服务器就正常启动了</p>
+<p><img src="/../images/2023-12-19-09-50-19-image.png"></p>
+<p>出现这句话那服务器应该是完成加载了</p>
+<h3 id="添加插件"><a href="#添加插件" class="headerlink" title="添加插件"></a>添加插件</h3><p>插件端正常启动后一般都会添加一个plugins文件夹，模组端是mods文件夹</p>
+<p><img src="/../images/2023-12-19-10-01-31-image.png"></p>
+<p>如果需要添加插件或模组就将下载来的jar文件拖入到对应的文件夹中，再重启服务端就可以了<br>输入 plugins 命令就会显示安装了多少个插件，并以颜色区分插件是否正常加载启动</p>
+<p><img src="/../images/2023-12-19-10-27-00-image.png"></p>
+<h2 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h2><p>本开发指北未完待续，我暂时想不出有哪些需要写进去的了，除非腐竹是一个电脑小白，本教程对于开一个只是与朋友玩的服务器是足够的了</p>
+<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=86 src="//music.163.com/outchain/player?type=2&id=2093250080&auto=0&height=66"></iframe>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">首页</a></li>
+        
+          <li><a href="/archives/">归档</a></li>
+        
+          <li><a href="/tags/">标签</a></li>
+        
+          <li><a href="/about/">关于</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+      <div id="toc-footer" style="display: none">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9C%8D%E5%8A%A1%E7%AB%AF%E7%B1%BB%E5%9E%8B"><span class="toc-number">1.</span> <span class="toc-text">服务端类型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BC%80%E5%A7%8B%E6%95%99%E7%A8%8B"><span class="toc-number">2.</span> <span class="toc-text">开始教程</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%89%E8%A3%85JDK"><span class="toc-number">2.1.</span> <span class="toc-text">安装JDK</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%8B%E8%BD%BD%E6%9C%8D%E5%8A%A1%E7%AB%AF"><span class="toc-number">2.2.</span> <span class="toc-text">下载服务端</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9C%8D%E5%8A%A1%E7%AB%AF%E5%90%AF%E5%8A%A8%EF%BC%81%EF%BC%81%EF%BC%81"><span class="toc-number">2.3.</span> <span class="toc-text">服务端启动！！！</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#eula-txt"><span class="toc-number">2.3.1.</span> <span class="toc-text">eula.txt</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#server-properties"><span class="toc-number">2.3.2.</span> <span class="toc-text">server.properties</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%86%8D%E6%AC%A1%E5%90%AF%E5%8A%A8"><span class="toc-number">2.3.3.</span> <span class="toc-text">再次启动</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B7%BB%E5%8A%A0%E6%8F%92%E4%BB%B6"><span class="toc-number">2.4.</span> <span class="toc-text">添加插件</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BB%93%E8%AF%AD"><span class="toc-number">3.</span> <span class="toc-text">结语</span></a></li></ol>
+      </div>
+    
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://zjhzzy.github.io/2023/12/19/minecraft-server-run/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://zjhzzy.github.io/2023/12/19/minecraft-server-run/&text=我的世界（Minecraft）开服指北"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://zjhzzy.github.io/2023/12/19/minecraft-server-run/&title=我的世界（Minecraft）开服指北"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://zjhzzy.github.io/2023/12/19/minecraft-server-run/&is_video=false&description=我的世界（Minecraft）开服指北"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=我的世界（Minecraft）开服指北&body=Check out this article: http://zjhzzy.github.io/2023/12/19/minecraft-server-run/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://zjhzzy.github.io/2023/12/19/minecraft-server-run/&title=我的世界（Minecraft）开服指北"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://zjhzzy.github.io/2023/12/19/minecraft-server-run/&title=我的世界（Minecraft）开服指北"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://zjhzzy.github.io/2023/12/19/minecraft-server-run/&title=我的世界（Minecraft）开服指北"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://zjhzzy.github.io/2023/12/19/minecraft-server-run/&title=我的世界（Minecraft）开服指北"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://zjhzzy.github.io/2023/12/19/minecraft-server-run/&name=我的世界（Minecraft）开服指北&description=&lt;p&gt;想要和自己的朋友一起玩我的世界，但是朋友不在身边？&lt;/p&gt;
+&lt;p&gt;有空闲的服务器想要发挥它的作用？&lt;/p&gt;
+&lt;p&gt;看我这个教程就对了&lt;/p&gt;"><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://zjhzzy.github.io/2023/12/19/minecraft-server-run/&t=我的世界（Minecraft）开服指北"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        
+          <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2021-2024
+    JinHong Zeng
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+      --><li><a href="/">首页</a></li><!--
+    --><!--
+      --><li><a href="/archives/">归档</a></li><!--
+    --><!--
+      --><li><a href="/tags/">标签</a></li><!--
+    --><!--
+      --><li><a href="/about/">关于</a></li><!--
+    -->
+      </ul>
+      <ul>
+        
+          <!-- 不蒜子统计 -->
+          <span id="busuanzi_container_site_pv">
+              本站总访问量<span id="busuanzi_value_site_pv"></span>次
+          </span>
+          <span class="post-meta-divider">|</span>
+          <span id="busuanzi_container_site_uv" style='display:none'>
+                  本站访客数<span id="busuanzi_value_site_uv"></span>人
+          </span>
+        <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+        
+      </ul>
+    </nav>
+  </div>
+  
+</footer>
+
+
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板！\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功！");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>

@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="数据类型MySQL 中数据字段的类型对数据库的优化很重要，错误的数据类型会严重影响应用的功能和性能 数值类型MySQL 支持所有标准SQL数值数据类型  除了BIT和BOLLEAN以外其他的数值类型都有有符号和无符号两种状态默认都是有符号，如果不需要存储负值可以使用 UNSIGNED 关键字，这样可表示的数值增大一倍有符号的数值类型可以表示正数和负数，而无符号的数值类型只能表示正数     数据类">
+<meta property="og:type" content="article">
+<meta property="og:title" content="我的MySQL学习笔记">
+<meta property="og:url" content="http://zjhzzy.github.io/2024/04/17/MySQL-Study-notes/index.html">
+<meta property="og:site_name" content="Nlub&#39;s blog">
+<meta property="og:description" content="数据类型MySQL 中数据字段的类型对数据库的优化很重要，错误的数据类型会严重影响应用的功能和性能 数值类型MySQL 支持所有标准SQL数值数据类型  除了BIT和BOLLEAN以外其他的数值类型都有有符号和无符号两种状态默认都是有符号，如果不需要存储负值可以使用 UNSIGNED 关键字，这样可表示的数值增大一倍有符号的数值类型可以表示正数和负数，而无符号的数值类型只能表示正数     数据类">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2024-04-17T12:06:28.000Z">
+<meta property="article:modified_time" content="2024-07-14T13:43:40.736Z">
+<meta property="article:author" content="JinHong Zeng">
+<meta property="article:tag" content="SQL">
+<meta property="article:tag" content="MySQL">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>我的MySQL学习笔记</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+      <link rel="alternate" href="/atom.xml" title="Nlub&#39;s blog" type="application/atom+xml" />
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="顶部" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a href="/tags/">标签</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="上一篇" href="/2024/07/14/New-Windows-User-used-Software-recommand/"><i class="fa-solid fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="下一篇" href="/2023/12/19/minecraft-nukkit-server-run/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="返回顶部" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="分享文章" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://zjhzzy.github.io/2024/04/17/MySQL-Study-notes/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://zjhzzy.github.io/2024/04/17/MySQL-Study-notes/&text=我的MySQL学习笔记"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://zjhzzy.github.io/2024/04/17/MySQL-Study-notes/&title=我的MySQL学习笔记"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://zjhzzy.github.io/2024/04/17/MySQL-Study-notes/&is_video=false&description=我的MySQL学习笔记"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=我的MySQL学习笔记&body=Check out this article: http://zjhzzy.github.io/2024/04/17/MySQL-Study-notes/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://zjhzzy.github.io/2024/04/17/MySQL-Study-notes/&title=我的MySQL学习笔记"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://zjhzzy.github.io/2024/04/17/MySQL-Study-notes/&title=我的MySQL学习笔记"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://zjhzzy.github.io/2024/04/17/MySQL-Study-notes/&title=我的MySQL学习笔记"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://zjhzzy.github.io/2024/04/17/MySQL-Study-notes/&title=我的MySQL学习笔记"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://zjhzzy.github.io/2024/04/17/MySQL-Study-notes/&name=我的MySQL学习笔记&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://zjhzzy.github.io/2024/04/17/MySQL-Study-notes/&t=我的MySQL学习笔记"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    
+    
+      <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B"><span class="toc-number">1.</span> <span class="toc-text">数据类型</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B0%E5%80%BC%E7%B1%BB%E5%9E%8B"><span class="toc-number">1.1.</span> <span class="toc-text">数值类型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%B2%E7%B1%BB%E5%9E%8B"><span class="toc-number">1.2.</span> <span class="toc-text">串类型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%97%A5%E6%9C%9F%E5%92%8C%E6%97%B6%E9%97%B4%E7%B1%BB%E5%9E%8B"><span class="toc-number">1.3.</span> <span class="toc-text">日期和时间类型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%8C%E8%BF%9B%E5%88%B6%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B"><span class="toc-number">1.4.</span> <span class="toc-text">二进制数据类型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B0%8F%E7%BB%93"><span class="toc-number">1.5.</span> <span class="toc-text">小结</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E5%BA%93"><span class="toc-number">2.</span> <span class="toc-text">数据库</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E6%95%B0%E6%8D%AE%E5%BA%93"><span class="toc-number">2.1.</span> <span class="toc-text">创建数据库</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%80%89%E6%8B%A9%E6%95%B0%E6%8D%AE%E5%BA%93"><span class="toc-number">2.2.</span> <span class="toc-text">选择数据库</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%A0%E9%99%A4%E6%95%B0%E6%8D%AE%E5%BA%93"><span class="toc-number">2.3.</span> <span class="toc-text">删除数据库</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A1%A8"><span class="toc-number">3.</span> <span class="toc-text">表</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E8%A1%A8"><span class="toc-number">3.1.</span> <span class="toc-text">创建表</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#NULL-%E5%92%8C-NOT-NULL"><span class="toc-number">3.1.1.</span> <span class="toc-text">NULL 和 NOT NULL</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%BB%98%E8%AE%A4%E5%80%BC"><span class="toc-number">3.1.2.</span> <span class="toc-text">默认值</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%BB%E9%94%AE"><span class="toc-number">3.1.3.</span> <span class="toc-text">主键</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E5%BA%93%E5%BC%95%E6%93%8E"><span class="toc-number">3.1.4.</span> <span class="toc-text">数据库引擎</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9B%B4%E6%96%B0%E8%A1%A8"><span class="toc-number">3.2.</span> <span class="toc-text">更新表</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%87%8D%E5%91%BD%E5%90%8D%E8%A1%A8"><span class="toc-number">3.3.</span> <span class="toc-text">重命名表</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%A0%E9%99%A4%E8%A1%A8"><span class="toc-number">3.4.</span> <span class="toc-text">删除表</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B0%8F%E7%BB%93-1"><span class="toc-number">3.5.</span> <span class="toc-text">小结</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE"><span class="toc-number">4.</span> <span class="toc-text">数据</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A3%80%E7%B4%A2%E6%95%B0%E6%8D%AE"><span class="toc-number">4.1.</span> <span class="toc-text">检索数据</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%A3%80%E7%B4%A2%E5%8D%95%E4%B8%AA%E5%88%97"><span class="toc-number">4.1.1.</span> <span class="toc-text">检索单个列</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%A3%80%E7%B4%A2%E5%A4%9A%E4%B8%AA%E5%88%97"><span class="toc-number">4.1.2.</span> <span class="toc-text">检索多个列</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%A3%80%E7%B4%A2%E6%89%80%E6%9C%89%E5%88%97"><span class="toc-number">4.1.3.</span> <span class="toc-text">检索所有列</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%87%E6%BB%A4%E6%95%B0%E6%8D%AE"><span class="toc-number">4.2.</span> <span class="toc-text">过滤数据</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#WHERE%E5%AD%90%E5%8F%A5%E7%9A%84%E6%93%8D%E4%BD%9C%E7%AC%A6"><span class="toc-number">4.2.1.</span> <span class="toc-text">WHERE子句的操作符</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%8C%83%E5%9B%B4%E5%80%BC%E6%A3%80%E6%9F%A5"><span class="toc-number">4.2.2.</span> <span class="toc-text">范围值检查</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%A9%BA%E5%80%BC%E6%A3%80%E6%9F%A5"><span class="toc-number">4.2.3.</span> <span class="toc-text">空值检查</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8F%92%E5%85%A5%E6%95%B0%E6%8D%AE"><span class="toc-number">4.3.</span> <span class="toc-text">插入数据</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%8F%92%E5%85%A5%E5%8D%95%E8%A1%8C%E6%95%B0%E6%8D%AE"><span class="toc-number">4.3.1.</span> <span class="toc-text">插入单行数据</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%8F%92%E5%85%A5%E5%A4%9A%E8%A1%8C%E6%95%B0%E6%8D%AE"><span class="toc-number">4.3.2.</span> <span class="toc-text">插入多行数据</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9B%B4%E6%96%B0%E6%95%B0%E6%8D%AE"><span class="toc-number">4.4.</span> <span class="toc-text">更新数据</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%A0%E9%99%A4%E6%95%B0%E6%8D%AE"><span class="toc-number">4.5.</span> <span class="toc-text">删除数据</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BB%93%E8%AF%AD"><span class="toc-number">5.</span> <span class="toc-text">结语</span></a></li></ol>
+      </div>
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        我的MySQL学习笔记
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">JinHong Zeng</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2024-04-17T12:06:28.000Z" class="dt-published" itemprop="datePublished">2024-04-17</time>
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fa-solid fa-tag"></i>
+        <a class="p-category" href="/tags/MySQL/" rel="tag">MySQL</a>, <a class="p-category" href="/tags/SQL/" rel="tag">SQL</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <h2 id="数据类型"><a href="#数据类型" class="headerlink" title="数据类型"></a>数据类型</h2><p>MySQL 中数据字段的类型对数据库的优化很重要，错误的数据类型会严重影响应用的功能和性能</p>
+<h3 id="数值类型"><a href="#数值类型" class="headerlink" title="数值类型"></a>数值类型</h3><p>MySQL 支持所有标准SQL数值数据类型</p>
+<blockquote>
+<p>除了<strong>BIT</strong>和<strong>BOLLEAN</strong>以外其他的数值类型都有有符号和无符号两种状态<br>默认都是有符号，如果不需要存储负值可以使用 <strong>UNSIGNED</strong> 关键字，这样可表示的数值增大一倍<br>有符号的数值类型可以表示正数和负数，而无符号的数值类型只能表示正数</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>数据类型</th>
+<th>有符号范围</th>
+<th>无符号范围</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>BIT</td>
+<td></td>
+<td></td>
+<td>位字段，1~64位</td>
+</tr>
+<tr>
+<td>TINYINT</td>
+<td>-128~127</td>
+<td>0~255</td>
+<td>整数值</td>
+</tr>
+<tr>
+<td>SMALLINT</td>
+<td>-32768~32767</td>
+<td>0~65535</td>
+<td>整数值</td>
+</tr>
+<tr>
+<td>MEDIUMINT</td>
+<td>-8388608~8388607</td>
+<td>0~16777215</td>
+<td>整数值</td>
+</tr>
+<tr>
+<td>INT 或 INTEGER</td>
+<td>-2147483648~2147483647</td>
+<td>0~4294967295</td>
+<td>整数值</td>
+</tr>
+<tr>
+<td>BIGINT</td>
+<td>-9223372036854775808~9223372036854775807</td>
+<td>0~18446744073709551615</td>
+<td>整数值</td>
+</tr>
+<tr>
+<td>REAL</td>
+<td></td>
+<td></td>
+<td>4字节的浮点值</td>
+</tr>
+<tr>
+<td>FLOAT</td>
+<td></td>
+<td></td>
+<td>单精度浮点数</td>
+</tr>
+<tr>
+<td>DOUBLE</td>
+<td></td>
+<td></td>
+<td>双精度浮点数</td>
+</tr>
+<tr>
+<td>DEC 或 DECIMAL</td>
+<td></td>
+<td></td>
+<td>精度可变的浮点数</td>
+</tr>
+<tr>
+<td>BOOL 或 BOOLEAN</td>
+<td>TRUE 或 FLASE</td>
+<td>TRUE 或 FLASE</td>
+<td>布尔标志</td>
+</tr>
+</tbody></table>
+<h3 id="串类型"><a href="#串类型" class="headerlink" title="串类型"></a>串类型</h3><p>最常用的数据类型就是串类型，串类型有两种基本的类型，分别为定长串和变长串</p>
+<blockquote>
+<p>定长串存储长度固定的字符串，长度是在创建表的时候指定的<br>变长串存储长度可变的字符串，有些变长串是完全变长，有些具有最大的定值长度无法超过定值</p>
+</blockquote>
+<p>数据库处理定长串的速度比处理变长串的速度<strong>快得多</strong></p>
+<table>
+<thead>
+<tr>
+<th>数据类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>CHAR</td>
+<td>1~255个字符的定长串，它的长度要在创建时指定，否则MySQL将假定为 CHAR(1)</td>
+</tr>
+<tr>
+<td>VARCHAR</td>
+<td>长度可变，但是最多不超过255字节，如果在创建时指定为 VARCHAR(n) 则可以存储0到n个字符的变长串(n&lt;&#x3D;255)</td>
+</tr>
+<tr>
+<td>TINYTEXT</td>
+<td>最大长度为 255B 的变长文本</td>
+</tr>
+<tr>
+<td>MEDIUMTEXT</td>
+<td>最大长度为 16KB 的变长文本</td>
+</tr>
+<tr>
+<td>TEXT</td>
+<td>最大长度为 64KB 的变长文本</td>
+</tr>
+<tr>
+<td>LONGTEXT</td>
+<td>最大长度为 4GB 的变长文本</td>
+</tr>
+</tbody></table>
+<p>不管是何种类型的串类型，串值都必须在引号内(单双引号都可以，通常单引号更好)</p>
+<blockquote>
+<p>如果数值是计算中使用的数值，则应该存储在数值数据类型中，如果是作为字符串使用，则应该保存在串数据类型列中</p>
+</blockquote>
+<h3 id="日期和时间类型"><a href="#日期和时间类型" class="headerlink" title="日期和时间类型"></a>日期和时间类型</h3><p>MySQL中使用特殊的类型来存储日期和时间</p>
+<table>
+<thead>
+<tr>
+<th>数据类型</th>
+<th align="left">说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>DATE</td>
+<td align="left">表示从 1000-01-01 ~ 9999-12-31 的日期，格式为 YYYY-MM-DD</td>
+</tr>
+<tr>
+<td>TIME</td>
+<td align="left">格式为 HH:MM:SS</td>
+</tr>
+<tr>
+<td>DATETIME</td>
+<td align="left">DATE和TIME的组合 格式为 YYYY-MM-DD HH:MM:SS</td>
+</tr>
+<tr>
+<td>TIMESTAMP</td>
+<td align="left">DATE和TIME的组合，比DATETIME小一些，表示从 1970-01-01 00:00:01 ~ 2038-01-19 03:14:07 的时间，格式为 YYYY-MM-DD</td>
+</tr>
+<tr>
+<td>YEAR</td>
+<td align="left">用两位数字表示，范围是70(1970年)~69(2069年)，用四位数字表示，范围是1910年到2155年</td>
+</tr>
+</tbody></table>
+<h3 id="二进制数据类型"><a href="#二进制数据类型" class="headerlink" title="二进制数据类型"></a>二进制数据类型</h3><p>二进制数据类型可以存储任何数据，如图像、多媒体、压缩文件等等</p>
+<table>
+<thead>
+<tr>
+<th>数据类型</th>
+<th>最大长度</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>TINYBLOB</td>
+<td>255 Byte</td>
+</tr>
+<tr>
+<td>BLOB</td>
+<td>64 KB</td>
+</tr>
+<tr>
+<td>MEDIUMBLOB</td>
+<td>16 MB</td>
+</tr>
+<tr>
+<td>LONGBLOB</td>
+<td>4 GB</td>
+</tr>
+</tbody></table>
+<h3 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h3><p>数据类型已经全部总结了，如果有错误或者有遗漏的可以在下方评论区提出来<br>表中数据类型的搭配对于表的性能有很大的影响，在设计表的时候应该<strong>慎重</strong>选择数据类型</p>
+<h2 id="数据库"><a href="#数据库" class="headerlink" title="数据库"></a>数据库</h2><h3 id="创建数据库"><a href="#创建数据库" class="headerlink" title="创建数据库"></a>创建数据库</h3><p>在登录MySQL服务器之后可以使用<code>CREATE DATABASE</code>创建数据库</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> DATABASE 数据库名字;</span><br></pre></td></tr></table></figure>
+
+<p>如果数据库已经存在执行该语句将导致错误</p>
+<h3 id="选择数据库"><a href="#选择数据库" class="headerlink" title="选择数据库"></a>选择数据库</h3><p>最初登录到MySQL服务器之后没有数据库打开供我们使用，而在执行其他操作之前我们<u><strong>必须</strong></u>要选择一个数据库，此时我们可以使用 <code>USE</code> 语句选择数据库</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">USE 数据库名字;</span><br></pre></td></tr></table></figure>
+
+<p>执行成功将输出</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Database changed</span><br></pre></td></tr></table></figure>
+
+<h3 id="删除数据库"><a href="#删除数据库" class="headerlink" title="删除数据库"></a>删除数据库</h3><p>在MySQL中要删除已创建的数据库可以使用<code>DROP DATABASE</code>语句</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 删除数据库</span></span><br><span class="line"><span class="keyword">DROP</span> DATABASE 数据库名字;</span><br><span class="line"><span class="comment">-- 如果数据库存在就删除</span></span><br><span class="line"><span class="keyword">DROP</span> DATABASE IF <span class="keyword">EXISTS</span> 数据库名字;</span><br></pre></td></tr></table></figure>
+
+<p><code>IF EXISTS</code>是一个可选的子句，表示如果数据库存在就删除，避免因为数据库不存在而产生错误</p>
+<table><tr><td bgcolor="#F35B5B">注意！在执行任何删除操作时一定要三思而后行，不要等到数据被删除后再追悔莫及</td></tr></table>
+
+<h2 id="表"><a href="#表" class="headerlink" title="表"></a>表</h2><p>关于创建、更新、删除表的基本操作</p>
+<h3 id="创建表"><a href="#创建表" class="headerlink" title="创建表"></a>创建表</h3><p>MySQL中创建表有两种方法</p>
+<ul>
+<li>使用MySQL语句创建</li>
+<li>使用MySQL管理工具创建，但是其本质上还是MySQL语句<br>我们这里使用MySQL语句<code>CREATE TABLE</code>创建表</li>
+<li>表的名字要跟在 <code>CREATE TABLE</code> 后面</li>
+<li>列的名字和定义要使用 “,” 分开<br>示例</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> users</span><br><span class="line">(</span><br><span class="line">  user_id <span class="type">VARCHAR</span>(<span class="number">10</span>) <span class="keyword">NOT</span> <span class="keyword">NULL</span>,</span><br><span class="line">  user_name <span class="type">VARCHAR</span>(<span class="number">12</span>) <span class="keyword">NOT</span> <span class="keyword">NULL</span>,</span><br><span class="line">  user_email <span class="type">VARCHAR</span>(<span class="number">50</span>) <span class="keyword">NULL</span> <span class="keyword">DEFAULT</span> <span class="string">&#x27;zjh_34@qq.com&#x27;</span>,</span><br><span class="line">  user_age TINYINT UNSIGNED <span class="keyword">NULL</span>,</span><br><span class="line">  user_image MEDIUMBLOB <span class="keyword">NULL</span>,</span><br><span class="line">  user_create_date DATA <span class="keyword">NULL</span>,</span><br><span class="line">  <span class="keyword">PRIMARY</span> KEY (user_id)</span><br><span class="line">) ENGINE<span class="operator">=</span>InnoDB;</span><br></pre></td></tr></table></figure>
+
+<h4 id="NULL-和-NOT-NULL"><a href="#NULL-和-NOT-NULL" class="headerlink" title="NULL 和 NOT NULL"></a>NULL 和 NOT NULL</h4><p>为什么在数据类型后面还跟了<code>NOT NULL</code>或<code>NULL</code>呢？<br><code>NOT NULL</code>表示的意思是这个字段的值不能为<code>NULL</code><br>而<code>NULL</code>的意思相反，表示这个字段的值可以为<code>NULL</code></p>
+<h4 id="默认值"><a href="#默认值" class="headerlink" title="默认值"></a>默认值</h4><p>在<code>user_email</code>后面的<code>DEFAULT &#39;zjh_34@qq.com&#39;</code>的意思是是什么呢？看到这个单词你应该就能猜出来了吧<br>不要自我怀疑，这个子句就是设置默认值的，这个子句设置了<code>user_email</code>的默认值为<code>zjh_34@qq.com</code></p>
+<h4 id="主键"><a href="#主键" class="headerlink" title="主键"></a>主键</h4><p>可以通过<code>PRIMARY KEY</code>语句设置主键<code>PRIMARY KEY</code>不只能设置一个主键，也可以设置多个主键，使用方式如下</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">PRIMARY</span> KEY (字段名<span class="number">1</span>,字段名<span class="number">2</span>,字段名...)</span><br></pre></td></tr></table></figure>
+
+<h4 id="数据库引擎"><a href="#数据库引擎" class="headerlink" title="数据库引擎"></a>数据库引擎</h4><p>&#x3D;&#x3D;这个容我偷偷懒晚些写😁&#x3D;&#x3D;</p>
+<h3 id="更新表"><a href="#更新表" class="headerlink" title="更新表"></a>更新表</h3><p>更新表可以使用<code>ALTER TABLE</code>语句，按照常理来说我们的表在<strong>设计时应该考虑好</strong>，在设计好之后<strong>不应有大规模</strong>的改动<br>来，举个添加列的栗子给你看看</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> users</span><br><span class="line"><span class="keyword">ADD</span> user_city <span class="type">VARCHAR</span>(<span class="number">40</span>);</span><br></pre></td></tr></table></figure>
+
+<p>在这个栗子里我们给前面创建的<code>users</code>表添加了一个名为<code>user_city</code>的列<br>既然可以添加列，那么我们肯定也能删除列<br>删除我们刚才添加的列可以这样做</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> users</span><br><span class="line"><span class="keyword">DROP</span> <span class="keyword">COLUMN</span> user_city;</span><br></pre></td></tr></table></figure>
+
+<table><tr><td bgcolor="#F35B5B">注意！使用ALTER TABLE语句的时候要极为注意，如果增加了不需要的列可能会无法删除它们，如果删除了不应该删除的列，可能会丢失列中的所有数据</td></tr></table>
+
+<p>&#x3D;&#x3D;定义外键，晚些写&#x3D;&#x3D;</p>
+<h3 id="重命名表"><a href="#重命名表" class="headerlink" title="重命名表"></a>重命名表</h3><p>重命名表可以使用<code>RENAME TABLE</code>语句<br>举个栗子</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">RENAME <span class="keyword">TABLE</span> 表名 <span class="keyword">TO</span> 新表名</span><br></pre></td></tr></table></figure>
+
+<p>也可以通过下面这种方式重命名多个表</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">RENAME <span class="keyword">TABLE</span> 表名<span class="number">1</span> <span class="keyword">TO</span> 新表名<span class="number">1</span>,</span><br><span class="line">表名<span class="number">2</span> <span class="keyword">TO</span> 新表名<span class="number">2</span>,</span><br><span class="line">...;</span><br></pre></td></tr></table></figure>
+
+<h3 id="删除表"><a href="#删除表" class="headerlink" title="删除表"></a>删除表</h3><p>删除表可以使用<code>DROP TABLE</code>语句，这个语句是删除整张表，并非它的内容，这个语句非常简单，看栗子吧</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">DROP</span> <span class="keyword">TABLE</span> 表名;</span><br></pre></td></tr></table></figure>
+
+<p>这个语句删除了一个表（如果这个表存在的话），删除表没有确认，不能撤销，在执行这条语句后将永久删除该表</p>
+<h3 id="小结-1"><a href="#小结-1" class="headerlink" title="小结"></a>小结</h3><p>学习了创建、更新、重命名、删除表语句<br><code>CREATE TABLE</code>用来创建新表<br><code>ALTER TABLE</code>用来改变表列<br><code>RENAME TABLE</code>用来重命名表<br><code>DROP TABLE</code>用来删除表</p>
+<h2 id="数据"><a href="#数据" class="headerlink" title="数据"></a>数据</h2><h3 id="检索数据"><a href="#检索数据" class="headerlink" title="检索数据"></a>检索数据</h3><p>最经常使用的检索数据的SQL语句就是<code>SELECT</code>语句了，在这里我将会讲一些常用的<code>SELECT</code>语句的用法</p>
+<h4 id="检索单个列"><a href="#检索单个列" class="headerlink" title="检索单个列"></a>检索单个列</h4><p>我们从一个简单的检索单列数据的SQL语句开始</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> user_name</span><br><span class="line"><span class="keyword">FROM</span> users;</span><br></pre></td></tr></table></figure>
+
+<p>这个SQL语句的意思是从<code>users</code>表中检索出名为<code>user_name</code>的列<br>输出如下</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">+-------------+</span><br><span class="line">| user_name   |</span><br><span class="line">+-------------+</span><br><span class="line">| SLow        |</span><br><span class="line">| Finish      |</span><br><span class="line">| Do not back |</span><br><span class="line">+-------------+</span><br></pre></td></tr></table></figure>
+
+<h4 id="检索多个列"><a href="#检索多个列" class="headerlink" title="检索多个列"></a>检索多个列</h4><p>如果想要检索多个列的数据也是很简单的，请看栗子</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> user_name,user_email</span><br><span class="line"><span class="keyword">FROM</span> users;</span><br></pre></td></tr></table></figure>
+
+<p>这个栗子我们检索了<code>user_name</code>和<code>user_email</code>这两列，列名之间用逗号(,)分隔，输出如下</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">+-------------+-----------------+</span><br><span class="line">| user_name   | user_email      |</span><br><span class="line">+-------------+-----------------+</span><br><span class="line">| SLow        | zjh_345@qq.com  |</span><br><span class="line">| Finish      | zjh_3456@qq.com |</span><br><span class="line">| Do not back | zjh_34@qq.com   |</span><br><span class="line">+-------------+-----------------+</span><br></pre></td></tr></table></figure>
+
+<h4 id="检索所有列"><a href="#检索所有列" class="headerlink" title="检索所有列"></a>检索所有列</h4><p>我们如果想要检索所有的列的时候不必一个一个输入列名，可以使用在列名的位置使用通配符(*)来达到</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> users;</span><br></pre></td></tr></table></figure>
+
+<p>输出如下</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">+---------+-------------+-----------------+----------+------------------------+------------------+</span><br><span class="line">| user_id | user_name   | user_email      | user_age | user_image             | user_create_date |</span><br><span class="line">+---------+-------------+-----------------+----------+------------------------+------------------+</span><br><span class="line">| c34v32  | SLow        | zjh_345@qq.com  |       18 | NULL                   | NULL             |</span><br><span class="line">| j34x54  | Finish      | zjh_3456@qq.com |       23 | NULL                   | NULL             |</span><br><span class="line">| z34x67  | Do not back | zjh_34@qq.com   |       23 | NULL                   | NULL             |</span><br><span class="line">+---------+-------------+-----------------+----------+------------------------+------------------+</span><br></pre></td></tr></table></figure>
+
+<h3 id="过滤数据"><a href="#过滤数据" class="headerlink" title="过滤数据"></a>过滤数据</h3><p>过滤数据我们可以使用<code>WHERE</code>子句，先看栗子</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> users</span><br><span class="line"><span class="keyword">WHERE</span> user_email <span class="operator">=</span> <span class="string">&#x27;zjh_34@qq.com&#x27;</span>;</span><br></pre></td></tr></table></figure>
+
+<p>这个语句检索所有列，但是只返回<code>user_email</code>等于<code>zjh_34@qq.com</code>的行，输出如下</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">+---------+-------------+---------------+----------+------------------------+------------------+</span><br><span class="line">| user_id | user_name   | user_email    | user_age | user_image             | user_create_date |</span><br><span class="line">+---------+-------------+---------------+----------+------------------------+------------------+</span><br><span class="line">| z34x67  | Do not back | zjh_34@qq.com |       23 | NULL                   | NULL             |</span><br><span class="line">+---------+-------------+---------------+----------+------------------------+------------------+</span><br></pre></td></tr></table></figure>
+
+<h4 id="WHERE子句的操作符"><a href="#WHERE子句的操作符" class="headerlink" title="WHERE子句的操作符"></a>WHERE子句的操作符</h4><table>
+<thead>
+<tr>
+<th>操作符</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>&#x3D;</td>
+<td>等于</td>
+</tr>
+<tr>
+<td>&lt;&gt;</td>
+<td>不等于</td>
+</tr>
+<tr>
+<td>!&#x3D;</td>
+<td>不等于</td>
+</tr>
+<tr>
+<td>&lt;</td>
+<td>小于</td>
+</tr>
+<tr>
+<td>&lt;&#x3D;</td>
+<td>小于等于</td>
+</tr>
+<tr>
+<td>&gt;</td>
+<td>大于</td>
+</tr>
+<tr>
+<td>&gt;&#x3D;</td>
+<td>大于等于</td>
+</tr>
+<tr>
+<td>BETWEEN</td>
+<td>介于（在指定的两个值之间）</td>
+</tr>
+</tbody></table>
+<h4 id="范围值检查"><a href="#范围值检查" class="headerlink" title="范围值检查"></a>范围值检查</h4><p>需要检查某个范围的值时，我们可以使用<code>BETWEEN</code>操作符，其语法与其他的操作符不同，因为它需要两个值<br>下面这个栗子说明如何使用<code>BETWEEN</code>操作符，它会检索年龄在18到27之间的所有用户</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> users</span><br><span class="line"><span class="keyword">WHERE</span> user_age <span class="keyword">BETWEEN</span> <span class="number">18</span> <span class="keyword">AND</span> <span class="number">27</span>;</span><br></pre></td></tr></table></figure>
+
+<p>在使用<code>BETWEEN</code>必须要指定两个值，检索范围的最小值和最大值，这两个值必须使用<code>AND</code>关键字分隔</p>
+<h4 id="空值检查"><a href="#空值检查" class="headerlink" title="空值检查"></a>空值检查</h4><p><code>SELECT</code>有一个特殊的<code>WHERE</code>子句可以用来检查值为<code>NULL</code>的列，其语法如下</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> users</span><br><span class="line"><span class="keyword">WHERE</span> user_email <span class="keyword">IS</span> <span class="keyword">NULL</span>;</span><br></pre></td></tr></table></figure>
+
+<p>这条语句将返回<strong>没有</strong>邮箱地址的所有行</p>
+<h3 id="插入数据"><a href="#插入数据" class="headerlink" title="插入数据"></a>插入数据</h3><p><code>INSERT</code>是SQL中比较重要的语句，它的作用是插入（或添加）行到表中</p>
+<h4 id="插入单行数据"><a href="#插入单行数据" class="headerlink" title="插入单行数据"></a>插入单行数据</h4><p>下面的栗子插入了新的一行到了表中</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> users </span><br><span class="line"><span class="keyword">VALUES</span>(</span><br><span class="line">  <span class="string">&#x27;j34x54&#x27;</span>,</span><br><span class="line">  <span class="string">&#x27;Finish&#x27;</span>,</span><br><span class="line">  <span class="string">&#x27;zjh_3456@qq.com&#x27;</span>,</span><br><span class="line">  <span class="number">23</span>,</span><br><span class="line">  <span class="keyword">NULL</span>,</span><br><span class="line">  <span class="keyword">NULL</span></span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+
+<p>这便向表中插入了新的一行，当然还有一种更安全的方法，请看栗子</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> users(</span><br><span class="line">user_id,</span><br><span class="line">user_name,</span><br><span class="line">user_email,</span><br><span class="line">user_age,</span><br><span class="line">user_image,</span><br><span class="line">user_create_date</span><br><span class="line">)</span><br><span class="line"><span class="keyword">VALUES</span>(</span><br><span class="line">  <span class="string">&#x27;f34d34&#x27;</span>,</span><br><span class="line">  <span class="string">&#x27;Echo.&#x27;</span>,</span><br><span class="line">  <span class="string">&#x27;zjh_34531@qq.com&#x27;</span>,</span><br><span class="line">  <span class="number">24</span>,</span><br><span class="line">  <span class="keyword">NULL</span>,</span><br><span class="line">  <span class="keyword">NULL</span></span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+
+<p>这个栗子完成了和前一个<code>INSERT</code>语句相同的工作，但是在表名的后面的括号里面明确的给出了列名，应为提供了列名所以<code>VALUES</code>必须以其指定的次序匹配指定的列名，它的有点事表的结构更改，此<code>INSERT</code>语句仍然能够正确工作</p>
+<h4 id="插入多行数据"><a href="#插入多行数据" class="headerlink" title="插入多行数据"></a>插入多行数据</h4><p><code>INSERT</code>可以插入一行到一个表中，但是如果想要插入多个行怎么办？<br>可以使用一种方法，那就是使用多条<code>INSERT</code>语句</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> users(</span><br><span class="line">user_id,</span><br><span class="line">user_name,</span><br><span class="line">user_email,</span><br><span class="line">user_age,</span><br><span class="line">user_image,</span><br><span class="line">user_create_date)</span><br><span class="line"><span class="keyword">VALUES</span>(</span><br><span class="line">  <span class="string">&#x27;f34d34&#x27;</span>,</span><br><span class="line">  <span class="string">&#x27;Echo.&#x27;</span>,</span><br><span class="line">  <span class="string">&#x27;zjh_34531@qq.com&#x27;</span>,</span><br><span class="line">  <span class="number">24</span>,</span><br><span class="line">  <span class="keyword">NULL</span>,</span><br><span class="line">  <span class="keyword">NULL</span></span><br><span class="line">);</span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> users(</span><br><span class="line">user_id,</span><br><span class="line">user_name,</span><br><span class="line">user_email,</span><br><span class="line">user_age,</span><br><span class="line">user_image,</span><br><span class="line">user_create_date)</span><br><span class="line"><span class="keyword">VALUES</span>(</span><br><span class="line">  <span class="string">&#x27;j34x54&#x27;</span>,</span><br><span class="line">  <span class="string">&#x27;Finish&#x27;</span>,</span><br><span class="line">  <span class="string">&#x27;zjh_3456@qq.com&#x27;</span>,</span><br><span class="line">  <span class="number">23</span>,</span><br><span class="line">  <span class="keyword">NULL</span>,</span><br><span class="line">  <span class="keyword">NULL</span></span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+
+<p>上一种方法看起来可能繁琐了些，你可以使用下面这种方法，请看栗子</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> users(</span><br><span class="line">user_id,</span><br><span class="line">user_name,</span><br><span class="line">user_email,</span><br><span class="line">user_age,</span><br><span class="line">user_image,</span><br><span class="line">user_create_date</span><br><span class="line">)</span><br><span class="line"><span class="keyword">VALUES</span>(</span><br><span class="line">  <span class="string">&#x27;f34d34&#x27;</span>,</span><br><span class="line">  <span class="string">&#x27;Echo.&#x27;</span>,</span><br><span class="line">  <span class="string">&#x27;zjh_34531@qq.com&#x27;</span>,</span><br><span class="line">  <span class="number">24</span>,</span><br><span class="line">  <span class="keyword">NULL</span>,</span><br><span class="line">  <span class="keyword">NULL</span></span><br><span class="line">),</span><br><span class="line">(</span><br><span class="line">  <span class="string">&#x27;j34x54&#x27;</span>,</span><br><span class="line">  <span class="string">&#x27;Finish&#x27;</span>,</span><br><span class="line">  <span class="string">&#x27;zjh_3456@qq.com&#x27;</span>,</span><br><span class="line">  <span class="number">23</span>,</span><br><span class="line">  <span class="keyword">NULL</span>,</span><br><span class="line">  <span class="keyword">NULL</span></span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>虽然第二种方法比第一种简洁一点，但是第一种插入语句的速度比第二中插入语句的速度快</p>
+</blockquote>
+<h3 id="更新数据"><a href="#更新数据" class="headerlink" title="更新数据"></a>更新数据</h3><p>更新（修改）表中的数据可以使用<code>UPDATE</code>语句</p>
+<p>&#x3D;&#x3D;注意，在使用<code>UPDATE</code>的时候一定要注意细心，应为稍不注意可能就会更新（修改）表中的所有行&#x3D;&#x3D;</p>
+<p><code>UPDATE</code>很容易使用，来，上栗子！</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">UPDATE</span> users</span><br><span class="line"><span class="keyword">SET</span> user_id <span class="operator">=</span> <span class="string">&#x27;o11n4514&#x27;</span></span><br><span class="line"><span class="keyword">WHERE</span> user_id <span class="operator">=</span> <span class="string">&#x27;c34v32&#x27;</span>;</span><br></pre></td></tr></table></figure>
+
+<p><code>UPDATE</code>后面跟的是要更新（修改）的表的名字，在这个栗子中要更新的是<code>user_id</code>为<code>c34v32</code>的用户的<code>user_id</code>使用<code>SET</code>子句将其设置成指定值<br>那么该如何修改多个列呢？还是看栗子</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">UPDATE</span> users</span><br><span class="line"><span class="keyword">SET</span> user_name <span class="operator">=</span> <span class="string">&#x27;Ethan&#x27;</span>,</span><br><span class="line">  user_email <span class="operator">=</span> <span class="string">&#x27;zjh3442@qq.com&#x27;</span></span><br><span class="line"><span class="keyword">WHERE</span> user_id <span class="operator">=</span> <span class="string">&#x27;j34x54&#x27;</span>;</span><br></pre></td></tr></table></figure>
+
+<p>这个栗子中更新<code>user_id</code>为<code>j34x54</code>的<code>user_email</code>和<code>user_id</code>列</p>
+<h3 id="删除数据"><a href="#删除数据" class="headerlink" title="删除数据"></a>删除数据</h3><p>从表中删除数据可以使用<code>DELETE</code>语句，看栗子</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">DELETE</span> <span class="keyword">FROM</span> users</span><br><span class="line"><span class="keyword">WHERE</span> user_id <span class="operator">=</span> <span class="string">&#x27;z34x67&#x27;</span>;</span><br></pre></td></tr></table></figure>
+
+<p><code>DELETE FROM</code>指定删除数据的表名，使用<code>WHERE</code>过滤要删除的行<br>那么该如何删除所有数据呢？<br>你可以在不删除表的情况下，删除表中所有的行。这意味着表结构、属性、索引将保持不变<br>&#x3D;&#x3D;在删除记录时要格外小心！因为您不能重来&#x3D;&#x3D;</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">DELETE</span> <span class="keyword">FROM</span> <span class="keyword">user</span>;</span><br></pre></td></tr></table></figure>
+
+<h2 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h2><p>这篇MySQL学习笔记是我浓缩了我这几天学到的MySQL知识写出来了，当然还不是很完善，可能有些地方比较重要但是我漏写了，你可以在下面的评论区提出来，我补上，下次我的学校放月假了我会更新一篇SQL基础知识，在里面讲解一些SQL中的概念，比如什么是字段？什么是数据库？之类的。好了，这篇笔记到此结束，听一首歌吧</p>
+<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=86 src="//music.163.com/outchain/player?type=2&id=1347617340&auto=0&height=66"></iframe>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">首页</a></li>
+        
+          <li><a href="/archives/">归档</a></li>
+        
+          <li><a href="/tags/">标签</a></li>
+        
+          <li><a href="/about/">关于</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+      <div id="toc-footer" style="display: none">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B"><span class="toc-number">1.</span> <span class="toc-text">数据类型</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B0%E5%80%BC%E7%B1%BB%E5%9E%8B"><span class="toc-number">1.1.</span> <span class="toc-text">数值类型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%B2%E7%B1%BB%E5%9E%8B"><span class="toc-number">1.2.</span> <span class="toc-text">串类型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%97%A5%E6%9C%9F%E5%92%8C%E6%97%B6%E9%97%B4%E7%B1%BB%E5%9E%8B"><span class="toc-number">1.3.</span> <span class="toc-text">日期和时间类型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%8C%E8%BF%9B%E5%88%B6%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B"><span class="toc-number">1.4.</span> <span class="toc-text">二进制数据类型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B0%8F%E7%BB%93"><span class="toc-number">1.5.</span> <span class="toc-text">小结</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E5%BA%93"><span class="toc-number">2.</span> <span class="toc-text">数据库</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E6%95%B0%E6%8D%AE%E5%BA%93"><span class="toc-number">2.1.</span> <span class="toc-text">创建数据库</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%80%89%E6%8B%A9%E6%95%B0%E6%8D%AE%E5%BA%93"><span class="toc-number">2.2.</span> <span class="toc-text">选择数据库</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%A0%E9%99%A4%E6%95%B0%E6%8D%AE%E5%BA%93"><span class="toc-number">2.3.</span> <span class="toc-text">删除数据库</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A1%A8"><span class="toc-number">3.</span> <span class="toc-text">表</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E8%A1%A8"><span class="toc-number">3.1.</span> <span class="toc-text">创建表</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#NULL-%E5%92%8C-NOT-NULL"><span class="toc-number">3.1.1.</span> <span class="toc-text">NULL 和 NOT NULL</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%BB%98%E8%AE%A4%E5%80%BC"><span class="toc-number">3.1.2.</span> <span class="toc-text">默认值</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%BB%E9%94%AE"><span class="toc-number">3.1.3.</span> <span class="toc-text">主键</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E5%BA%93%E5%BC%95%E6%93%8E"><span class="toc-number">3.1.4.</span> <span class="toc-text">数据库引擎</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9B%B4%E6%96%B0%E8%A1%A8"><span class="toc-number">3.2.</span> <span class="toc-text">更新表</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%87%8D%E5%91%BD%E5%90%8D%E8%A1%A8"><span class="toc-number">3.3.</span> <span class="toc-text">重命名表</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%A0%E9%99%A4%E8%A1%A8"><span class="toc-number">3.4.</span> <span class="toc-text">删除表</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B0%8F%E7%BB%93-1"><span class="toc-number">3.5.</span> <span class="toc-text">小结</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE"><span class="toc-number">4.</span> <span class="toc-text">数据</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A3%80%E7%B4%A2%E6%95%B0%E6%8D%AE"><span class="toc-number">4.1.</span> <span class="toc-text">检索数据</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%A3%80%E7%B4%A2%E5%8D%95%E4%B8%AA%E5%88%97"><span class="toc-number">4.1.1.</span> <span class="toc-text">检索单个列</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%A3%80%E7%B4%A2%E5%A4%9A%E4%B8%AA%E5%88%97"><span class="toc-number">4.1.2.</span> <span class="toc-text">检索多个列</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%A3%80%E7%B4%A2%E6%89%80%E6%9C%89%E5%88%97"><span class="toc-number">4.1.3.</span> <span class="toc-text">检索所有列</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%87%E6%BB%A4%E6%95%B0%E6%8D%AE"><span class="toc-number">4.2.</span> <span class="toc-text">过滤数据</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#WHERE%E5%AD%90%E5%8F%A5%E7%9A%84%E6%93%8D%E4%BD%9C%E7%AC%A6"><span class="toc-number">4.2.1.</span> <span class="toc-text">WHERE子句的操作符</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%8C%83%E5%9B%B4%E5%80%BC%E6%A3%80%E6%9F%A5"><span class="toc-number">4.2.2.</span> <span class="toc-text">范围值检查</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%A9%BA%E5%80%BC%E6%A3%80%E6%9F%A5"><span class="toc-number">4.2.3.</span> <span class="toc-text">空值检查</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8F%92%E5%85%A5%E6%95%B0%E6%8D%AE"><span class="toc-number">4.3.</span> <span class="toc-text">插入数据</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%8F%92%E5%85%A5%E5%8D%95%E8%A1%8C%E6%95%B0%E6%8D%AE"><span class="toc-number">4.3.1.</span> <span class="toc-text">插入单行数据</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%8F%92%E5%85%A5%E5%A4%9A%E8%A1%8C%E6%95%B0%E6%8D%AE"><span class="toc-number">4.3.2.</span> <span class="toc-text">插入多行数据</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9B%B4%E6%96%B0%E6%95%B0%E6%8D%AE"><span class="toc-number">4.4.</span> <span class="toc-text">更新数据</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%A0%E9%99%A4%E6%95%B0%E6%8D%AE"><span class="toc-number">4.5.</span> <span class="toc-text">删除数据</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BB%93%E8%AF%AD"><span class="toc-number">5.</span> <span class="toc-text">结语</span></a></li></ol>
+      </div>
+    
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://zjhzzy.github.io/2024/04/17/MySQL-Study-notes/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://zjhzzy.github.io/2024/04/17/MySQL-Study-notes/&text=我的MySQL学习笔记"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://zjhzzy.github.io/2024/04/17/MySQL-Study-notes/&title=我的MySQL学习笔记"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://zjhzzy.github.io/2024/04/17/MySQL-Study-notes/&is_video=false&description=我的MySQL学习笔记"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=我的MySQL学习笔记&body=Check out this article: http://zjhzzy.github.io/2024/04/17/MySQL-Study-notes/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://zjhzzy.github.io/2024/04/17/MySQL-Study-notes/&title=我的MySQL学习笔记"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://zjhzzy.github.io/2024/04/17/MySQL-Study-notes/&title=我的MySQL学习笔记"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://zjhzzy.github.io/2024/04/17/MySQL-Study-notes/&title=我的MySQL学习笔记"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://zjhzzy.github.io/2024/04/17/MySQL-Study-notes/&title=我的MySQL学习笔记"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://zjhzzy.github.io/2024/04/17/MySQL-Study-notes/&name=我的MySQL学习笔记&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://zjhzzy.github.io/2024/04/17/MySQL-Study-notes/&t=我的MySQL学习笔记"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        
+          <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2021-2024
+    JinHong Zeng
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+      --><li><a href="/">首页</a></li><!--
+    --><!--
+      --><li><a href="/archives/">归档</a></li><!--
+    --><!--
+      --><li><a href="/tags/">标签</a></li><!--
+    --><!--
+      --><li><a href="/about/">关于</a></li><!--
+    -->
+      </ul>
+      <ul>
+        
+          <!-- 不蒜子统计 -->
+          <span id="busuanzi_container_site_pv">
+              本站总访问量<span id="busuanzi_value_site_pv"></span>次
+          </span>
+          <span class="post-meta-divider">|</span>
+          <span id="busuanzi_container_site_uv" style='display:none'>
+                  本站访客数<span id="busuanzi_value_site_uv"></span>人
+          </span>
+        <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+        
+      </ul>
+    </nav>
+  </div>
+  
+</footer>
+
+
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板！\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功！");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>
