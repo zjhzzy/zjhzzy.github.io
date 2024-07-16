@@ -6,7 +6,7 @@
   <link href="http://zjhzzy.github.io/atom.xml" rel="self"/>
   
   <link href="http://zjhzzy.github.io/"/>
-  <updated>2024-07-16T08:06:22.727Z</updated>
+  <updated>2024-07-16T11:30:13.494Z</updated>
   <id>http://zjhzzy.github.io/</id>
   
   <author>
@@ -17,11 +17,41 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>使用工具快速配置VSCode（Visual Studio Code）的C/C++开发环境！</title>
+    <link href="http://zjhzzy.github.io/2024/07/16/UseTools-Quickly-Config-VSCode-C-CPP/"/>
+    <id>http://zjhzzy.github.io/2024/07/16/UseTools-Quickly-Config-VSCode-C-CPP/</id>
+    <published>2024-07-16T10:53:19.000Z</published>
+    <updated>2024-07-16T11:30:13.494Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;在之前的一篇推荐软件的文章里面，我推荐大家去使用VSCode这个轻量级的软件去写程序&lt;/p&gt;
+&lt;p&gt;新手小白碰到VSCode的配置肯定觉得麻烦或者不会，现在有了一个软件可以快速配置我们VSCode的C&amp;#x2F;C++开发环境&lt;/p&gt;
+&lt;p&gt;好了我们现在进入正题吧&lt;/p&gt;
+</summary>
+        
+      
+    
+    
+    
+    
+    <category term="C++" scheme="http://zjhzzy.github.io/tags/C/"/>
+    
+    <category term="C" scheme="http://zjhzzy.github.io/tags/C/"/>
+    
+    <category term="VSCode" scheme="http://zjhzzy.github.io/tags/VSCode/"/>
+    
+  </entry>
+  
+  <entry>
     <title>推荐 Windows 新用户的那些好用软件</title>
     <link href="http://zjhzzy.github.io/2024/07/14/New-Windows-User-used-Software-recommand/"/>
     <id>http://zjhzzy.github.io/2024/07/14/New-Windows-User-used-Software-recommand/</id>
     <published>2024-07-14T13:51:17.000Z</published>
-    <updated>2024-07-16T08:06:22.727Z</updated>
+    <updated>2024-07-16T09:23:03.993Z</updated>
     
     
       
@@ -341,7 +371,7 @@
     <link href="http://zjhzzy.github.io/2023/07/14/QtPaintEventFunOverride/"/>
     <id>http://zjhzzy.github.io/2023/07/14/QtPaintEventFunOverride/</id>
     <published>2023-07-14T10:58:29.000Z</published>
-    <updated>2023-10-05T16:18:50.764Z</updated>
+    <updated>2024-07-16T09:27:22.668Z</updated>
     
     
     <summary type="html">&lt;p&gt;学了qss之后会了一些美化，但是发现还有很多qss没法实现，那么这个文章就适合你了&lt;/p&gt;</summary>

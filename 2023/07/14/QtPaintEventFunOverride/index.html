@@ -13,14 +13,12 @@
 <meta property="og:site_name" content="Nlub&#39;s blog">
 <meta property="og:description" content="学了qss之后会了一些美化，但是发现还有很多qss没法实现，那么这个文章就适合你了">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://zjhzzy.github.io/image/QtPaintEventOverride.png">
 <meta property="article:published_time" content="2023-07-14T10:58:29.000Z">
-<meta property="article:modified_time" content="2023-10-05T16:18:50.764Z">
+<meta property="article:modified_time" content="2024-07-16T09:27:22.668Z">
 <meta property="article:author" content="JinHong Zeng">
 <meta property="article:tag" content="C++">
 <meta property="article:tag" content="Qt">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://zjhzzy.github.io/image/QtPaintEventOverride.png">
     
     
       
@@ -203,7 +201,6 @@
 
 <p>最后调用end函数，结束绘画，当然不止end函数能结束绘制，销毁painter也是会结束绘制的</p>
 <p>实现了这么个窗口</p>
-<p><img src="https://zjhzzy.github.io/image/QtPaintEventOverride.png" alt="ProgramWindow"></p>
 <p>相信到这里已经明白paintEvent函数后需要干什么和怎样绘制自己想要的控件了</p>
 <hr>
 <h1 id="解释部分"><a href="#解释部分" class="headerlink" title="解释部分"></a>解释部分</h1><h2 id="上文没有讲到的类"><a href="#上文没有讲到的类" class="headerlink" title="上文没有讲到的类"></a>上文没有讲到的类</h2><h3 id="QFont"><a href="#QFont" class="headerlink" title="QFont"></a>QFont</h3><p>这是一个字体类，里面储存了字体的信息，传入QPainter对象后，会在调用drawText时被读取</p>

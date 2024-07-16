@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="在之前的一篇推荐软件的文章里面，我推荐大家去使用VSCode这个轻量级的软件去写程序 新手小白碰到VSCode的配置肯定觉得麻烦或者不会，现在有了一个软件可以快速配置我们VSCode的C&#x2F;C++开发环境 好了我们现在进入正题吧 操作流程先下载配置工具，这需要我们进入Github网站，如果无法加载的话可以使用下面的网盘 Github下载地址：https:&#x2F;&#x2F;github.com&#x2F;SDcha">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用工具快速配置VSCode（Visual Studio Code）的C&#x2F;C++开发环境！">
+<meta property="og:url" content="http://zjhzzy.github.io/2024/07/16/UseTools-Quickly-Config-VSCode-C-CPP/index.html">
+<meta property="og:site_name" content="Nlub&#39;s blog">
+<meta property="og:description" content="在之前的一篇推荐软件的文章里面，我推荐大家去使用VSCode这个轻量级的软件去写程序 新手小白碰到VSCode的配置肯定觉得麻烦或者不会，现在有了一个软件可以快速配置我们VSCode的C&#x2F;C++开发环境 好了我们现在进入正题吧 操作流程先下载配置工具，这需要我们进入Github网站，如果无法加载的话可以使用下面的网盘 Github下载地址：https:&#x2F;&#x2F;github.com&#x2F;SDcha">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://zjhzzy.github.io/images/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20240716192634.png">
+<meta property="og:image" content="http://zjhzzy.github.io/images/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20240716192644.png">
+<meta property="og:image" content="http://zjhzzy.github.io/images/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20240716192651.png">
+<meta property="og:image" content="http://zjhzzy.github.io/images/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20240716192655.png">
+<meta property="og:image" content="http://zjhzzy.github.io/images/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20240716192659.png">
+<meta property="og:image" content="http://zjhzzy.github.io/images/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20240716192704.png">
+<meta property="og:image" content="http://zjhzzy.github.io/images/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20240716192719.png">
+<meta property="og:image" content="http://zjhzzy.github.io/images/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20240716192724.png">
+<meta property="article:published_time" content="2024-07-16T10:53:19.000Z">
+<meta property="article:modified_time" content="2024-07-16T11:30:13.494Z">
+<meta property="article:author" content="JinHong Zeng">
+<meta property="article:tag" content="C++">
+<meta property="article:tag" content="C">
+<meta property="article:tag" content="VSCode">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://zjhzzy.github.io/images/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20240716192634.png">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>使用工具快速配置VSCode（Visual Studio Code）的C/C++开发环境！</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+      <link rel="alternate" href="/atom.xml" title="Nlub&#39;s blog" type="application/atom+xml" />
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="顶部" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a href="/tags/">标签</a></li><!--
+     --><!--
+       --><li><a href="/friend/">朋友</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        
+        <li><a class="icon" aria-label="下一篇" href="/2024/07/14/New-Windows-User-used-Software-recommand/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="返回顶部" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="分享文章" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://zjhzzy.github.io/2024/07/16/UseTools-Quickly-Config-VSCode-C-CPP/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://zjhzzy.github.io/2024/07/16/UseTools-Quickly-Config-VSCode-C-CPP/&text=使用工具快速配置VSCode（Visual Studio Code）的C/C++开发环境！"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://zjhzzy.github.io/2024/07/16/UseTools-Quickly-Config-VSCode-C-CPP/&title=使用工具快速配置VSCode（Visual Studio Code）的C/C++开发环境！"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://zjhzzy.github.io/2024/07/16/UseTools-Quickly-Config-VSCode-C-CPP/&is_video=false&description=使用工具快速配置VSCode（Visual Studio Code）的C/C++开发环境！"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=使用工具快速配置VSCode（Visual Studio Code）的C/C++开发环境！&body=Check out this article: http://zjhzzy.github.io/2024/07/16/UseTools-Quickly-Config-VSCode-C-CPP/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://zjhzzy.github.io/2024/07/16/UseTools-Quickly-Config-VSCode-C-CPP/&title=使用工具快速配置VSCode（Visual Studio Code）的C/C++开发环境！"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://zjhzzy.github.io/2024/07/16/UseTools-Quickly-Config-VSCode-C-CPP/&title=使用工具快速配置VSCode（Visual Studio Code）的C/C++开发环境！"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://zjhzzy.github.io/2024/07/16/UseTools-Quickly-Config-VSCode-C-CPP/&title=使用工具快速配置VSCode（Visual Studio Code）的C/C++开发环境！"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://zjhzzy.github.io/2024/07/16/UseTools-Quickly-Config-VSCode-C-CPP/&title=使用工具快速配置VSCode（Visual Studio Code）的C/C++开发环境！"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://zjhzzy.github.io/2024/07/16/UseTools-Quickly-Config-VSCode-C-CPP/&name=使用工具快速配置VSCode（Visual Studio Code）的C/C++开发环境！&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://zjhzzy.github.io/2024/07/16/UseTools-Quickly-Config-VSCode-C-CPP/&t=使用工具快速配置VSCode（Visual Studio Code）的C/C++开发环境！"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    
+    
+      <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%93%8D%E4%BD%9C%E6%B5%81%E7%A8%8B"><span class="toc-number">1.</span> <span class="toc-text">操作流程</span></a></li></ol>
+      </div>
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        使用工具快速配置VSCode（Visual Studio Code）的C/C++开发环境！
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">JinHong Zeng</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2024-07-16T10:53:19.000Z" class="dt-published" itemprop="datePublished">2024-07-16</time>
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fa-solid fa-tag"></i>
+        <a class="p-category" href="/tags/C/" rel="tag">C</a>, <a class="p-category" href="/tags/C/" rel="tag">C++</a>, <a class="p-category" href="/tags/VSCode/" rel="tag">VSCode</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <p>在之前的一篇推荐软件的文章里面，我推荐大家去使用VSCode这个轻量级的软件去写程序</p>
+<p>新手小白碰到VSCode的配置肯定觉得麻烦或者不会，现在有了一个软件可以快速配置我们VSCode的C&#x2F;C++开发环境</p>
+<p>好了我们现在进入正题吧</p>
+<h2 id="操作流程"><a href="#操作流程" class="headerlink" title="操作流程"></a>操作流程</h2><p>先下载配置工具，这需要我们进入Github网站，如果无法加载的话可以使用下面的网盘</p>
+<p>Github下载地址：<a target="_blank" rel="noopener" href="https://github.com/SDchao/AutoVsCEnv_WPF/releases/latest">https://github.com/SDchao/AutoVsCEnv_WPF/releases/latest</a></p>
+<p>国内网盘地址：<a target="_blank" rel="noopener" href="https://sdchao.lanzoum.com/iFGmo0s82ybe">https://sdchao.lanzoum.com/iFGmo0s82ybe</a></p>
+<p>网盘地址一般来说会相对快一点</p>
+<p><img src="/../images/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20240716192634.png"></p>
+<p><img src="/../images/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20240716192644.png"></p>
+<p><img src="/../images/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20240716192651.png"></p>
+<p><img src="/../images/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20240716192655.png"></p>
+<p><img src="/../images/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20240716192659.png"></p>
+<p><img src="/../images/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20240716192704.png"></p>
+<p><img src="/../images/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20240716192719.png"></p>
+<p><img src="/../images/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20240716192724.png"></p>
+<p>有什么问题的话可以看顶层文件夹里面的 README_inProject.md 文件</p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">首页</a></li>
+        
+          <li><a href="/archives/">归档</a></li>
+        
+          <li><a href="/tags/">标签</a></li>
+        
+          <li><a href="/friend/">朋友</a></li>
+        
+          <li><a href="/about/">关于</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+      <div id="toc-footer" style="display: none">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%93%8D%E4%BD%9C%E6%B5%81%E7%A8%8B"><span class="toc-number">1.</span> <span class="toc-text">操作流程</span></a></li></ol>
+      </div>
+    
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://zjhzzy.github.io/2024/07/16/UseTools-Quickly-Config-VSCode-C-CPP/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://zjhzzy.github.io/2024/07/16/UseTools-Quickly-Config-VSCode-C-CPP/&text=使用工具快速配置VSCode（Visual Studio Code）的C/C++开发环境！"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://zjhzzy.github.io/2024/07/16/UseTools-Quickly-Config-VSCode-C-CPP/&title=使用工具快速配置VSCode（Visual Studio Code）的C/C++开发环境！"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://zjhzzy.github.io/2024/07/16/UseTools-Quickly-Config-VSCode-C-CPP/&is_video=false&description=使用工具快速配置VSCode（Visual Studio Code）的C/C++开发环境！"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=使用工具快速配置VSCode（Visual Studio Code）的C/C++开发环境！&body=Check out this article: http://zjhzzy.github.io/2024/07/16/UseTools-Quickly-Config-VSCode-C-CPP/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://zjhzzy.github.io/2024/07/16/UseTools-Quickly-Config-VSCode-C-CPP/&title=使用工具快速配置VSCode（Visual Studio Code）的C/C++开发环境！"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://zjhzzy.github.io/2024/07/16/UseTools-Quickly-Config-VSCode-C-CPP/&title=使用工具快速配置VSCode（Visual Studio Code）的C/C++开发环境！"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://zjhzzy.github.io/2024/07/16/UseTools-Quickly-Config-VSCode-C-CPP/&title=使用工具快速配置VSCode（Visual Studio Code）的C/C++开发环境！"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://zjhzzy.github.io/2024/07/16/UseTools-Quickly-Config-VSCode-C-CPP/&title=使用工具快速配置VSCode（Visual Studio Code）的C/C++开发环境！"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://zjhzzy.github.io/2024/07/16/UseTools-Quickly-Config-VSCode-C-CPP/&name=使用工具快速配置VSCode（Visual Studio Code）的C/C++开发环境！&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://zjhzzy.github.io/2024/07/16/UseTools-Quickly-Config-VSCode-C-CPP/&t=使用工具快速配置VSCode（Visual Studio Code）的C/C++开发环境！"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        
+          <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2021-2024
+    JinHong Zeng
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+      --><li><a href="/">首页</a></li><!--
+    --><!--
+      --><li><a href="/archives/">归档</a></li><!--
+    --><!--
+      --><li><a href="/tags/">标签</a></li><!--
+    --><!--
+      --><li><a href="/friend/">朋友</a></li><!--
+    --><!--
+      --><li><a href="/about/">关于</a></li><!--
+    -->
+      </ul>
+      <ul>
+        
+          <!-- 不蒜子统计 -->
+          <span id="busuanzi_container_site_pv">
+              本站总访问量<span id="busuanzi_value_site_pv"></span>次
+          </span>
+          <span class="post-meta-divider">|</span>
+          <span id="busuanzi_container_site_uv" style='display:none'>
+                  本站访客数<span id="busuanzi_value_site_uv"></span>人
+          </span>
+        <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+        
+      </ul>
+    </nav>
+  </div>
+  
+</footer>
+
+
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板！\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功！");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>
