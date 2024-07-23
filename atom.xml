@@ -6,7 +6,7 @@
   <link href="http://zjhzzy.github.io/atom.xml" rel="self"/>
   
   <link href="http://zjhzzy.github.io/"/>
-  <updated>2024-07-16T11:30:13.494Z</updated>
+  <updated>2024-07-23T00:12:36.318Z</updated>
   <id>http://zjhzzy.github.io/</id>
   
   <author>
@@ -15,6 +15,29 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>在我入门尝试了Zig编程语言之后的感受</title>
+    <link href="http://zjhzzy.github.io/2024/07/22/Feelings-after-using-zig-language/"/>
+    <id>http://zjhzzy.github.io/2024/07/22/Feelings-after-using-zig-language/</id>
+    <published>2024-07-22T14:36:30.000Z</published>
+    <updated>2024-07-23T00:12:36.318Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;emm，今天是2024年7月22日啊，我从20号开始尝试，到现在入门了，我的使用感受就是……还算用得吧，但是，也只是用得，可能是是我开始使用时的目标不一样吧（我想的是这个编程语言可以替代掉我的C++代码，用起来也就是衔接C，而且我觉得不如C顺手），一整个用下来前面倒还好，到</summary>
+        
+      
+    
+    
+    
+    
+    <category term="编程语言" scheme="http://zjhzzy.github.io/tags/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/"/>
+    
+  </entry>
   
   <entry>
     <title>使用工具快速配置VSCode（Visual Studio Code）的C/C++开发环境！</title>
@@ -74,15 +97,14 @@
     <link href="http://zjhzzy.github.io/2024/04/17/MySQL-Study-notes/"/>
     <id>http://zjhzzy.github.io/2024/04/17/MySQL-Study-notes/</id>
     <published>2024-04-17T12:06:28.000Z</published>
-    <updated>2024-07-14T13:43:40.736Z</updated>
+    <updated>2024-07-16T22:24:41.857Z</updated>
     
     
       
       
         
         
-    <summary type="html">&lt;h2 id=&quot;数据类型&quot;&gt;&lt;a href=&quot;#数据类型&quot; class=&quot;headerlink&quot; title=&quot;数据类型&quot;&gt;&lt;/a&gt;数据类型&lt;/h2&gt;&lt;p&gt;MySQL 中数据字段的类型对数据库的优化很重要，错误的数据类型会严重影响应用的功能和性能&lt;/p&gt;
-&lt;h3</summary>
+    <summary type="html">&lt;h2 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h2&gt;&lt;p&gt;欢迎你来阅读我的这篇文章，这是我浓缩了 &lt;strong&gt;《MySQL 必知必会》&lt;/strong&gt;</summary>
         
       
     
